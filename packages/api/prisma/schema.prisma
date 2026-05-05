@@ -1,0 +1,385 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ──────────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERED
+  CANCELLED
+}
+
+enum ServiceOrderStatus {
+  AWAITING_DIAGNOSIS
+  IN_REPAIR
+  AWAITING_PART
+  AWAITING_APPROVAL
+  COMPLETED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum Priority {
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum CashStatus {
+  OPEN
+  CLOSED
+}
+
+enum CampaignType {
+  WHATSAPP
+  INSTAGRAM
+  EMAIL
+  SMS
+}
+
+enum CampaignStatus {
+  PLANNED
+  ACTIVE
+  PAUSED
+  ENDED
+}
+
+enum TenantStatus {
+  TRIAL
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+// ── Super Admin ────────────────────────────────────────────────────────────
+
+model SuperAdmin {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  refreshTokens SuperAdminRefreshToken[]
+
+  @@map("super_admins")
+}
+
+model SuperAdminRefreshToken {
+  id           String     @id @default(cuid())
+  superAdminId String
+  superAdmin   SuperAdmin @relation(fields: [superAdminId], references: [id], onDelete: Cascade)
+  token        String     @unique
+  expiresAt    DateTime
+  createdAt    DateTime   @default(now())
+
+  @@map("super_admin_refresh_tokens")
+}
+
+// ── Plan ───────────────────────────────────────────────────────────────────
+
+model Plan {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  price       Decimal  @db.Decimal(10, 2) @default(0)
+  maxUsers    Int      @default(5)
+  modules     String[] @default(["store", "service_orders", "finance", "sales"])
+  features    Json?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenants Tenant[]
+
+  @@map("plans")
+}
+
+// ── Tenant ─────────────────────────────────────────────────────────────────
+
+model Tenant {
+  id           String       @id @default(cuid())
+  name         String
+  slug         String       @unique
+  status       TenantStatus @default(TRIAL)
+  planId       String?
+  plan         Plan?        @relation(fields: [planId], references: [id])
+  trialEndsAt  DateTime?
+  phone        String?
+  email        String?
+  document     String?
+  modules      String[]     @default(["store", "service_orders", "finance", "sales"])
+  settings     Json?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  users         User[]
+  products      Product[]
+  customers     Customer[]
+  orders        Order[]
+  serviceOrders ServiceOrder[]
+  transactions  Transaction[]
+  categories    FinanceCategory[]
+  cashRegisters CashRegister[]
+  campaigns     Campaign[]
+
+  @@map("tenants")
+}
+
+// ── User ───────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  tenantId     String
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  passwordHash String
+  role         Role     @default(EMPLOYEE)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  refreshTokens RefreshToken[]
+
+  @@unique([email, tenantId])
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}
+
+// ── Product ────────────────────────────────────────────────────────────────
+
+model Product {
+  id          String   @id @default(cuid())
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name        String
+  category    String
+  brand       String?
+  condition   String
+  price       Decimal  @db.Decimal(10, 2)
+  oldPrice    Decimal? @db.Decimal(10, 2)
+  description String?
+  imageUrl    String?
+  inStock     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+// ── Customer ───────────────────────────────────────────────────────────────
+
+model Customer {
+  id        String    @id @default(cuid())
+  tenantId  String
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String?
+  email     String?
+  cpf       String?
+  birthDate DateTime?
+  address   String?
+  city      String?
+  state     String?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("customers")
+}
+
+// ── Order (E-commerce + POS) ───────────────────────────────────────────────
+
+model Order {
+  id        String      @id @default(cuid())
+  tenantId  String
+  tenant    Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customer  Json
+  items     Json
+  subtotal  Decimal     @db.Decimal(10, 2)
+  discount  Decimal     @db.Decimal(10, 2) @default(0)
+  shipping  Json?
+  total     Decimal     @db.Decimal(10, 2)
+  payment   String
+  status    OrderStatus @default(PENDING)
+  source    String      @default("ecommerce")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("orders")
+}
+
+// ── Service Order (OS) ─────────────────────────────────────────────────────
+
+model ServiceOrder {
+  id            String             @id @default(cuid())
+  tenantId      String
+  tenant        Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  number        String
+  status        ServiceOrderStatus @default(AWAITING_DIAGNOSIS)
+  paymentStatus PaymentStatus      @default(PENDING)
+  priority      Priority           @default(NORMAL)
+
+  clientName    String
+  clientCpf     String?
+  clientPhone   String?
+  clientEmail   String?
+  clientAddress String?
+
+  deviceBrand      String
+  deviceModel      String
+  deviceImei       String?
+  deviceColor      String?
+  devicePassword   String?
+  accessories      Json    @default("[]")
+  visualConditions String?
+
+  technician        String?
+  reportedProblem   String
+  technicalReport   String?
+  servicesPerformed Json    @default("[]")
+  partsUsed         Json    @default("[]")
+
+  serviceValue   Decimal @db.Decimal(10, 2) @default(0)
+  partsValue     Decimal @db.Decimal(10, 2) @default(0)
+  discount       Decimal @db.Decimal(10, 2) @default(0)
+  totalValue     Decimal @db.Decimal(10, 2) @default(0)
+  estimatedValue Decimal @db.Decimal(10, 2) @default(0)
+  paymentMethod  String?
+
+  estimatedDelivery DateTime?
+  completedAt       DateTime?
+  deliveredAt       DateTime?
+  statusHistory     Json      @default("[]")
+  internalNotes     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([number, tenantId])
+  @@map("service_orders")
+}
+
+// ── Finance Category ───────────────────────────────────────────────────────
+
+model FinanceCategory {
+  id        String          @id @default(cuid())
+  tenantId  String
+  tenant    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name      String
+  type      TransactionType
+  icon      String?
+  isDefault Boolean         @default(false)
+
+  transactions Transaction[]
+
+  @@map("finance_categories")
+}
+
+// ── Transaction ────────────────────────────────────────────────────────────
+
+model Transaction {
+  id              String            @id @default(cuid())
+  tenantId        String
+  tenant          Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  number          String
+  type            TransactionType
+  categoryId      String
+  category        FinanceCategory   @relation(fields: [categoryId], references: [id])
+  description     String
+  amount          Decimal           @db.Decimal(10, 2)
+  transactionDate DateTime          @db.Date
+  dueDate         DateTime?         @db.Date
+  status          TransactionStatus @default(PENDING)
+  paymentMethod   String?
+  source          String            @default("manual")
+  sourceId        String?
+  notes           String?
+  history         Json              @default("[]")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@unique([number, tenantId])
+  @@map("transactions")
+}
+
+// ── Cash Register ──────────────────────────────────────────────────────────
+
+model CashRegister {
+  id              String     @id @default(cuid())
+  tenantId        String
+  tenant          Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  date            DateTime   @db.Date
+  openedAt        DateTime
+  openingBalance  Decimal    @db.Decimal(10, 2)
+  closedAt        DateTime?
+  countedBalance  Decimal?   @db.Decimal(10, 2)
+  expectedBalance Decimal?   @db.Decimal(10, 2)
+  cashIn          Decimal    @db.Decimal(10, 2) @default(0)
+  cashOut         Decimal    @db.Decimal(10, 2) @default(0)
+  difference      Decimal?   @db.Decimal(10, 2)
+  notes           String?
+  status          CashStatus @default(OPEN)
+
+  @@map("cash_registers")
+}
+
+// ── Campaign ───────────────────────────────────────────────────────────────
+
+model Campaign {
+  id        String         @id @default(cuid())
+  tenantId  String
+  tenant    Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name      String
+  type      CampaignType
+  status    CampaignStatus @default(PLANNED)
+  startDate DateTime?
+  endDate   DateTime?
+  audience  String?
+  message   String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@map("campaigns")
+}
