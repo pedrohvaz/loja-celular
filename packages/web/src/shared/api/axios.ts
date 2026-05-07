@@ -26,7 +26,10 @@ api.interceptors.response.use(
       original._retry = true
       const refreshToken = localStorage.getItem('refreshToken')
       if (!refreshToken) {
-        window.location.href = '/login'
+        // Só redireciona se estiver em rota protegida
+        if (window.location.pathname.startsWith('/admin')) {
+          window.location.href = '/login'
+        }
         return Promise.reject(error)
       }
 

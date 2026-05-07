@@ -5,6 +5,17 @@ import { checkTenantActive } from '../../shared/middleware/tenantGuard'
 
 const router = Router()
 
+// Rota pública — lista planos disponíveis (usada na landing page)
+router.get('/plans', async (_req, res, next) => {
+  try {
+    const plans = await prisma.plan.findMany({
+      where: { isActive: true },
+      orderBy: { price: 'asc' },
+    })
+    return res.json(plans)
+  } catch (err) { return next(err) }
+})
+
 router.use(authenticate, checkTenantActive)
 
 // GET tenant info + plan + trial
@@ -37,15 +48,5 @@ router.patch('/', requireAdmin, async (req, res, next) => {
   } catch (err) { return next(err) }
 })
 
-// GET available plans (para tela de upgrade)
-router.get('/plans', async (_req, res, next) => {
-  try {
-    const plans = await prisma.plan.findMany({
-      where: { isActive: true },
-      orderBy: { price: 'asc' },
-    })
-    return res.json(plans)
-  } catch (err) { return next(err) }
-})
 
 export default router
