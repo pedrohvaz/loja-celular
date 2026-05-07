@@ -30,13 +30,18 @@ export default function RegisterPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { data: plans } = useQuery<Plan[]>({
+  const { data: rawPlans } = useQuery({
     queryKey: ['public-plans'],
     queryFn: async () => {
-      const { data } = await api.get('/settings/plans')
-      return data
+      try {
+        const { data } = await api.get('/settings/plans')
+        return data
+      } catch {
+        return []
+      }
     },
   })
+  const plans: Plan[] = Array.isArray(rawPlans) ? rawPlans : []
 
   function handleNameChange(value: string) {
     const slug = value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')

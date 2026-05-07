@@ -88,13 +88,18 @@ const moduleLabels: Record<string, string> = {
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const { data: plans } = useQuery<Plan[]>({
+  const { data: rawPlans } = useQuery({
     queryKey: ['landing-plans'],
     queryFn: async () => {
-      const { data } = await api.get('/settings/plans')
-      return data
+      try {
+        const { data } = await api.get('/settings/plans')
+        return data
+      } catch {
+        return []
+      }
     },
   })
+  const plans: Plan[] = Array.isArray(rawPlans) ? rawPlans : []
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
