@@ -1,9 +1,8 @@
-/// <reference types="vite/client" />
 import axios from 'axios'
 
-const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined)
-  ? `${import.meta.env.VITE_API_URL}/api/super-admin`
-  : '/api/super-admin'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const env = (import.meta as any).env ?? {}
+const BASE_URL = env.VITE_API_URL ? `${env.VITE_API_URL}/api/super-admin` : '/api/super-admin'
 
 export const superAdminApi = axios.create({
   baseURL: BASE_URL,
