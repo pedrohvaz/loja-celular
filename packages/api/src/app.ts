@@ -4,6 +4,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
+import path from 'path'
 
 import authRoutes from './modules/auth/auth.routes'
 import productRoutes from './modules/products/products.routes'
@@ -17,6 +18,7 @@ import salesRoutes from './modules/sales/sales.routes'
 import campaignRoutes from './modules/campaigns/campaigns.routes'
 import usersRoutes from './modules/users/users.routes'
 import settingsRoutes from './modules/settings/settings.routes'
+import uploadRoutes from './modules/upload/upload.routes'
 
 import superAdminAuthRoutes from './modules/super-admin/auth/super-admin-auth.routes'
 import superAdminTenantsRoutes from './modules/super-admin/tenants/tenants.routes'
@@ -28,7 +30,7 @@ import { errorHandler } from './shared/utils/errors'
 
 const app = express()
 
-app.use(helmet())
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
 app.use(cors({
   origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
   credentials: true,
@@ -36,6 +38,7 @@ app.use(cors({
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
+app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')))
 
 app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }))
 
@@ -57,6 +60,7 @@ app.use('/api/sales', requireModule('sales'), salesRoutes)
 app.use('/api/campaigns', requireModule('campaigns'), campaignRoutes)
 app.use('/api/users', usersRoutes)
 app.use('/api/settings', settingsRoutes)
+app.use('/api/upload', uploadRoutes)
 
 // Super Admin routes
 app.use('/api/super-admin/auth', superAdminAuthRoutes)

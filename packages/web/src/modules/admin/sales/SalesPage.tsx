@@ -35,7 +35,7 @@ export default function SalesPage() {
 
   const { data: productsData } = useQuery({
     queryKey: ['pos-products'],
-    queryFn: () => api.get('/products', { params: { inStock: 'true', limit: 200 } }).then(r => r.data),
+    queryFn: () => api.get('/products', { params: { limit: 200 } }).then(r => r.data),
   })
 
   const products: Product[] = productsData?.data ?? []
@@ -184,22 +184,35 @@ export default function SalesPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               {filtered.map((product: Product) => {
                 const inCart = cart.find(i => i.id === product.id)
+                const outOfStock = !product.inStock
                 return (
                   <button
                     key={product.id}
-                    onClick={() => addToCart(product)}
-                    className={`text-left rounded-lg border p-3 hover:border-primary hover:shadow-sm transition-all relative ${
-                      inCart ? 'border-primary bg-primary/5' : 'bg-card'
+                    onClick={() => !outOfStock && addToCart(product)}
+                    disabled={outOfStock}
+                    className={`text-left rounded-lg border p-3 transition-all relative ${
+                      outOfStock
+                        ? 'opacity-50 cursor-not-allowed bg-muted'
+                        : inCart
+                          ? 'border-primary bg-primary/5 hover:shadow-sm'
+                          : 'bg-card hover:border-primary hover:shadow-sm'
                     }`}
                   >
-                    {inCart && (
+                    {inCart && !outOfStock && (
                       <span className="absolute top-2 right-2 h-5 w-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">
                         {inCart.qty}
                       </span>
                     )}
-                    <p className="font-medium text-sm truncate pr-6">{product.name}</p>
+                    {outOfStock && (
+                      <span className="absolute top-2 right-2 text-xs bg-muted-foreground/20 text-muted-foreground px-1.5 py-0.5 rounded">
+                        Sem estoque
+                      </span>
+                    )}
+                    <p className="font-medium text-sm truncate pr-16">{product.name}</p>
                     <p className="text-xs text-muted-foreground capitalize mt-0.5">{product.category}</p>
-                    <p className="text-primary font-bold mt-1.5 text-sm">{formatCurrency(product.price)}</p>
+                    <p className={`font-bold mt-1.5 text-sm ${outOfStock ? 'text-muted-foreground' : 'text-primary'}`}>
+                      {formatCurrency(product.price)}
+                    </p>
                   </button>
                 )
               })}
