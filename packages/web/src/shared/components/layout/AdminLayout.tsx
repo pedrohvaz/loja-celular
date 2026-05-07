@@ -5,7 +5,7 @@ import { cn } from '@/shared/utils/cn'
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Wrench, DollarSign,
   Megaphone, Settings, LogOut, Menu, X, CreditCard, ChevronDown, ChevronRight,
-  Clock, AlertTriangle
+  Clock, AlertTriangle, Store, ExternalLink
 } from 'lucide-react'
 import api from '@/shared/api/axios'
 
@@ -149,7 +149,19 @@ export default function AdminLayout() {
         })}
       </nav>
 
-      <div className="p-2 border-t">
+      <div className="p-2 border-t space-y-0.5">
+        {user?.tenantSlug && (
+          <a
+            href={`/loja/${user.tenantSlug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm hover:bg-accent transition-colors"
+          >
+            <Store className="h-4 w-4 shrink-0" />
+            <span className="flex-1">Minha Vitrine</span>
+            <ExternalLink className="h-3 w-3 text-muted-foreground" />
+          </a>
+        )}
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm hover:bg-destructive/10 hover:text-destructive transition-colors"

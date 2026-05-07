@@ -17,6 +17,7 @@ export default function AuthGuard({ children, requireAdmin }: AuthGuardProps) {
     api.get('/auth/me').then(({ data }) => {
       updateUser({
         tenantStatus: data.tenantStatus,
+        tenantSlug: data.tenantSlug,
         tenantModules: data.tenantModules,
         tenantSettings: data.tenantSettings,
         tenantPlan: data.tenantPlan,

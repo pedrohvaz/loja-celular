@@ -14,6 +14,7 @@ interface AuthUser {
   tenantName: string
   tenantModules: string[]
   tenantStatus?: string
+  tenantSlug?: string | null
   tenantSettings?: Record<string, unknown> | null
   tenantPlan?: { name: string; slug: string; maxUsers: number } | null
   trial?: TrialInfo | null

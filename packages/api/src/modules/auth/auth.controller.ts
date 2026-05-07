@@ -39,12 +39,13 @@ export async function meHandler(req: Request, res: Response, next: NextFunction)
   try {
     const tenant = await prisma.tenant.findUnique({
       where: { id: req.user.tenantId },
-      select: { status: true, trialEndsAt: true, name: true, modules: true, settings: true, plan: { select: { name: true, slug: true, maxUsers: true } } },
+      select: { slug: true, status: true, trialEndsAt: true, name: true, modules: true, settings: true, plan: { select: { name: true, slug: true, maxUsers: true } } },
     })
     const trial = tenant ? getTrialStatus(tenant.trialEndsAt, tenant.status) : null
     return res.json({
       ...req.user,
       tenantStatus: tenant?.status,
+      tenantSlug: tenant?.slug ?? null,
       tenantModules: tenant?.modules ?? [],
       tenantSettings: tenant?.settings ?? null,
       tenantPlan: tenant?.plan ?? null,
