@@ -4,6 +4,7 @@ import AdminLayout from '@/shared/components/layout/AdminLayout'
 import SuperAdminGuard from '@/shared/components/layout/SuperAdminGuard'
 import SuperAdminLayout from '@/shared/components/layout/SuperAdminLayout'
 
+import LandingPage from '@/modules/landing/LandingPage'
 import LoginPage from '@/modules/auth/LoginPage'
 import RegisterPage from '@/modules/register/RegisterPage'
 import StorePage from '@/modules/store/StorePage'
@@ -139,9 +140,9 @@ export default function App() {
           <Route path="plans" element={<PlansPage />} />
         </Route>
 
-        {/* Catch-all */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* Landing & catch-all */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )
