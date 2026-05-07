@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+const BASE_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/super-admin`
+  : '/api/super-admin'
+
 export const superAdminApi = axios.create({
-  baseURL: '/api/super-admin',
+  baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 })
 
@@ -37,7 +41,7 @@ superAdminApi.interceptors.response.use(
 
       isRefreshing = true
       try {
-        const { data } = await axios.post('/api/super-admin/auth/refresh', { refreshToken })
+        const { data } = await axios.post(`${BASE_URL}/auth/refresh`, { refreshToken })
         localStorage.setItem('superAdminAccessToken', data.accessToken)
         localStorage.setItem('superAdminRefreshToken', data.refreshToken)
         superAdminApi.defaults.headers.Authorization = `Bearer ${data.accessToken}`
