@@ -5,14 +5,18 @@ import { AppError } from '../../../shared/utils/errors'
 import { z } from 'zod'
 
 const router = Router()
-router.use(authenticate, requireAdmin)
+router.use(authenticate)
 
+// Acessível por qualquer usuário autenticado (funcionários precisam para o POS)
 router.get('/current', async (req, res, next) => {
   try {
     const current = await prisma.cashRegister.findFirst({ where: { tenantId: req.user.tenantId, status: 'OPEN' } })
     return res.json(current)
   } catch (e) { return next(e) }
 })
+
+// Rotas abaixo apenas para admin
+router.use(requireAdmin)
 
 router.get('/', async (req, res, next) => {
   try {

@@ -23,12 +23,29 @@ router.post('/', async (req, res, next) => {
     const cash = await prisma.cashRegister.findFirst({ where: { tenantId: req.user.tenantId, status: 'OPEN' } })
     if (!cash) throw new AppError('Abra o caixa antes de realizar uma venda', 400)
 
-    const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0)
+    // Valida preços pelo banco — ignora preços enviados pelo cliente
+    const productIds = items.map(i => i.id)
+    const products = await prisma.product.findMany({
+      where: { id: { in: productIds }, tenantId: req.user.tenantId, inStock: true },
+      select: { id: true, name: true, price: true, category: true },
+    })
+
+    if (products.length !== items.length) {
+      throw new AppError('Um ou mais produtos não encontrados ou sem estoque', 400)
+    }
+
+    const productMap = new Map(products.map(p => [p.id, p]))
+    const validatedItems = items.map(i => {
+      const p = productMap.get(i.id)!
+      return { id: p.id, name: p.name, price: Number(p.price), qty: i.qty, category: p.category }
+    })
+
+    const subtotal = validatedItems.reduce((s, i) => s + i.price * i.qty, 0)
     const total = Math.max(0, subtotal - discount)
 
     const order = await createOrder(req.user.tenantId, {
       customer: { name: customerName ?? 'Venda Balcão', phone: customerPhone ?? '' },
-      items,
+      items: validatedItems,
       subtotal,
       discount,
       total,

@@ -57,16 +57,31 @@ export async function deleteOrder(tenantId: string, id: string) {
 }
 
 async function createTransactionFromOrder(tenantId: string, order: { id: string; total: Prisma.Decimal; payment: string }) {
-  const category = await prisma.financeCategory.findFirst({ where: { tenantId, name: 'Venda de produtos' } })
-  if (!category) return
-  const count = await prisma.transaction.count({ where: { tenantId } })
-  const number = `TX-${String(count + 1).padStart(6, '0')}`
+  // Tenta categorias de venda em ordem de prioridade
+  const category = await prisma.financeCategory.findFirst({
+    where: {
+      tenantId,
+      type: 'INCOME',
+      name: { in: ['Venda de produtos', 'Venda de acessórios', 'Outros (receita)'] },
+    },
+    orderBy: { name: 'asc' },
+  })
+
+  // Se não houver nenhuma categoria de receita, cria uma padrão
+  const categoryId = category?.id ?? (await prisma.financeCategory.create({
+    data: { tenantId, name: 'Venda de produtos', type: 'INCOME', icon: 'smartphone', isDefault: true },
+  })).id
+
+  // Número único baseado em timestamp para evitar duplicatas
+  const number = `TX-${Date.now().toString(36).toUpperCase()}`
+
   await prisma.transaction.create({
     data: {
-      tenantId, number,
+      tenantId,
+      number,
       type: 'INCOME',
-      categoryId: category.id,
-      description: `Venda #${order.id.slice(-6).toUpperCase()}`,
+      categoryId,
+      description: `Venda PDV #${order.id.slice(-6).toUpperCase()}`,
       amount: order.total,
       transactionDate: new Date(),
       status: 'PAID',
