@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { z } from 'zod'
 import { OrderStatus } from '@prisma/client'
 import * as Service from './orders.service'
+import { prisma } from '../../shared/utils/prisma'
 
 const listSchema = z.object({ search: z.string().optional(), status: z.string().optional(), page: z.coerce.number().default(1), limit: z.coerce.number().default(20) })
 const createSchema = z.object({
@@ -14,6 +15,7 @@ const createSchema = z.object({
   payment: z.string(),
   source: z.string().default('ecommerce'),
 })
+const createPublicSchema = createSchema.extend({ slug: z.string().min(1) })
 const statusSchema = z.object({ status: z.nativeEnum(OrderStatus) })
 
 export async function list(req: Request, res: Response, next: NextFunction) {
@@ -24,6 +26,14 @@ export async function getOne(req: Request, res: Response, next: NextFunction) {
 }
 export async function create(req: Request, res: Response, next: NextFunction) {
   try { return res.status(201).json(await Service.createOrder(req.user.tenantId, createSchema.parse(req.body))) } catch (e) { return next(e) }
+}
+export async function createPublic(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { slug, ...data } = createPublicSchema.parse(req.body)
+    const tenant = await prisma.tenant.findUnique({ where: { slug } })
+    if (!tenant) return res.status(404).json({ error: 'Loja não encontrada' })
+    return res.status(201).json(await Service.createOrder(tenant.id, data))
+  } catch (e) { return next(e) }
 }
 export async function updateStatus(req: Request, res: Response, next: NextFunction) {
   try { return res.json(await Service.updateOrderStatus(req.user.tenantId, req.params.id, statusSchema.parse(req.body).status)) } catch (e) { return next(e) }

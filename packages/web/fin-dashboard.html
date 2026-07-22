@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financeiro — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="fin.css" />
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-box"></i> Produtos</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-receipt"></i> Pedidos</a>
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link"><i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço</a>
+      <p class="sidebar__nav-label">Financeiro</p>
+      <a href="fin-dashboard.html" class="sidebar__link active"><i class="fa-solid fa-chart-pie"></i> Painel Financeiro</a>
+      <a href="fin-lancamentos.html" class="sidebar__link"><i class="fa-solid fa-arrow-right-arrow-left"></i> Lançamentos</a>
+      <a href="fin-contas.html?tipo=receber" class="sidebar__link"><i class="fa-solid fa-arrow-trend-up"></i> Contas a Receber</a>
+      <a href="fin-contas.html?tipo=pagar" class="sidebar__link"><i class="fa-solid fa-arrow-trend-down"></i> Contas a Pagar</a>
+      <a href="fin-caixa.html" class="sidebar__link"><i class="fa-solid fa-cash-register"></i> Caixa</a>
+      <a href="fin-relatorios.html" class="sidebar__link"><i class="fa-solid fa-file-chart-column"></i> Relatórios</a>
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-globe"></i> Ver site</a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-qrcode"></i> Consulta pública</a>
+    </nav>
+    <button class="sidebar__logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+  </aside>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar__breadcrumb"><span>Painel Financeiro</span></div>
+      <div class="topbar__right">
+        <select id="mesSeletor" class="toolbar-select" style="margin-right:.5rem;font-size:.83rem;"></select>
+        <div class="topbar__user">
+          <div class="topbar__avatar"><i class="fa-solid fa-user"></i></div>
+          <span>Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="content-section active" style="padding:1.5rem 2rem;">
+      <div class="page-header">
+        <div><h1>Painel Financeiro</h1><p>Visão geral das finanças da loja</p></div>
+        <div style="display:flex;gap:.5rem;">
+          <a href="fin-lancamentos.html?tipo=receita" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;font-size:.85rem;border-radius:8px;background:#16A34A;">
+            <i class="fa-solid fa-plus"></i> Receita
+          </a>
+          <a href="fin-lancamentos.html?tipo=despesa" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;font-size:.85rem;border-radius:8px;background:#DC2626;">
+            <i class="fa-solid fa-minus"></i> Despesa
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="fin-kpi-grid" id="kpiGrid"></div>
+
+      <!-- Charts row 1: bar + pie receitas + pie despesas -->
+      <div class="fin-charts-grid--3 fin-charts-grid" style="margin-bottom:1.25rem;">
+        <div class="fin-chart-card">
+          <h4><i class="fa-solid fa-chart-bar"></i> Receitas × Despesas (6 meses)</h4>
+          <div class="fin-chart-wrap"><canvas id="chartBar"></canvas></div>
+        </div>
+        <div class="fin-chart-card">
+          <h4><i class="fa-solid fa-chart-pie"></i> Receitas por categoria</h4>
+          <div class="fin-chart-wrap fin-chart-wrap--sm"><canvas id="chartPieRec"></canvas></div>
+        </div>
+        <div class="fin-chart-card">
+          <h4><i class="fa-solid fa-chart-pie"></i> Despesas por categoria</h4>
+          <div class="fin-chart-wrap fin-chart-wrap--sm"><canvas id="chartPieDep"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Chart row 2: line chart -->
+      <div class="fin-chart-card" style="margin-bottom:1.25rem;">
+        <h4><i class="fa-solid fa-chart-line"></i> Faturamento diário — mês atual</h4>
+        <div class="fin-chart-wrap"><canvas id="chartLine"></canvas></div>
+      </div>
+
+      <!-- Panels row: últimas transações + vencimentos + OS pendentes -->
+      <div class="fin-panels-row">
+        <div class="fin-panel">
+          <div class="fin-panel__header">
+            <h4><i class="fa-solid fa-clock-rotate-left"></i> Últimas transações</h4>
+            <a href="fin-lancamentos.html" style="font-size:.8rem;color:var(--primary);text-decoration:none;font-weight:600;">Ver todas</a>
+          </div>
+          <div class="fin-panel__body" id="panelRecentTx"></div>
+        </div>
+
+        <div class="fin-panel">
+          <div class="fin-panel__header">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Próximos vencimentos</h4>
+            <a href="fin-contas.html?tipo=pagar" style="font-size:.8rem;color:var(--primary);text-decoration:none;font-weight:600;">Ver tudo</a>
+          </div>
+          <div class="fin-panel__body" id="panelVencimentos"></div>
+        </div>
+
+        <div class="fin-panel">
+          <div class="fin-panel__header">
+            <h4><i class="fa-solid fa-screwdriver-wrench"></i> OS com pgto pendente</h4>
+            <a href="fin-contas.html?tipo=receber" style="font-size:.8rem;color:var(--primary);text-decoration:none;font-weight:600;">Ver tudo</a>
+          </div>
+          <div class="fin-panel__body" id="panelOsPendentes"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="fin-dashboard.js"></script>
+</body>
+</html>

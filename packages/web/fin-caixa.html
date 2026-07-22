@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caixa — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="fin.css" />
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-box"></i> Produtos</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-receipt"></i> Pedidos</a>
+      <a href="vendas.html" class="sidebar__link"><i class="fa-solid fa-cash-register"></i> Vendas</a>
+      <a href="fin-caixa.html" class="sidebar__link active"><i class="fa-solid fa-vault"></i> Caixa</a>
+
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link"><i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço</a>
+
+      <div id="financeiroNav">
+        <p class="sidebar__nav-label">Financeiro</p>
+        <a href="fin-dashboard.html" class="sidebar__link"><i class="fa-solid fa-chart-pie"></i> Painel Financeiro</a>
+        <a href="fin-lancamentos.html" class="sidebar__link"><i class="fa-solid fa-arrow-right-arrow-left"></i> Lançamentos</a>
+        <a href="fin-contas.html?tipo=receber" class="sidebar__link"><i class="fa-solid fa-arrow-trend-up"></i> Contas a Receber</a>
+        <a href="fin-contas.html?tipo=pagar" class="sidebar__link"><i class="fa-solid fa-arrow-trend-down"></i> Contas a Pagar</a>
+        <a href="fin-relatorios.html" class="sidebar__link"><i class="fa-solid fa-file-chart-column"></i> Relatórios</a>
+      </div>
+
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-globe"></i> Ver site</a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-qrcode"></i> Consulta pública</a>
+    </nav>
+    <a href="configuracoes.html" class="sidebar__settings"><i class="fa-solid fa-gear"></i> Configurações</a>
+    <button class="sidebar__logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+  </aside>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar__breadcrumb"><span>Controle de Caixa</span></div>
+      <div class="topbar__right">
+        <div class="topbar__user"><div class="topbar__avatar"><i class="fa-solid fa-user"></i></div><span>Admin</span></div>
+      </div>
+    </header>
+
+    <section class="content-section active" style="padding:1.5rem 2rem;max-width:900px;">
+      <div class="page-header">
+        <div><h1>Controle de Caixa</h1><p>Abertura, fechamento e movimentações do dia</p></div>
+      </div>
+
+      <!-- Status do caixa -->
+      <div class="caixa-status-card" id="caixaStatusCard"></div>
+
+      <!-- Resumo do caixa aberto -->
+      <div id="caixaAbertoSection" style="display:none;">
+        <h3 style="font-size:.95rem;font-weight:700;color:var(--gray-800);margin-bottom:.75rem;">
+          <i class="fa-solid fa-chart-bar" style="color:var(--primary);margin-right:.4rem;"></i>
+          Movimentações do dia
+        </h3>
+        <div class="caixa-aberto-summary" id="caixaSummary"></div>
+
+        <!-- Tabela de movimentações dinheiro hoje -->
+        <div class="table-wrap" style="margin-bottom:1.5rem;">
+          <table class="data-table" id="caixaTxTable">
+            <thead>
+              <tr><th>Hora</th><th>Descrição</th><th>Tipo</th><th style="text-align:right;">Valor</th></tr>
+            </thead>
+            <tbody id="caixaTxBody"></tbody>
+          </table>
+          <div class="table-empty" id="caixaTxEmpty" hidden>
+            <i class="fa-solid fa-coins"></i>
+            <p>Nenhuma movimentação em dinheiro registrada hoje</p>
+          </div>
+        </div>
+
+        <!-- Fechar caixa -->
+        <div class="os-card" style="border-color:#FCA5A5;background:#FEF2F2;">
+          <div class="os-card__title" style="color:#B91C1C;">
+            <i class="fa-solid fa-lock" style="color:#B91C1C;"></i> Fechar Caixa
+          </div>
+          <div class="fin-form-row">
+            <div class="fin-form-group">
+              <label>Valor contado no caixa (R$) *</label>
+              <input type="number" id="fechamentoValor" min="0" step="0.01" placeholder="0,00" />
+            </div>
+            <div class="fin-form-group">
+              <label>Observação</label>
+              <input type="text" id="fechamentoObs" placeholder="Justificar diferença, se houver" />
+            </div>
+          </div>
+          <div id="fechamentoDiff" style="font-size:.88rem;margin-bottom:.75rem;"></div>
+          <button class="btn-primary" id="btnFecharCaixa" style="background:#DC2626;border:none;display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;border-radius:8px;font-weight:700;cursor:pointer;color:#fff;font-size:.88rem;">
+            <i class="fa-solid fa-lock"></i> Fechar Caixa do Dia
+          </button>
+        </div>
+      </div>
+
+      <!-- Histórico de caixas -->
+      <div style="margin-top:1.5rem;">
+        <h3 style="font-size:.95rem;font-weight:700;color:var(--gray-800);margin-bottom:.75rem;">
+          <i class="fa-solid fa-clock-rotate-left" style="color:var(--primary);margin-right:.4rem;"></i>
+          Histórico de Caixas
+        </h3>
+        <div class="table-wrap">
+          <table class="data-table" id="caixaHistTable">
+            <thead>
+              <tr><th>Data</th><th>Abertura</th><th>Entradas</th><th>Saídas</th><th>Esperado</th><th>Contado</th><th>Diferença</th><th>Status</th></tr>
+            </thead>
+            <tbody id="caixaHistBody"></tbody>
+          </table>
+          <div class="table-empty" id="caixaHistEmpty" hidden>
+            <i class="fa-solid fa-cash-register"></i><p>Nenhum caixa no histórico</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal Abrir Caixa -->
+  <div class="modal-overlay" id="abrirModal" hidden>
+    <div class="modal" style="max-width:420px;">
+      <div class="modal__header">
+        <h2><i class="fa-solid fa-cash-register" style="color:#16A34A;margin-right:.4rem;"></i> Abrir Caixa</h2>
+        <button class="modal__close" id="abrirModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body">
+        <div class="fin-form-row cols-1">
+          <div class="fin-form-group">
+            <label>Valor em dinheiro no caixa (R$) *</label>
+            <input type="number" id="aberturaSaldo" min="0" step="0.01" placeholder="0,00" />
+          </div>
+          <div class="fin-form-group">
+            <label>Observação</label>
+            <input type="text" id="aberturaObs" placeholder="Ex: Fundo de caixa de R$ 200" />
+          </div>
+        </div>
+        <p style="font-size:.8rem;color:var(--gray-400);margin-top:.5rem;">
+          <i class="fa-solid fa-info-circle"></i>
+          Data e hora de abertura registradas automaticamente.
+        </p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="abrirModalCancel">Cancelar</button>
+        <button class="btn-primary" id="abrirConfirm" style="background:#16A34A;border-color:#16A34A;">
+          <i class="fa-solid fa-lock-open"></i> Abrir Caixa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="fin-caixa.js"></script>
+</body>
+</html>

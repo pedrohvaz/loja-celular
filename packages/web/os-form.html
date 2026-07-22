@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abertura de OS — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="os.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+      </a>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-box"></i> Produtos
+      </a>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-receipt"></i> Pedidos
+      </a>
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link active">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço
+      </a>
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-globe"></i> Ver site
+      </a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-qrcode"></i> Consulta pública
+      </a>
+    </nav>
+    <button class="sidebar__logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Sair
+    </button>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-wrap">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="topbar__breadcrumb">
+        <a href="os-lista.html" style="color:var(--gray-500);text-decoration:none;font-size:.88rem;">
+          <i class="fa-solid fa-chevron-left"></i> Ordens de Serviço
+        </a>
+        <span style="color:var(--gray-300);margin:0 .4rem">/</span>
+        <span id="topbarFormTitle">Nova OS</span>
+      </div>
+      <div class="topbar__right">
+        <div class="topbar__user">
+          <div class="topbar__avatar"><i class="fa-solid fa-user"></i></div>
+          <span>Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="content-section active" style="padding:1.5rem 2rem;max-width:900px;">
+
+      <div class="page-header" style="margin-bottom:1.5rem;">
+        <div>
+          <h1 id="formPageTitle">Nova Ordem de Serviço</h1>
+          <p>Preencha todos os campos para abrir a OS</p>
+        </div>
+      </div>
+
+      <!-- Steps bar -->
+      <div class="os-steps-bar">
+        <div class="os-step-tab active" id="tab1">
+          <div class="os-step-tab__num">1</div>
+          <div class="os-step-tab__label">Cliente</div>
+        </div>
+        <div class="os-step-tab" id="tab2">
+          <div class="os-step-tab__num">2</div>
+          <div class="os-step-tab__label">Aparelho</div>
+        </div>
+        <div class="os-step-tab" id="tab3">
+          <div class="os-step-tab__num">3</div>
+          <div class="os-step-tab__label">Serviço</div>
+        </div>
+      </div>
+
+      <!-- ── STEP 1: CLIENTE ── -->
+      <div class="os-step-panel active" id="panel1">
+        <div class="os-form-card">
+          <h4><i class="fa-solid fa-user"></i> Dados do Cliente</h4>
+
+          <!-- Busca por CPF -->
+          <div style="margin-bottom:1.25rem;">
+            <label style="font-size:.82rem;font-weight:600;color:var(--gray-600);display:block;margin-bottom:.35rem;">
+              Buscar cliente existente por CPF ou telefone
+            </label>
+            <div class="client-search-row">
+              <div class="form-group" style="flex:1;margin:0;">
+                <input type="text" id="clientSearchInput" placeholder="000.000.000-00 ou (11) 9xxxx-xxxx" />
+              </div>
+              <button type="button" class="btn-os-primary" id="clientSearchBtn" style="height:40px;">
+                <i class="fa-solid fa-magnifying-glass"></i> Buscar
+              </button>
+            </div>
+            <div id="clientSearchResult" style="margin-top:.5rem;font-size:.83rem;color:var(--gray-600);"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome completo *</label>
+              <input type="text" id="f_cliente_nome" placeholder="João Silva" />
+              <span class="err-msg" id="err_cliente_nome"></span>
+            </div>
+            <div class="form-group">
+              <label>CPF</label>
+              <input type="text" id="f_cliente_cpf" placeholder="000.000.000-00" maxlength="14" />
+            </div>
+            <div class="form-group">
+              <label>Telefone / WhatsApp *</label>
+              <input type="text" id="f_cliente_telefone" placeholder="(11) 9xxxx-xxxx" maxlength="15" />
+              <span class="err-msg" id="err_cliente_telefone"></span>
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" id="f_cliente_email" placeholder="joao@email.com" />
+            </div>
+            <div class="form-group full">
+              <label>Endereço</label>
+              <input type="text" id="f_cliente_endereco" placeholder="Rua, número, bairro, cidade" />
+            </div>
+          </div>
+        </div>
+
+        <div class="os-step-nav">
+          <a href="os-lista.html" class="btn-os-secondary">
+            <i class="fa-solid fa-xmark"></i> Cancelar
+          </a>
+          <button type="button" class="btn-os-primary" id="next1">
+            Próximo: Aparelho <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: APARELHO ── -->
+      <div class="os-step-panel" id="panel2">
+        <div class="os-form-card">
+          <h4><i class="fa-solid fa-mobile-screen-button"></i> Dados do Aparelho</h4>
+          <div class="form-row cols-3">
+            <div class="form-group">
+              <label>Marca *</label>
+              <select id="f_aparelho_marca">
+                <option value="">Selecione...</option>
+                <option>Apple</option>
+                <option>Samsung</option>
+                <option>Motorola</option>
+                <option>Xiaomi</option>
+                <option>LG</option>
+                <option>Nokia</option>
+                <option>Realme</option>
+                <option>ASUS</option>
+                <option>OnePlus</option>
+                <option>Outra</option>
+              </select>
+              <span class="err-msg" id="err_aparelho_marca"></span>
+            </div>
+            <div class="form-group">
+              <label>Modelo *</label>
+              <input type="text" id="f_aparelho_modelo" placeholder="Ex: Galaxy A54" />
+              <span class="err-msg" id="err_aparelho_modelo"></span>
+            </div>
+            <div class="form-group">
+              <label>Cor</label>
+              <input type="text" id="f_aparelho_cor" placeholder="Ex: Preto fosco" />
+            </div>
+            <div class="form-group">
+              <label>IMEI</label>
+              <input type="text" id="f_aparelho_imei" placeholder="000000000000000" maxlength="15" />
+            </div>
+            <div class="form-group">
+              <label>Senha / Padrão</label>
+              <input type="text" id="f_aparelho_senha" placeholder="Deixe em branco se não houver" />
+            </div>
+          </div>
+        </div>
+
+        <div class="os-form-card">
+          <h4><i class="fa-solid fa-list-check"></i> Acessórios entregues</h4>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Carregador" /> Carregador</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Capinha" /> Capinha</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Película" /> Película</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Cabo" /> Cabo USB</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Fone de ouvido" /> Fone de ouvido</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Caixa original" /> Caixa original</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Cartão de memória" /> Cartão de memória</label>
+            <label class="checkbox-item"><input type="checkbox" name="acessorio" value="Chip" /> Chip</label>
+          </div>
+        </div>
+
+        <div class="os-form-card">
+          <h4><i class="fa-solid fa-eye"></i> Condições visuais</h4>
+          <div class="form-group">
+            <textarea id="f_condicoes_visuais" rows="3" placeholder="Descreva o estado físico do aparelho: riscos, trincas, amassados, umidade, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="os-step-nav">
+          <button type="button" class="btn-os-secondary" id="back2">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+          </button>
+          <button type="button" class="btn-os-primary" id="next2">
+            Próximo: Serviço <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: SERVIÇO ── -->
+      <div class="os-step-panel" id="panel3">
+        <div class="os-form-card">
+          <h4><i class="fa-solid fa-wrench"></i> Problema e Serviço</h4>
+          <div class="form-row">
+            <div class="form-group full">
+              <label>Problema relatado pelo cliente *</label>
+              <textarea id="f_problema_relatado" rows="3" placeholder="Descreva o que o cliente relatou sobre o problema..."></textarea>
+              <span class="err-msg" id="err_problema_relatado"></span>
+            </div>
+            <div class="form-group">
+              <label>Técnico responsável</label>
+              <select id="f_tecnico">
+                <option value="">A definir</option>
+                <option>Carlos</option>
+                <option>João</option>
+                <option>Paulo</option>
+                <option>Ana</option>
+                <option>Marcos</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Prioridade</label>
+              <select id="f_prioridade">
+                <option value="normal">Normal</option>
+                <option value="alta">Alta</option>
+                <option value="urgente">Urgente</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Data de entrada</label>
+              <input type="datetime-local" id="f_data_entrada" />
+            </div>
+            <div class="form-group">
+              <label>Previsão de entrega</label>
+              <input type="datetime-local" id="f_previsao_entrega" />
+            </div>
+            <div class="form-group">
+              <label>Valor estimado (R$)</label>
+              <input type="number" id="f_valor_estimado" min="0" step="0.01" placeholder="0,00" />
+            </div>
+            <div class="form-group full">
+              <label>Observações internas</label>
+              <textarea id="f_observacoes_internas" rows="2" placeholder="Notas para a equipe técnica (não aparecem no comprovante)..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="os-step-nav">
+          <button type="button" class="btn-os-secondary" id="back3">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+          </button>
+          <button type="button" class="btn-os-primary" id="saveOs">
+            <i class="fa-solid fa-floppy-disk"></i> <span id="saveBtnLabel">Abrir Ordem de Serviço</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /main-wrap -->
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="os-form.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ import * as C from './orders.controller'
 
 const router = Router()
 // POST público para e-commerce (cliente sem login)
-router.post('/public', C.create)
+router.post('/public', C.createPublic)
 router.use(authenticate)
 router.get('/', C.list)
 router.get('/:id', C.getOne)

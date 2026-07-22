@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulta de OS — Planeta Celular</title>
+  <meta name="description" content="Acompanhe o status do conserto do seu aparelho. Informe o número da OS, CPF ou IMEI." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="consulta-os.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       TOPBAR
+  ══════════════════════════════════════════ -->
+  <header class="topbar-pub">
+    <div class="container">
+      <a href="index.html" class="logo-link" aria-label="Página inicial Planeta Celular">
+        <div class="logo-icon-pub"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <span class="logo-text-pub">Planeta<strong>Celular</strong></span>
+      </a>
+      <div class="topbar-pub-right">
+        <a href="https://wa.me/5511999999999" target="_blank" rel="noopener" class="topbar-wa-btn">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Falar com a loja</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════
+       HERO + FORMULÁRIO
+  ══════════════════════════════════════════ -->
+  <section class="hero-consulta">
+    <div class="container">
+      <div class="hero-consulta__tag">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Acompanhe seu conserto
+      </div>
+      <h1>
+        Veja o status do<br/>
+        <span class="hl">conserto do seu celular</span>
+      </h1>
+      <p>Informe o número da OS, CPF ou IMEI do aparelho para consultar.</p>
+
+      <!-- ── SEARCH CARD ── -->
+      <div class="search-card">
+        <p class="search-card__hint">
+          <strong>Preencha qualquer um dos campos</strong> abaixo para localizar sua OS.
+        </p>
+
+        <div class="search-fields">
+
+          <div class="search-field">
+            <i class="fa-solid fa-hashtag"></i>
+            <input
+              type="text"
+              id="inputOs"
+              placeholder="Número da OS (ex: OS-2026-0001)"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+
+          <div class="search-divider">ou</div>
+
+          <div class="search-field">
+            <i class="fa-solid fa-id-card"></i>
+            <input
+              type="text"
+              id="inputCpf"
+              placeholder="CPF (ex: 000.000.000-00)"
+              maxlength="14"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="search-divider">ou</div>
+
+          <div class="search-field">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <input
+              type="text"
+              id="inputImei"
+              placeholder="IMEI do aparelho (15 dígitos)"
+              maxlength="15"
+              autocomplete="off"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+
+        <p class="search-error" id="searchError" aria-live="polite"></p>
+
+        <button class="btn-search" id="btnConsultar">
+          <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+          <div class="spinner" id="searchSpinner" style="display:none;"></div>
+          <span id="btnLabel">Consultar status</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       ÁREA DE RESULTADO
+  ══════════════════════════════════════════ -->
+  <section class="result-area" id="resultArea" style="display:none;">
+    <div class="container">
+      <div id="resultContent"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer-pub">
+    <div class="container">
+      <div class="footer-pub__logo">Planeta<strong>Celular</strong></div>
+      <p>Assistência técnica de celulares · Atendimento rápido e garantido</p>
+      <a href="https://wa.me/5511999999999" target="_blank" rel="noopener" class="footer-pub__wa">
+        <i class="fa-brands fa-whatsapp"></i> (11) 9xxxx-xxxx
+      </a>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="consulta-os.js"></script>
+</body>
+</html>

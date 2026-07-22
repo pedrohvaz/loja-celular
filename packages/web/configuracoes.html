@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="configuracoes.css" />
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-box"></i> Produtos</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-receipt"></i> Pedidos</a>
+      <a href="vendas.html" class="sidebar__link"><i class="fa-solid fa-cash-register"></i> Vendas</a>
+      <a href="fin-caixa.html" class="sidebar__link"><i class="fa-solid fa-vault"></i> Caixa</a>
+
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link"><i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço</a>
+
+      <div id="financeiroNav">
+        <p class="sidebar__nav-label">Financeiro</p>
+        <a href="fin-dashboard.html" class="sidebar__link"><i class="fa-solid fa-chart-pie"></i> Painel Financeiro</a>
+        <a href="fin-lancamentos.html" class="sidebar__link"><i class="fa-solid fa-arrow-right-arrow-left"></i> Lançamentos</a>
+        <a href="fin-contas.html?tipo=receber" class="sidebar__link"><i class="fa-solid fa-arrow-trend-up"></i> Contas a Receber</a>
+        <a href="fin-contas.html?tipo=pagar" class="sidebar__link"><i class="fa-solid fa-arrow-trend-down"></i> Contas a Pagar</a>
+        <a href="fin-relatorios.html" class="sidebar__link"><i class="fa-solid fa-file-chart-column"></i> Relatórios</a>
+      </div>
+
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-globe"></i> Ver site</a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-qrcode"></i> Consulta pública</a>
+    </nav>
+    <a href="configuracoes.html" class="sidebar__settings active"><i class="fa-solid fa-gear"></i> Configurações</a>
+    <button class="sidebar__logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+  </aside>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar__breadcrumb"><span>Configurações</span></div>
+      <div class="topbar__right">
+        <div class="topbar__user">
+          <div class="topbar__avatar"><i class="fa-solid fa-user"></i></div>
+          <span id="topbarUserName">Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="cfg-wrap">
+      <h1 class="cfg-title">Configurações</h1>
+
+      <!-- ── Configurações da empresa ── -->
+      <div class="cfg-section">
+        <div class="cfg-section-label">Configurações da empresa</div>
+        <div class="cfg-list">
+          <div class="cfg-item" data-cfg="empresa">
+            <div class="cfg-item__icon"><i class="fa-solid fa-building-columns"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Dados da empresa</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" id="cfgUsuariosItem" data-cfg="usuarios">
+            <div class="cfg-item__icon"><i class="fa-solid fa-users"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Usuários</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="categorias">
+            <div class="cfg-item__icon"><i class="fa-solid fa-tags"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Categorias da loja</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-medal"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Assinatura</div>
+              <div class="cfg-item__sub">Plano gratuito</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Configurações de vendas ── -->
+      <div class="cfg-section">
+        <div class="cfg-section-label">Configurações de vendas</div>
+        <div class="cfg-list">
+          <div class="cfg-item" data-cfg="formas_pgto">
+            <div class="cfg-item__icon"><i class="fa-solid fa-credit-card"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Formas de pagamento</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-percent"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Taxas adicionais</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Crediário</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-handshake"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Comissão</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="recibo">
+            <div class="cfg-item__icon"><i class="fa-solid fa-receipt"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Recibo / Devolução</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Configurações adicionais ── -->
+      <div class="cfg-section">
+        <div class="cfg-section-label">Configurações adicionais</div>
+        <div class="cfg-list">
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Créditos de I.A.</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-globe"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Catálogo Online</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Configurar O.S</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-message"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Modelos de mensagens</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-plug"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Integrações</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Diagnóstico do banco ── -->
+      <div class="cfg-section">
+        <div class="cfg-section-label">Sistema</div>
+        <div class="cfg-list">
+          <div class="cfg-item" data-cfg="diagnostico">
+            <div class="cfg-item__icon" style="background:#EFF6FF;color:#2563EB;"><i class="fa-solid fa-database"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Diagnóstico do banco de dados</div>
+              <div class="cfg-item__sub" id="dbStatusSub">Verificando...</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Outras configurações ── -->
+      <div class="cfg-section">
+        <div class="cfg-section-label">Outras configurações</div>
+        <div class="cfg-list">
+          <div class="cfg-item" data-cfg="meu_usuario">
+            <div class="cfg-item__icon"><i class="fa-solid fa-user-gear"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Dados do usuário</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" id="darkModeItem">
+            <div class="cfg-item__icon"><i class="fa-solid fa-moon"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Modo escuro</div>
+            </div>
+            <div class="cfg-item__right">
+              <label class="cfg-toggle" onclick="event.stopPropagation()">
+                <input type="checkbox" id="darkToggle" />
+                <span class="cfg-toggle-track"></span>
+              </label>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="instalar">
+            <div class="cfg-item__icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Instalar App</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+          <div class="cfg-item" data-cfg="breve">
+            <div class="cfg-item__icon"><i class="fa-solid fa-rotate"></i></div>
+            <div class="cfg-item__body">
+              <div class="cfg-item__label">Atualizar App</div>
+              <div class="cfg-item__sub">Versão 1.0.0</div>
+            </div>
+            <div class="cfg-item__right">
+              <i class="fa-solid fa-chevron-right cfg-item__chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /cfg-wrap -->
+  </div><!-- /main-wrap -->
+
+  <!-- ══ Sub-painel deslizante ══ -->
+  <div class="cfg-panel-overlay" id="cfgOverlay">
+    <div class="cfg-panel" id="cfgPanel">
+      <div class="cfg-panel__header">
+        <button class="cfg-panel__back" id="cfgPanelBack"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="cfg-panel__title" id="cfgPanelTitle">—</span>
+      </div>
+      <div class="cfg-panel__body" id="cfgPanelBody"></div>
+      <div class="cfg-panel__footer" id="cfgPanelFooter" style="display:none;">
+        <button class="btn-primary" id="cfgPanelSave" style="width:100%;">
+          <i class="fa-solid fa-check"></i> Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="configuracoes.js"></script>
+</body>
+</html>

@@ -1,20 +1,26 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3333',
-        changeOrigin: true,
+  build: {
+    rollupOptions: {
+      input: {
+        index: path.resolve(__dirname, 'index.html'),
+        produtos: path.resolve(__dirname, 'produtos.html'),
+        checkout: path.resolve(__dirname, 'checkout.html'),
+        consultaOs: path.resolve(__dirname, 'consulta-os.html'),
+        admin: path.resolve(__dirname, 'admin.html'),
+        painel: path.resolve(__dirname, 'painel.html'),
+        vendas: path.resolve(__dirname, 'vendas.html'),
+        osLista: path.resolve(__dirname, 'os-lista.html'),
+        osForm: path.resolve(__dirname, 'os-form.html'),
+        osDetalhes: path.resolve(__dirname, 'os-detalhes.html'),
+        configuracoes: path.resolve(__dirname, 'configuracoes.html'),
+        finDashboard: path.resolve(__dirname, 'fin-dashboard.html'),
+        finLancamentos: path.resolve(__dirname, 'fin-lancamentos.html'),
+        finContas: path.resolve(__dirname, 'fin-contas.html'),
+        finCaixa: path.resolve(__dirname, 'fin-caixa.html'),
+        finRelatorios: path.resolve(__dirname, 'fin-relatorios.html'),
       },
     },
   },

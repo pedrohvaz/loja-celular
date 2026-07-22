@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ordens de Serviço — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="os.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+      </a>
+      <a href="painel.html#products" class="sidebar__link">
+        <i class="fa-solid fa-box"></i> Produtos
+      </a>
+      <a href="painel.html#orders" class="sidebar__link">
+        <i class="fa-solid fa-receipt"></i> Pedidos
+      </a>
+
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link active">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço
+      </a>
+
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-globe"></i> Ver site
+      </a>
+      <a href="produtos.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-store"></i> Ver loja
+      </a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-qrcode"></i> Consulta pública
+      </a>
+    </nav>
+
+    <button class="sidebar__logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Sair
+    </button>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-wrap">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="topbar__breadcrumb">
+        <span>Ordens de Serviço</span>
+      </div>
+      <div class="topbar__right">
+        <a href="os-form.html" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;font-size:.85rem;border-radius:8px;">
+          <i class="fa-solid fa-plus"></i> Nova OS
+        </a>
+        <div class="topbar__user">
+          <div class="topbar__avatar"><i class="fa-solid fa-user"></i></div>
+          <span>Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="content-section active" style="padding:1.5rem 2rem">
+
+      <div class="page-header">
+        <div>
+          <h1>Ordens de Serviço</h1>
+          <p>Gerencie os reparos e assistências técnicas</p>
+        </div>
+        <a href="os-form.html" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;">
+          <i class="fa-solid fa-plus"></i> Nova OS
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="os-stats-grid" id="osStatsGrid"></div>
+
+      <!-- Toolbar -->
+      <div class="table-toolbar" style="flex-wrap:wrap;gap:.75rem;margin-bottom:1rem;">
+        <div class="search-wrap" style="flex:1;min-width:220px;">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="osSearch" placeholder="Buscar por cliente, IMEI, nº OS..." />
+        </div>
+        <select class="toolbar-select" id="filterStatus">
+          <option value="">Todos os status</option>
+          <option value="aguardando_diagnostico">Aguardando Diagnóstico</option>
+          <option value="em_reparo">Em Reparo</option>
+          <option value="aguardando_peca">Aguardando Peça</option>
+          <option value="aguardando_aprovacao">Aguardando Aprovação</option>
+          <option value="concluido">Concluído</option>
+          <option value="entregue">Entregue</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+        <select class="toolbar-select" id="filterTecnico">
+          <option value="">Todos os técnicos</option>
+        </select>
+        <select class="toolbar-select" id="filterPeriodo">
+          <option value="">Qualquer período</option>
+          <option value="hoje">Hoje</option>
+          <option value="semana">Esta semana</option>
+          <option value="mes">Este mês</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table class="data-table" id="osTable">
+          <thead>
+            <tr>
+              <th>Nº OS</th>
+              <th>Cliente</th>
+              <th>Aparelho</th>
+              <th>Técnico</th>
+              <th>Entrada</th>
+              <th>Previsão</th>
+              <th>Status</th>
+              <th width="110">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="osTableBody"></tbody>
+        </table>
+        <div class="table-empty" id="osEmpty" hidden>
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <p>Nenhuma ordem de serviço encontrada</p>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /main-wrap -->
+
+  <!-- Toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="os-lista.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+/* ============================================================
+   PLANETA CELULAR — configuracoes.css
+============================================================ */
+
+.cfg-wrap {
+  max-width: 680px;
+  padding: 2rem 1.5rem;
+}
+
+.cfg-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--gray-900);
+  margin-bottom: 1.75rem;
+}
+
+/* ── Seção ── */
+.cfg-section {
+  margin-bottom: 1.5rem;
+}
+
+.cfg-section-label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray-600);
+  margin-bottom: .45rem;
+  padding-left: .1rem;
+}
+
+.cfg-list {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Item ── */
+.cfg-item {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .85rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background .12s;
+  user-select: none;
+}
+.cfg-item:last-child { border-bottom: none; }
+.cfg-item:hover { background: var(--gray-100); }
+.cfg-item:active { background: var(--gray-200); }
+
+.cfg-item__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-700);
+  font-size: .85rem;
+  flex-shrink: 0;
+}
+
+.cfg-item__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cfg-item__label {
+  font-size: .88rem;
+  font-weight: 500;
+  color: var(--gray-800);
+  line-height: 1.3;
+}
+
+.cfg-item__sub {
+  font-size: .73rem;
+  color: var(--gray-400);
+  margin-top: .1rem;
+}
+
+.cfg-item__right {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-shrink: 0;
+}
+
+.cfg-item__val {
+  font-size: .78rem;
+  color: var(--gray-400);
+}
+
+.cfg-item__chevron {
+  color: var(--gray-300);
+  font-size: .78rem;
+}
+
+/* ── Toggle switch ── */
+.cfg-toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.cfg-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.cfg-toggle-track {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--gray-200);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background .2s;
+  position: relative;
+}
+.cfg-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.cfg-toggle input:checked + .cfg-toggle-track { background: var(--primary); }
+.cfg-toggle input:checked + .cfg-toggle-track::after { transform: translateX(18px); }
+
+/* ── Sub-painel deslizante ── */
+.cfg-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.3);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s;
+}
+.cfg-panel-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cfg-panel {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: min(480px, 100vw);
+  background: var(--bg);
+  z-index: 401;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .25s cubic-bezier(.4,0,.2,1);
+  box-shadow: -6px 0 30px rgba(0,0,0,.12);
+}
+.cfg-panel-overlay.open .cfg-panel { transform: translateX(0); }
+
+.cfg-panel__header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--white);
+  flex-shrink: 0;
+}
+.cfg-panel__back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-600);
+  font-size: 1rem;
+  padding: .25rem;
+  line-height: 1;
+  border-radius: 6px;
+  transition: background .12s;
+}
+.cfg-panel__back:hover { background: var(--gray-100); }
+.cfg-panel__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.cfg-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem;
+}
+
+.cfg-panel__footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--gray-200);
+  background: var(--white);
+  flex-shrink: 0;
+}
+
+/* ── Formulário dentro do painel ── */
+.cfg-form-group {
+  margin-bottom: 1rem;
+}
+.cfg-form-group label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: .35rem;
+}
+.cfg-form-group input,
+.cfg-form-group select,
+.cfg-form-group textarea {
+  width: 100%;
+  padding: .5rem .75rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: .88rem;
+  font-family: inherit;
+  background: var(--white);
+  color: var(--gray-900);
+  transition: border-color .15s;
+}
+.cfg-form-group input:focus,
+.cfg-form-group select:focus,
+.cfg-form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.cfg-form-group textarea { resize: vertical; min-height: 70px; }
+
+/* ── Linha de toggle dentro do painel ── */
+.cfg-panel-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.cfg-panel-toggle-row:last-child { border-bottom: none; }
+.cfg-panel-toggle-row span {
+  font-size: .88rem;
+  color: var(--gray-800);
+  font-weight: 500;
+}
+
+/* ── Usuários list ── */
+.cfg-user-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.cfg-user-row:last-child { border-bottom: none; }
+.cfg-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: .9rem;
+  flex-shrink: 0;
+}
+.cfg-user-info { flex: 1; }
+.cfg-user-name { font-size: .85rem; font-weight: 600; color: var(--gray-800); }
+.cfg-user-role {
+  font-size: .72rem;
+  color: var(--gray-400);
+  display: inline-block;
+  margin-top: .1rem;
+}
+.cfg-badge-role {
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .15rem .45rem;
+  border-radius: 100px;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+.cfg-badge-role.func { background: #FEF3C7; color: #D97706; }
+
+/* ── Dark mode ── */
+body.dark {
+  --bg:       #0F172A;
+  --white:    #1E293B;
+  --gray-100: #263347;
+  --gray-200: #334155;
+  --gray-300: #475569;
+  --gray-400: #64748B;
+  --gray-500: #94A3B8;
+  --gray-600: #CBD5E1;
+  --gray-700: #E2E8F0;
+  --gray-800: #F1F5F9;
+  --gray-900: #F8FAFC;
+  background: #0F172A;
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .cfg-wrap { padding: 1.25rem 1rem; }
+}

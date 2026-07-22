@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Admin — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="os.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="#" class="sidebar__link active" data-section="dashboard">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+      </a>
+      <a href="#" class="sidebar__link" data-section="products">
+        <i class="fa-solid fa-box"></i> Produtos
+        <span class="sidebar__badge" id="sidebarProdCount">0</span>
+      </a>
+      <a href="#" class="sidebar__link" data-section="orders">
+        <i class="fa-solid fa-receipt"></i> Pedidos
+        <span class="sidebar__badge sidebar__badge--orange" id="sidebarOrderCount">0</span>
+      </a>
+      <a href="#" class="sidebar__link" data-section="customers">
+        <i class="fa-solid fa-users"></i> Clientes
+        <span class="sidebar__badge sidebar__badge--green" id="sidebarCustomerCount">0</span>
+      </a>
+      <a href="#" class="sidebar__link" data-section="campaigns">
+        <i class="fa-solid fa-bullhorn"></i> Campanhas
+        <span class="sidebar__badge" id="sidebarCampaignCount">0</span>
+      </a>
+      <a href="vendas.html" class="sidebar__link">
+        <i class="fa-solid fa-cash-register"></i> Vendas
+      </a>
+      <a href="fin-caixa.html" class="sidebar__link">
+        <i class="fa-solid fa-vault"></i> Caixa
+      </a>
+
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço
+        <span class="sidebar__badge sidebar__badge--orange" id="sidebarOsCount">0</span>
+      </a>
+
+      <div id="financeiroNav">
+        <p class="sidebar__nav-label">Financeiro</p>
+        <a href="fin-dashboard.html" class="sidebar__link">
+          <i class="fa-solid fa-chart-pie"></i> Painel Financeiro
+        </a>
+        <a href="fin-lancamentos.html" class="sidebar__link">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i> Lançamentos
+        </a>
+        <a href="fin-contas.html?tipo=receber" class="sidebar__link">
+          <i class="fa-solid fa-arrow-trend-up"></i> Contas a Receber
+        </a>
+        <a href="fin-contas.html?tipo=pagar" class="sidebar__link">
+          <i class="fa-solid fa-arrow-trend-down"></i> Contas a Pagar
+        </a>
+        <a href="fin-caixa.html" class="sidebar__link">
+          <i class="fa-solid fa-cash-register"></i> Caixa
+        </a>
+        <a href="fin-relatorios.html" class="sidebar__link">
+          <i class="fa-solid fa-file-chart-column"></i> Relatórios
+        </a>
+      </div>
+
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-globe"></i> Ver site
+      </a>
+      <a href="produtos.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-store"></i> Ver loja
+      </a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-qrcode"></i> Consulta pública
+      </a>
+    </nav>
+
+    <a href="configuracoes.html" class="sidebar__settings"><i class="fa-solid fa-gear"></i> Configurações</a>
+    <button class="sidebar__logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Sair
+    </button>
+  </aside>
+
+  <!-- ══════════════════════════════════════════
+       MAIN
+  ══════════════════════════════════════════ -->
+  <div class="main-wrap">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="topbar__breadcrumb">
+        <span id="topbarTitle">Dashboard</span>
+      </div>
+      <div class="topbar__right">
+        <button class="topbar__icon-btn" id="refreshBtn" title="Atualizar">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+        <div class="topbar__user">
+          <div class="topbar__avatar"><i class="fa-solid fa-user"></i></div>
+          <span id="topbarUserName">Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── SECTION: Dashboard ── -->
+    <section class="content-section active" id="section-dashboard">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Visão geral da Planeta Celular</p>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <!-- OS quick stats -->
+      <div id="osDashStats" style="margin-bottom:1.5rem;"></div>
+
+      <!-- Financeiro mini cards -->
+      <div id="finDashStats" style="margin-bottom:1.5rem;"></div>
+
+      <!-- Dois painéis lado a lado -->
+      <div class="dashboard-panels">
+
+        <div class="panel">
+          <div class="panel__header">
+            <h3><i class="fa-solid fa-box"></i> Produtos recentes</h3>
+            <button class="btn-text" data-goto="products">Ver todos</button>
+          </div>
+          <div class="panel__body" id="recentProducts"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__header">
+            <h3><i class="fa-solid fa-receipt"></i> Últimos pedidos</h3>
+            <button class="btn-text" data-goto="orders">Ver todos</button>
+          </div>
+          <div class="panel__body" id="recentOrders"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SECTION: Produtos ── -->
+    <section class="content-section" id="section-products">
+      <div class="page-header">
+        <div>
+          <h1>Produtos</h1>
+          <p>Gerencie o catálogo da loja</p>
+        </div>
+        <button class="btn-primary" id="addProductBtn">
+          <i class="fa-solid fa-plus"></i> Novo Produto
+        </button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="table-toolbar">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="productSearch" placeholder="Buscar produto..." />
+        </div>
+        <select id="categoryFilter" class="toolbar-select">
+          <option value="">Todas as categorias</option>
+        </select>
+        <select id="stockFilter" class="toolbar-select">
+          <option value="">Todos os estoques</option>
+          <option value="in">Em estoque</option>
+          <option value="out">Sem estoque</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table class="data-table" id="productsTable">
+          <thead>
+            <tr>
+              <th width="52">Foto</th>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Condição</th>
+              <th>Preço</th>
+              <th>Estoque</th>
+              <th width="120">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody"></tbody>
+        </table>
+        <div class="table-empty" id="productsEmpty" hidden>
+          <i class="fa-solid fa-box-open"></i>
+          <p>Nenhum produto encontrado</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION: Pedidos ── -->
+    <section class="content-section" id="section-orders">
+      <div class="page-header">
+        <div>
+          <h1>Pedidos</h1>
+          <p>Gerencie os pedidos recebidos</p>
+        </div>
+        <button class="btn-outline" id="clearOrdersBtn">
+          <i class="fa-solid fa-trash"></i> Limpar todos
+        </button>
+      </div>
+
+      <div class="table-toolbar">
+        <select id="orderStatusFilter" class="toolbar-select">
+          <option value="">Todos os status</option>
+          <option value="pending">Pendente</option>
+          <option value="confirmed">Confirmado</option>
+          <option value="delivered">Entregue</option>
+          <option value="cancelled">Cancelado</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="ordersTable">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Cliente</th>
+              <th>Total</th>
+              <th>Pagamento</th>
+              <th>Data</th>
+              <th>Status</th>
+              <th width="100">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody"></tbody>
+        </table>
+        <div class="table-empty" id="ordersEmpty" hidden>
+          <i class="fa-solid fa-receipt"></i>
+          <p>Nenhum pedido ainda</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION: Clientes ── -->
+    <section class="content-section" id="section-customers">
+      <div class="page-header">
+        <div>
+          <h1>Clientes</h1>
+          <p>Gerencie sua base de clientes</p>
+        </div>
+        <div style="display:flex;gap:.5rem;">
+          <button class="btn-outline" id="importCustomersBtn">
+            <i class="fa-solid fa-file-import"></i> Importar de Pedidos
+          </button>
+          <button class="btn-primary" id="addCustomerBtn">
+            <i class="fa-solid fa-plus"></i> Novo Cliente
+          </button>
+        </div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="customerSearch" placeholder="Buscar por nome, telefone ou e-mail..." />
+        </div>
+        <select id="customerCityFilter" class="toolbar-select">
+          <option value="">Todas as cidades</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="customersTable">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>E-mail</th>
+              <th>Cidade</th>
+              <th>Cadastro</th>
+              <th>Observações</th>
+              <th width="110">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="customersTableBody"></tbody>
+        </table>
+        <div class="table-empty" id="customersEmpty" hidden>
+          <i class="fa-solid fa-users"></i>
+          <p>Nenhum cliente cadastrado</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION: Campanhas ── -->
+    <section class="content-section" id="section-campaigns">
+      <div class="page-header">
+        <div>
+          <h1>Campanhas</h1>
+          <p>Gerencie suas campanhas de marketing</p>
+        </div>
+        <button class="btn-primary" id="addCampaignBtn">
+          <i class="fa-solid fa-plus"></i> Nova Campanha
+        </button>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="campaignSearch" placeholder="Buscar campanha..." />
+        </div>
+        <select id="campaignTypeFilter" class="toolbar-select">
+          <option value="">Todos os tipos</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="instagram">Instagram</option>
+          <option value="email">E-mail</option>
+          <option value="sms">SMS</option>
+        </select>
+        <select id="campaignStatusFilter" class="toolbar-select">
+          <option value="">Todos os status</option>
+          <option value="planejada">Planejada</option>
+          <option value="ativa">Ativa</option>
+          <option value="pausada">Pausada</option>
+          <option value="encerrada">Encerrada</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="campaignsTable">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Status</th>
+              <th>Início</th>
+              <th>Fim</th>
+              <th>Público</th>
+              <th width="110">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="campaignsTableBody"></tbody>
+        </table>
+        <div class="table-empty" id="campaignsEmpty" hidden>
+          <i class="fa-solid fa-bullhorn"></i>
+          <p>Nenhuma campanha cadastrada</p>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /main-wrap -->
+
+  <!-- ══════════════════════════════════════════
+       MODAL: Produto
+  ══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="productModal" hidden>
+    <div class="modal">
+      <div class="modal__header">
+        <h2 id="modalTitle">Novo Produto</h2>
+        <button class="modal__close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body">
+        <form id="productForm" novalidate>
+          <input type="hidden" id="formId" />
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label>Nome do produto *</label>
+              <input type="text" id="formName" placeholder="Ex: Samsung Galaxy A54" required />
+              <span class="err" id="errName"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Categoria *</label>
+              <select id="formCategory" required>
+                <option value="">Selecione...</option>
+              </select>
+              <span class="err" id="errCategory"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Marca</label>
+              <select id="formBrand">
+                <option value="outros">Outros</option>
+                <option value="apple">Apple</option>
+                <option value="samsung">Samsung</option>
+                <option value="motorola">Motorola</option>
+                <option value="xiaomi">Xiaomi</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Condição</label>
+              <select id="formCondition">
+                <option value="novo">Novo</option>
+                <option value="seminovo">Seminovo</option>
+                <option value="usado">Usado</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Preço (R$) *</label>
+              <input type="number" id="formPrice" min="0" step="0.01" placeholder="0,00" required />
+              <span class="err" id="errPrice"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Preço antigo (R$)</label>
+              <input type="number" id="formOldPrice" min="0" step="0.01" placeholder="Deixe vazio se não houver" />
+            </div>
+
+            <div class="form-group full-width">
+              <label>Descrição curta *</label>
+              <input type="text" id="formDescription" placeholder="Ex: 128GB · 8GB RAM · Excelente estado" required />
+              <span class="err" id="errDescription"></span>
+            </div>
+
+            <div class="form-group full-width">
+              <label>URL da imagem *</label>
+              <div class="img-url-wrap">
+                <input type="url" id="formImage" placeholder="https://images.unsplash.com/..." required />
+                <button type="button" class="btn-preview" id="previewImgBtn"><i class="fa-solid fa-eye"></i></button>
+              </div>
+              <span class="err" id="errImage"></span>
+              <div class="img-preview" id="imgPreview" hidden>
+                <img id="imgPreviewEl" src="" alt="Preview" />
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="toggle-label">
+                <span>Em estoque</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="formInStock" checked />
+                  <span class="toggle-slider"></span>
+                </label>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="modalCancel">Cancelar</button>
+        <button class="btn-primary" id="modalSave">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar produto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Detalhes do pedido -->
+  <div class="modal-overlay" id="orderModal" hidden>
+    <div class="modal">
+      <div class="modal__header">
+        <h2>Detalhes do Pedido</h2>
+        <button class="modal__close" id="orderModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body" id="orderModalBody"></div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="orderModalCloseBtn">Fechar</button>
+        <a class="btn-primary" id="orderWaLink" href="#" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Contatar cliente
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Modal: Publicar no Instagram ══ -->
+  <div class="modal-overlay" id="instaModal" hidden>
+    <div class="modal" style="max-width:520px;">
+      <div class="modal__header">
+        <h2><i class="fa-brands fa-instagram" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-right:.4rem;"></i> Publicar no Instagram</h2>
+        <button class="modal__close" id="instaModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body" style="padding:0;">
+
+        <!-- Preview estilo Instagram -->
+        <div id="instaPreview" style="border-bottom:1px solid var(--gray-100);">
+          <div style="display:flex;align-items:center;gap:.6rem;padding:.75rem 1rem;border-bottom:1px solid var(--gray-100);">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);display:flex;align-items:center;justify-content:center;">
+              <i class="fa-solid fa-mobile-screen-button" style="color:#fff;font-size:.85rem;"></i>
+            </div>
+            <div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--gray-900);" id="instaProfileName">planetacelular</div>
+              <div style="font-size:.68rem;color:var(--gray-400);">Patrocinado</div>
+            </div>
+          </div>
+          <img id="instaPreviewImg" src="" alt="" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--gray-100);" />
+          <div style="padding:.85rem 1rem;">
+            <div style="display:flex;gap:1rem;margin-bottom:.5rem;">
+              <i class="fa-regular fa-heart" style="font-size:1.3rem;color:var(--gray-800);"></i>
+              <i class="fa-regular fa-comment" style="font-size:1.3rem;color:var(--gray-800);"></i>
+              <i class="fa-regular fa-paper-plane" style="font-size:1.3rem;color:var(--gray-800);"></i>
+            </div>
+            <div id="instaPreviewCaption" style="font-size:.78rem;color:var(--gray-800);line-height:1.55;white-space:pre-wrap;max-height:120px;overflow-y:auto;"></div>
+          </div>
+        </div>
+
+        <!-- Legenda editável -->
+        <div style="padding:1rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+            <label style="font-size:.75rem;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;">Legenda</label>
+            <button id="instaCopyBtn" style="font-size:.72rem;font-weight:700;color:var(--primary);background:none;border:none;cursor:pointer;padding:.2rem .4rem;border-radius:4px;transition:background .12s;" title="Copiar legenda">
+              <i class="fa-solid fa-copy"></i> Copiar
+            </button>
+          </div>
+          <textarea id="instaCaption" rows="8" style="width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:.6rem .75rem;font-size:.82rem;font-family:inherit;resize:vertical;line-height:1.6;color:var(--gray-800);"></textarea>
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;" id="instaHashtags"></div>
+        </div>
+
+      </div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="instaModalCancel">Fechar</button>
+        <a id="instaOpenBtn" href="https://www.instagram.com" target="_blank" rel="noopener"
+           class="btn-primary" style="display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;">
+          <i class="fa-brands fa-instagram"></i> Abrir Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Cliente -->
+  <div class="modal-overlay" id="customerModal" hidden>
+    <div class="modal">
+      <div class="modal__header">
+        <h2 id="customerModalTitle">Novo Cliente</h2>
+        <button class="modal__close" id="customerModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body">
+        <form id="customerForm" novalidate>
+          <input type="hidden" id="customerFormId" />
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label>Nome completo *</label>
+              <input type="text" id="customerFormNome" placeholder="Ex: João da Silva" required />
+              <span class="err" id="errCustomerNome"></span>
+            </div>
+            <div class="form-group">
+              <label>Telefone / WhatsApp *</label>
+              <input type="tel" id="customerFormTelefone" placeholder="(11) 99999-9999" required />
+              <span class="err" id="errCustomerTelefone"></span>
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" id="customerFormEmail" placeholder="cliente@email.com" />
+            </div>
+            <div class="form-group">
+              <label>CPF</label>
+              <input type="text" id="customerFormCpf" placeholder="000.000.000-00" />
+            </div>
+            <div class="form-group">
+              <label>Data de Nascimento</label>
+              <input type="date" id="customerFormNascimento" />
+            </div>
+            <div class="form-group full-width">
+              <label>Endereço</label>
+              <input type="text" id="customerFormEndereco" placeholder="Rua, número, bairro" />
+            </div>
+            <div class="form-group">
+              <label>Cidade</label>
+              <input type="text" id="customerFormCidade" placeholder="Ex: São Paulo" />
+            </div>
+            <div class="form-group">
+              <label>Estado</label>
+              <input type="text" id="customerFormEstado" placeholder="Ex: SP" maxlength="2" />
+            </div>
+            <div class="form-group full-width">
+              <label>Observações</label>
+              <textarea id="customerFormObs" rows="3" placeholder="Notas sobre o cliente..." style="width:100%;border:2px solid var(--gray-200);border-radius:var(--radius-md);padding:.7rem .9rem;font-size:.9rem;resize:vertical;background:var(--gray-100);"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="customerModalCancel">Cancelar</button>
+        <button class="btn-primary" id="customerModalSave">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar cliente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Campanha -->
+  <div class="modal-overlay" id="campaignModal" hidden>
+    <div class="modal" style="max-width:580px;">
+      <div class="modal__header">
+        <h2 id="campaignModalTitle">Nova Campanha</h2>
+        <button class="modal__close" id="campaignModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body">
+        <form id="campaignForm" novalidate>
+          <input type="hidden" id="campaignFormId" />
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label>Nome da campanha *</label>
+              <input type="text" id="campaignFormNome" placeholder="Ex: Promoção Dia das Mães" required />
+              <span class="err" id="errCampaignNome"></span>
+            </div>
+            <div class="form-group">
+              <label>Tipo *</label>
+              <select id="campaignFormTipo" required>
+                <option value="">Selecione...</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="instagram">Instagram</option>
+                <option value="email">E-mail</option>
+                <option value="sms">SMS</option>
+              </select>
+              <span class="err" id="errCampaignTipo"></span>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="campaignFormStatus">
+                <option value="planejada">Planejada</option>
+                <option value="ativa">Ativa</option>
+                <option value="pausada">Pausada</option>
+                <option value="encerrada">Encerrada</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Data de Início</label>
+              <input type="date" id="campaignFormInicio" />
+            </div>
+            <div class="form-group">
+              <label>Data de Fim</label>
+              <input type="date" id="campaignFormFim" />
+            </div>
+            <div class="form-group full-width">
+              <label>Público-alvo</label>
+              <input type="text" id="campaignFormPublico" placeholder="Ex: Clientes com compra nos últimos 3 meses" />
+            </div>
+            <div class="form-group full-width">
+              <label>Mensagem / Descrição</label>
+              <textarea id="campaignFormMensagem" rows="5" placeholder="Texto da campanha, mensagem enviada, descrição..." style="width:100%;border:2px solid var(--gray-200);border-radius:var(--radius-md);padding:.7rem .9rem;font-size:.9rem;resize:vertical;background:var(--gray-100);"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="campaignModalCancel">Cancelar</button>
+        <button class="btn-primary" id="campaignModalSave">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar campanha
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="painel.js"></script>
+</body>
+</html>

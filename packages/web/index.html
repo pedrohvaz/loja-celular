@@ -1,13 +1,874 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestão</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planeta Celular — Assistência Técnica & Eletrônicos</title>
+  <meta name="description" content="Planeta Celular: assistência técnica especializada em celulares, tablets e notebooks. Troca de tela, bateria, conserto de placa e muito mais. Orçamento grátis!" />
+  <meta name="keywords" content="assistência técnica celular, troca de tela, conserto de celular, Planeta Celular, reparo smartphone" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Planeta Celular — Assistência Técnica & Eletrônicos" />
+  <meta property="og:description" content="Seu celular com problema? A gente resolve! Orçamento grátis e garantia de 90 dias." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=1200&h=630&fit=crop&q=80" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER / NAVBAR
+  ============================================================ -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+
+      <a href="#inicio" class="navbar__logo">
+        <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+        <span class="logo-text">Planeta<strong>Celular</strong></span>
+      </a>
+
+      <nav class="navbar__menu" id="navMenu" aria-label="Menu principal">
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="#consultar-os">Consultar OS</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <a href="checkout.html" class="navbar__cart" id="cartIcon" aria-label="Carrinho">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge" id="cartBadge" hidden>0</span>
+      </a>
+
+      <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento." class="btn btn--whatsapp navbar__cta" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Solicitar Orçamento
+      </a>
+
+      <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section class="hero" id="inicio">
+    <div class="container hero__inner">
+
+      <div class="hero__content reveal">
+        <div class="hero__badge">
+          <i class="fa-solid fa-shield-halved"></i> Garantia de 90 dias em todos os serviços
+        </div>
+        <h1 class="hero__title">Seu celular com problema?<br /><span class="highlight">A gente resolve!</span></h1>
+        <p class="hero__subtitle">
+          Assistência técnica especializada com diagnóstico gratuito, peças de qualidade
+          e serviço rápido. Atendemos todas as marcas — saia com seu aparelho funcionando hoje!
+        </p>
+        <div class="hero__actions">
+          <a href="#servicos" class="btn btn--primary">Ver Serviços <i class="fa-solid fa-arrow-down"></i></a>
+          <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20de%20ajuda%20com%20meu%20celular." class="btn btn--whatsapp" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp
+          </a>
+        </div>
+        <div class="hero__stats">
+          <div class="stat">
+            <strong>10+</strong>
+            <span>Anos de experiência</span>
+          </div>
+          <div class="stat">
+            <strong>5.000+</strong>
+            <span>Aparelhos consertados</span>
+          </div>
+          <div class="stat">
+            <strong>98%</strong>
+            <span>Clientes satisfeitos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__image reveal reveal--right">
+        <div class="hero__img-wrapper">
+          <img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=560&h=480&fit=crop&q=80" alt="Técnico consertando celular" loading="eager" />
+          <div class="hero__float hero__float--1">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+              <strong>Atendimento em</strong>
+              <span>até 24h</span>
+            </div>
+          </div>
+          <div class="hero__float hero__float--2">
+            <i class="fa-solid fa-star"></i>
+            <div>
+              <strong>4.9 / 5</strong>
+              <span>Avaliação média</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="hero__wave">
+      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="var(--bg-light)" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVIÇOS
+  ============================================================ -->
+  <section class="section services" id="servicos">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">O que fazemos</span>
+        <h2 class="section-title">Nossos Serviços</h2>
+        <p class="section-desc">Soluções completas para todos os seus problemas com eletrônicos, sempre com qualidade e agilidade.</p>
+      </div>
+
+      <div class="services__grid">
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1512054502232-10a0a035d672?w=400&h=200&fit=crop&auto=format" alt="Troca de tela de celular" loading="lazy">
+          <div class="service-card__body">
+            <h3>Troca de Tela</h3>
+            <p>Display quebrado ou com manchas? Substituímos com peças de alta qualidade, originais ou compatíveis.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20trocar%20a%20tela%20do%20meu%20celular." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=200&fit=crop&auto=format" alt="Troca de bateria de celular" loading="lazy">
+          <div class="service-card__body">
+            <h3>Troca de Bateria</h3>
+            <p>Bateria viciada ou que não carrega mais? Restaure a autonomia do seu aparelho rapidamente.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20trocar%20a%20bateria%20do%20meu%20celular." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop&auto=format" alt="Conserto de placa de celular" loading="lazy">
+          <div class="service-card__body">
+            <h3>Conserto de Placa</h3>
+            <p>Problemas elétricos e de placa-mãe resolvidos por técnicos especializados em microssoldagem.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20consertar%20a%20placa%20do%20meu%20celular." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=200&fit=crop&auto=format" alt="Recuperação de dados" loading="lazy">
+          <div class="service-card__body">
+            <h3>Recuperação de Dados</h3>
+            <p>Fotos, contatos e documentos perdidos? Recuperamos seus dados mesmo em aparelhos danificados.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20recuperar%20dados%20do%20meu%20celular." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=400&h=200&fit=crop&auto=format" alt="Higienização e limpeza de celular" loading="lazy">
+          <div class="service-card__body">
+            <h3>Higienização e Limpeza</h3>
+            <p>Limpeza interna e externa completa, eliminando poeira, sujeira e prevenindo superaquecimento.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20higienizar%20meu%20celular." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=200&fit=crop&auto=format" alt="Desbloqueio de aparelhos" loading="lazy">
+          <div class="service-card__body">
+            <h3>Desbloqueio de Aparelhos</h3>
+            <p>Desbloqueio de operadora, conta Google e iCloud. Solução segura e garantida para seu aparelho.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20desbloquear%20meu%20aparelho." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=200&fit=crop&auto=format" alt="Conserto de tablet e notebook" loading="lazy">
+          <div class="service-card__body">
+            <h3>Tablet e Notebook</h3>
+            <p>Conserto completo de tablets e notebooks: tela, bateria, teclado, placa e muito mais.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20consertar%20meu%20tablet%20ou%20notebook." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card reveal">
+          <img class="service-card__img" src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=200&fit=crop&auto=format" alt="Manutenção preventiva de celular" loading="lazy">
+          <div class="service-card__body">
+            <h3>Manutenção Preventiva</h3>
+            <p>Evite problemas futuros com uma revisão completa do seu aparelho. Prevenção é o melhor remédio!</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20fazer%20manutenção%20preventiva%20no%20meu%20celular." class="service-card__link" target="_blank" rel="noopener">Solicitar <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRODUTOS
+  ============================================================ -->
+  <section class="section products" id="produtos">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Nossa loja</span>
+        <h2 class="section-title">Produtos à Venda</h2>
+        <p class="section-desc">Celulares seminovos, acessórios e muito mais com preços que cabem no seu bolso.</p>
+      </div>
+
+      <!-- Filtros de categoria -->
+      <div class="products__filters reveal">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="smartphones">Smartphones</button>
+        <button class="filter-btn" data-filter="acessorios">Acessórios</button>
+        <button class="filter-btn" data-filter="protecao">Proteção</button>
+        <button class="filter-btn" data-filter="audio">Áudio</button>
+      </div>
+
+      <div class="products__grid" id="productsGrid">
+
+        <div class="product-card reveal" data-category="smartphones">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1610945264803-c22b62831e4d?w=300&h=220&fit=crop&q=80" alt="Samsung Galaxy A54" loading="lazy" />
+            <span class="product-badge">Seminovo</span>
+          </div>
+          <div class="product-card__body">
+            <h3>Samsung Galaxy A54</h3>
+            <p>128GB, 8GB RAM — Excelente estado</p>
+            <div class="product-card__price">
+              <span class="price-old">R$ 1.299</span>
+              <span class="price-new">R$ 999</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Samsung%20Galaxy%20A54." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Solicitar
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="smartphones">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300&h=220&fit=crop&q=80" alt="Motorola Moto G84" loading="lazy" />
+            <span class="product-badge product-badge--blue">Usado</span>
+          </div>
+          <div class="product-card__body">
+            <h3>Motorola Moto G84</h3>
+            <p>256GB, 12GB RAM — Ótimo estado</p>
+            <div class="product-card__price">
+              <span class="price-old">R$ 899</span>
+              <span class="price-new">R$ 699</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Motorola%20Moto%20G84." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Solicitar
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="smartphones">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=300&h=220&fit=crop&q=80" alt="Xiaomi Redmi Note 13" loading="lazy" />
+            <span class="product-badge">Seminovo</span>
+          </div>
+          <div class="product-card__body">
+            <h3>Xiaomi Redmi Note 13</h3>
+            <p>128GB, 6GB RAM — Perfeito estado</p>
+            <div class="product-card__price">
+              <span class="price-new">R$ 849</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Xiaomi%20Redmi%20Note%2013." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Solicitar
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="protecao">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1541877944-ac82a091518a?w=300&h=220&fit=crop&q=80" alt="Capinhas Premium" loading="lazy" />
+          </div>
+          <div class="product-card__body">
+            <h3>Capinhas Premium</h3>
+            <p>Diversas marcas e modelos — Anti-impacto</p>
+            <div class="product-card__price">
+              <span class="price-new">A partir de R$ 25</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20as%20capinhas%20disponíveis." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Ver opções
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="protecao">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?w=300&h=220&fit=crop&q=80" alt="Películas 3D" loading="lazy" />
+          </div>
+          <div class="product-card__body">
+            <h3>Películas 3D / 5D</h3>
+            <p>Proteção máxima com instalação incluída</p>
+            <div class="product-card__price">
+              <span class="price-new">A partir de R$ 35</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20colocar%20película%20no%20meu%20celular." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Solicitar
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="acessorios">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=300&h=220&fit=crop&q=80" alt="Carregadores" loading="lazy" />
+          </div>
+          <div class="product-card__body">
+            <h3>Carregadores Turbo</h3>
+            <p>USB-C e Lightning — Carga rápida 65W</p>
+            <div class="product-card__price">
+              <span class="price-old">R$ 89</span>
+              <span class="price-new">R$ 59</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20comprar%20um%20carregador." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Comprar
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="audio">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&h=220&fit=crop&q=80" alt="Fones Bluetooth" loading="lazy" />
+          </div>
+          <div class="product-card__body">
+            <h3>Fones Bluetooth TWS</h3>
+            <p>True Wireless — Cancelamento de ruído</p>
+            <div class="product-card__price">
+              <span class="price-old">R$ 199</span>
+              <span class="price-new">R$ 149</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20os%20fones%20bluetooth." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Comprar
+            </a>
+          </div>
+        </div>
+
+        <div class="product-card reveal" data-category="acessorios">
+          <div class="product-card__img">
+            <img src="https://images.unsplash.com/photo-1615526675159-e248c3021d3f?w=300&h=220&fit=crop&q=80" alt="Adaptadores e Cabos" loading="lazy" />
+          </div>
+          <div class="product-card__body">
+            <h3>Cabos e Adaptadores</h3>
+            <p>USB-C, Lightning, Micro USB — Alta durabilidade</p>
+            <div class="product-card__price">
+              <span class="price-new">A partir de R$ 19</span>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20cabos%20e%20adaptadores." class="btn btn--primary btn--sm" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Ver opções
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       POR QUE NOS ESCOLHER
+  ============================================================ -->
+  <section class="section why-us" id="diferenciais">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Nossos diferenciais</span>
+        <h2 class="section-title">Por que nos escolher?</h2>
+        <p class="section-desc">Transparência, qualidade e compromisso são os pilares que nos diferenciam no mercado.</p>
+      </div>
+
+      <div class="why-us__grid">
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3>Garantia de 90 dias</h3>
+          <p>Todos os nossos serviços têm garantia de 90 dias. Problema voltou? A gente resolve sem custo adicional.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <i class="fa-solid fa-magnifying-glass-dollar"></i>
+          </div>
+          <h3>Orçamento 100% grátis</h3>
+          <p>Diagnóstico e orçamento sem compromisso. Só paga se aceitar o serviço — sem surpresas.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h3>Atendimento rápido</h3>
+          <p>A maioria dos serviços é feita no mesmo dia. Você não fica sem o seu aparelho por dias.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <h3>Técnicos certificados</h3>
+          <p>Nossa equipe é treinada e certificada, com capacitação constante nas últimas tecnologias.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <i class="fa-solid fa-gem"></i>
+          </div>
+          <h3>Peças originais</h3>
+          <p>Trabalhamos com peças originais e compatíveis de alta qualidade, sempre informando você antes.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-card__icon">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <h3>Suporte pós-serviço</h3>
+          <p>Após o conserto, continuamos disponíveis para tirar dúvidas e garantir sua satisfação.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DEPOIMENTOS
+  ============================================================ -->
+  <section class="section testimonials" id="depoimentos">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Quem já nos visitou</span>
+        <h2 class="section-title">O que nossos clientes dizem</h2>
+        <p class="section-desc">Mais de 5.000 clientes satisfeitos. Veja o que eles têm a dizer sobre a Planeta Celular.</p>
+      </div>
+
+      <div class="testimonials__carousel reveal">
+        <div class="testimonials__track" id="testimonialsTrack">
+
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Quebrei a tela do meu iPhone e fui na Planeta Celular por indicação. Atendimento excelente, rápido e com preço justo. A tela ficou perfeita! Super indico!"</p>
+            <div class="testimonial-card__author">
+              <img src="https://i.pravatar.cc/60?img=5" alt="Avatar Ana Paula" loading="lazy" />
+              <div>
+                <strong>Ana Paula S.</strong>
+                <span>São Paulo, SP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Levei meu Samsung com problema na placa. Achei que estava perdido, mas eles recuperaram e ainda recuperaram todas as minhas fotos! Serviço incrível, obrigado!"</p>
+            <div class="testimonial-card__author">
+              <img src="https://i.pravatar.cc/60?img=12" alt="Avatar Carlos M." loading="lazy" />
+              <div>
+                <strong>Carlos M.</strong>
+                <span>São Paulo, SP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Fui trocar a bateria do meu Motorola. Me atenderam rapidinho, em menos de 1 hora estava pronto. Bateria durando o dobro agora! Recomendo muito."</p>
+            <div class="testimonial-card__author">
+              <img src="https://i.pravatar.cc/60?img=47" alt="Avatar Fernanda L." loading="lazy" />
+              <div>
+                <strong>Fernanda L.</strong>
+                <span>Guarulhos, SP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Comprei um celular seminovo por um preço ótimo. Aparelho veio em perfeito estado, bem explicado e com garantia. Voltarei sempre que precisar!"</p>
+            <div class="testimonial-card__author">
+              <img src="https://i.pravatar.cc/60?img=33" alt="Avatar Roberto N." loading="lazy" />
+              <div>
+                <strong>Roberto N.</strong>
+                <span>Santo André, SP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Atendimento nota 10! Transparentes, honestos e profissionais. Entregaram no prazo prometido e o preço foi exatamente o do orçamento. Sem surpresas!"</p>
+            <div class="testimonial-card__author">
+              <img src="https://i.pravatar.cc/60?img=25" alt="Avatar Juliana R." loading="lazy" />
+              <div>
+                <strong>Juliana R.</strong>
+                <span>São Paulo, SP</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="testimonials__controls">
+          <button class="carousel-btn" id="prevBtn" aria-label="Anterior">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="testimonials__dots" id="carouselDots"></div>
+          <button class="carousel-btn" id="nextBtn" aria-label="Próximo">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARCAS ATENDIDAS
+  ============================================================ -->
+  <section class="section brands" id="marcas">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Atendemos todas as marcas</span>
+        <h2 class="section-title">Marcas Atendidas</h2>
+      </div>
+      <div class="brands__grid reveal">
+        <div class="brand-badge"><i class="fa-brands fa-apple"></i> Apple</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Samsung</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Motorola</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Xiaomi</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> LG</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Sony</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Positivo</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Realme</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> OnePlus</div>
+        <div class="brand-badge"><i class="fa-solid fa-mobile-screen-button"></i> Nokia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BANNER
+  ============================================================ -->
+  <section class="cta-banner" id="cta">
+    <div class="container cta-banner__inner reveal">
+      <div class="cta-banner__content">
+        <h2>Traga seu aparelho hoje e saia com ele funcionando!</h2>
+        <p>Orçamento grátis, atendimento rápido e garantia de 90 dias em todos os serviços.</p>
+      </div>
+      <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20trazer%20meu%20aparelho%20para%20avaliação." class="btn btn--whatsapp btn--lg" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONSULTAR OS
+  ============================================================ -->
+  <section class="section consulta-home" id="consultar-os">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag"><i class="fa-solid fa-magnifying-glass"></i> Acompanhe seu conserto</span>
+        <h2 class="section-title">Consulte sua Ordem de Serviço</h2>
+        <p class="section-desc">Informe o número da OS, CPF ou IMEI para acompanhar o status do reparo em tempo real, sem precisar ligar para a loja.</p>
+      </div>
+
+      <div class="consulta-home__card reveal">
+        <div class="consulta-home__field">
+          <i class="fa-solid fa-hashtag"></i>
+          <input type="text" id="homeInputOs" placeholder="Número da OS (ex: OS-2026-0001)" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="consulta-home__sep"><span>ou</span></div>
+        <div class="consulta-home__field">
+          <i class="fa-solid fa-id-card"></i>
+          <input type="text" id="homeInputCpf" placeholder="CPF (000.000.000-00)" maxlength="14" autocomplete="off" />
+        </div>
+        <div class="consulta-home__sep"><span>ou</span></div>
+        <div class="consulta-home__field">
+          <i class="fa-solid fa-mobile-screen-button"></i>
+          <input type="text" id="homeInputImei" placeholder="IMEI do aparelho (15 dígitos)" maxlength="15" inputmode="numeric" autocomplete="off" />
+        </div>
+        <p class="consulta-home__error" id="homeSearchError" aria-live="polite"></p>
+        <button class="btn btn--primary consulta-home__btn" id="homeBtnConsultar">
+          <i class="fa-solid fa-magnifying-glass" id="homeSearchIcon"></i>
+          <span class="consulta-home__spinner" id="homeSpinner" style="display:none;"></span>
+          <span id="homeBtnLabel">Consultar status</span>
+        </button>
+      </div>
+
+      <div id="homeResultArea" class="consulta-home__result" style="display:none;">
+        <div id="homeResultContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOBRE NÓS
+  ============================================================ -->
+  <section class="section about" id="sobre">
+    <div class="container about__inner">
+
+      <div class="about__image reveal">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=540&h=420&fit=crop&q=80" alt="Equipe Planeta Celular" loading="lazy" />
+        <div class="about__experience-badge">
+          <strong>10+</strong>
+          <span>Anos de experiência</span>
+        </div>
+      </div>
+
+      <div class="about__content reveal reveal--right">
+        <span class="section-tag">Nossa história</span>
+        <h2 class="section-title">Sobre a Planeta Celular</h2>
+        <p>
+          Fundada há mais de 10 anos, a <strong>Planeta Celular</strong> nasceu com a missão de oferecer
+          assistência técnica de qualidade, acessível e transparente para todos. Começamos como uma
+          pequena bancada e hoje somos referência em nossa região.
+        </p>
+        <p>
+          Nossa equipe é formada por técnicos apaixonados por tecnologia, constantemente capacitados
+          para lidar com os aparelhos mais modernos do mercado. Aqui, cada cliente é atendido com
+          atenção individual e cuidado no serviço.
+        </p>
+
+        <div class="about__counters">
+          <div class="counter">
+            <strong class="counter__value" data-target="10">0</strong>
+            <span class="counter__label">Anos no mercado</span>
+          </div>
+          <div class="counter">
+            <strong class="counter__value" data-target="5000">0</strong>
+            <span class="counter__label">Aparelhos consertados</span>
+          </div>
+          <div class="counter">
+            <strong class="counter__value" data-target="98">0</strong>
+            <span class="counter__label">% Satisfação</span>
+          </div>
+          <div class="counter">
+            <strong class="counter__value" data-target="8">0</strong>
+            <span class="counter__label">Técnicos especializados</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTATO
+  ============================================================ -->
+  <section class="section contact" id="contato">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Fale conosco</span>
+        <h2 class="section-title">Entre em Contato</h2>
+        <p class="section-desc">Estamos prontos para atender você! Mande uma mensagem ou venha nos visitar.</p>
+      </div>
+
+      <div class="contact__inner">
+
+        <div class="contact__info reveal">
+          <div class="contact-info-item">
+            <div class="contact-info-item__icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div>
+              <h4>Endereço</h4>
+              <p>Rua das Flores, 123 — Centro<br />São Paulo — SP, 01000-000</p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-item__icon">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div>
+              <h4>Telefone / WhatsApp</h4>
+              <p><a href="tel:+5511999999999">(11) 99999-9999</a></p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-item__icon">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div>
+              <h4>E-mail</h4>
+              <p><a href="mailto:contato@planetacelular.com.br">contato@planetacelular.com.br</a></p>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-item__icon">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+              <h4>Horário de Atendimento</h4>
+              <p>Seg – Sex: 9h às 18h<br />Sábado: 9h às 14h</p>
+            </div>
+          </div>
+
+          <div class="contact__social">
+            <a href="#" class="social-btn" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/5511999999999" class="social-btn social-btn--wa" aria-label="WhatsApp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div class="contact__form-wrapper reveal reveal--right">
+          <form class="contact-form" id="contactForm" novalidate>
+            <h3>Envie uma mensagem</h3>
+
+            <div class="form-group">
+              <label for="nome">Nome *</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+              <span class="form-error" id="nomeError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="telefone">Telefone *</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required />
+              <span class="form-error" id="telefoneError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="mensagem">Mensagem *</label>
+              <textarea id="mensagem" name="mensagem" rows="4" placeholder="Descreva o problema ou sua dúvida..." required></textarea>
+              <span class="form-error" id="mensagemError"></span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full">
+              <i class="fa-solid fa-paper-plane"></i> Enviar Mensagem
+            </button>
+            <div class="form-success" id="formSuccess" hidden>
+              <i class="fa-solid fa-circle-check"></i> Mensagem enviada! Em breve entraremos em contato.
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Google Maps -->
+      <div class="contact__map reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1985804178906!2d-46.65359368502218!3d-23.565754984678988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1697000000000!5m2!1spt-BR!2sbr"
+          width="100%"
+          height="350"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Localização da Planeta Celular"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+
+      <div class="footer__brand">
+        <a href="#inicio" class="navbar__logo">
+          <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+          <span class="logo-text">Planeta<strong>Celular</strong></span>
+        </a>
+        <p>Assistência técnica especializada em celulares, tablets e notebooks. Qualidade e confiança desde 2014.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/5511999999999" aria-label="WhatsApp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer__links">
+        <h4>Links Rápidos</h4>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="#consultar-os">Consultar OS</a></li>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__links">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Troca de Tela</a></li>
+          <li><a href="#servicos">Troca de Bateria</a></li>
+          <li><a href="#servicos">Conserto de Placa</a></li>
+          <li><a href="#servicos">Recuperação de Dados</a></li>
+          <li><a href="#servicos">Desbloqueio</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__contact">
+        <h4>Contato</h4>
+        <p><i class="fa-solid fa-location-dot"></i> Rua das Flores, 123 — Centro, SP</p>
+        <p><i class="fa-solid fa-phone"></i> (11) 99999-9999</p>
+        <p><i class="fa-solid fa-envelope"></i> contato@planetacelular.com.br</p>
+        <p><i class="fa-solid fa-clock"></i> Seg–Sex: 9h–18h | Sáb: 9h–14h</p>
+      </div>
+
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <p>&copy; 2025 Planeta Celular. Todos os direitos reservados.</p>
+        <p>Desenvolvido com <i class="fa-solid fa-heart" style="color:#ef4444;"></i> para você</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botão WhatsApp flutuante -->
+  <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20de%20ajuda%20com%20meu%20celular." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-float__tooltip">Falar no WhatsApp</span>
+  </a>
+
+  <!-- Botão scroll ao topo -->
+  <button class="scroll-top" id="scrollTop" aria-label="Voltar ao topo">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>

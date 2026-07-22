@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Planeta Celular</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="checkout.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar scrolled" id="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+        <span class="logo-text">Planeta<strong>Celular</strong></span>
+      </a>
+      <div class="checkout-nav-info">
+        <i class="fa-solid fa-lock"></i> Checkout seguro
+      </div>
+    </div>
+  </header>
+
+  <!-- STEPS BAR -->
+  <div class="steps-bar">
+    <div class="container steps-bar__inner">
+      <div class="step active" id="step-indicator-1">
+        <div class="step__circle">1</div>
+        <span>Carrinho</span>
+      </div>
+      <div class="step__line"></div>
+      <div class="step" id="step-indicator-2">
+        <div class="step__circle">2</div>
+        <span>Dados</span>
+      </div>
+      <div class="step__line"></div>
+      <div class="step" id="step-indicator-3">
+        <div class="step__circle">3</div>
+        <span>Pagamento</span>
+      </div>
+      <div class="step__line"></div>
+      <div class="step" id="step-indicator-4">
+        <div class="step__circle"><i class="fa-solid fa-check"></i></div>
+        <span>Confirmação</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="checkout-main">
+    <div class="container checkout-layout">
+
+      <!-- ── STEP 1: Carrinho ── -->
+      <section class="checkout-step active" id="step1">
+        <h2 class="step-title"><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h2>
+        <div id="cartItemsList"></div>
+        <div class="cart-empty" id="cartEmpty" hidden>
+          <i class="fa-solid fa-cart-shopping"></i>
+          <h3>Seu carrinho está vazio</h3>
+          <p>Volte à loja e adicione alguns produtos.</p>
+          <a href="produtos.html" class="btn btn--primary">Ver Produtos</a>
+        </div>
+        <div class="step-actions" id="step1Actions">
+          <a href="produtos.html" class="btn btn--outline"><i class="fa-solid fa-arrow-left"></i> Continuar comprando</a>
+          <button class="btn btn--primary" id="toStep2Btn">Avançar <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </section>
+
+      <!-- ── STEP 2: Dados do cliente ── -->
+      <section class="checkout-step" id="step2">
+        <h2 class="step-title"><i class="fa-solid fa-user"></i> Seus Dados</h2>
+        <form class="checkout-form" id="customerForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cNome">Nome completo *</label>
+              <input type="text" id="cNome" placeholder="João da Silva" required />
+            </div>
+            <div class="form-group">
+              <label for="cCpf">CPF *</label>
+              <input type="text" id="cCpf" placeholder="000.000.000-00" maxlength="14" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cEmail">E-mail *</label>
+              <input type="email" id="cEmail" placeholder="joao@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="cTel">Telefone / WhatsApp *</label>
+              <input type="tel" id="cTel" placeholder="(11) 99999-9999" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group form-group--sm">
+              <label for="cCep">CEP *</label>
+              <input type="text" id="cCep" placeholder="00000-000" maxlength="9" required />
+            </div>
+            <div class="form-group form-group--lg">
+              <label for="cEndereco">Endereço *</label>
+              <input type="text" id="cEndereco" placeholder="Rua, número" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cComplemento">Complemento</label>
+              <input type="text" id="cComplemento" placeholder="Apto, bloco, referência..." />
+            </div>
+            <div class="form-group">
+              <label for="cCidade">Cidade *</label>
+              <input type="text" id="cCidade" placeholder="São Paulo" required />
+            </div>
+          </div>
+          <!-- Modalidade de entrega -->
+          <h3 class="subsection-title">Modalidade de entrega</h3>
+          <div class="shipping-options">
+            <label class="shipping-option">
+              <input type="radio" name="shipping" value="retirada" checked />
+              <div class="shipping-option__card">
+                <i class="fa-solid fa-store"></i>
+                <div>
+                  <strong>Retirar na loja</strong>
+                  <span>Grátis — disponível em até 1h</span>
+                </div>
+                <span class="shipping-price">Grátis</span>
+              </div>
+            </label>
+            <label class="shipping-option">
+              <input type="radio" name="shipping" value="motoboy" />
+              <div class="shipping-option__card">
+                <i class="fa-solid fa-motorcycle"></i>
+                <div>
+                  <strong>Motoboy local</strong>
+                  <span>Entrega hoje — raio de 10km</span>
+                </div>
+                <span class="shipping-price">R$ 15,00</span>
+              </div>
+            </label>
+            <label class="shipping-option">
+              <input type="radio" name="shipping" value="correios" />
+              <div class="shipping-option__card">
+                <i class="fa-solid fa-box"></i>
+                <div>
+                  <strong>Correios (PAC/SEDEX)</strong>
+                  <span>3 a 7 dias úteis</span>
+                </div>
+                <span class="shipping-price">R$ 28,00</span>
+              </div>
+            </label>
+          </div>
+        </form>
+        <div class="step-actions">
+          <button class="btn btn--outline" id="backToStep1"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+          <button class="btn btn--primary" id="toStep3Btn">Avançar <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </section>
+
+      <!-- ── STEP 3: Pagamento ── -->
+      <section class="checkout-step" id="step3">
+        <h2 class="step-title"><i class="fa-solid fa-credit-card"></i> Pagamento</h2>
+
+        <div class="payment-tabs">
+          <button class="pay-tab active" data-tab="pix"><i class="fa-solid fa-qrcode"></i> PIX</button>
+          <button class="pay-tab" data-tab="whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="pay-tab" data-tab="card"><i class="fa-solid fa-credit-card"></i> Cartão</button>
+        </div>
+
+        <!-- PIX -->
+        <div class="pay-panel active" id="tab-pix">
+          <div class="pix-box">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=00020126580014BR.GOV.BCB.PIX0136planetacelular@pix.com.br5204000053039865406&size=180x180" alt="QR Code PIX" class="pix-qr" />
+            <div class="pix-info">
+              <h3>Pague via PIX</h3>
+              <p>Escaneie o QR Code ou copie a chave abaixo:</p>
+              <div class="pix-key-box">
+                <span id="pixKeyText">11999999999</span>
+                <button class="btn btn--outline btn--sm" id="copyPixBtn"><i class="fa-solid fa-copy"></i> Copiar</button>
+              </div>
+              <p class="pix-note"><i class="fa-solid fa-circle-info"></i> Após o pagamento, envie o comprovante pelo WhatsApp.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="pay-panel" id="tab-whatsapp">
+          <div class="wa-pay-box">
+            <div class="wa-pay-icon"><i class="fa-brands fa-whatsapp"></i></div>
+            <h3>Finalizar pelo WhatsApp</h3>
+            <p>Clique em "Finalizar Pedido" para enviar automaticamente seu pedido completo para o nosso WhatsApp. Nossa equipe confirmará o pagamento e prazo.</p>
+            <p class="pix-note"><i class="fa-solid fa-circle-info"></i> Aceitamos PIX, dinheiro, cartão na entrega e boleto.</p>
+          </div>
+        </div>
+
+        <!-- Cartão -->
+        <div class="pay-panel" id="tab-card">
+          <form class="card-form" id="cardForm" novalidate>
+            <div class="form-group">
+              <label for="cardNumber">Número do cartão</label>
+              <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" />
+            </div>
+            <div class="form-group">
+              <label for="cardName">Nome no cartão</label>
+              <input type="text" id="cardName" placeholder="JOÃO DA SILVA" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cardExpiry">Validade</label>
+                <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" />
+              </div>
+              <div class="form-group">
+                <label for="cardCvv">CVV</label>
+                <input type="text" id="cardCvv" placeholder="123" maxlength="4" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cardInstallments">Parcelamento</label>
+              <select id="cardInstallments">
+                <option value="1">1x sem juros</option>
+                <option value="2">2x sem juros</option>
+                <option value="3">3x sem juros</option>
+                <option value="6">6x com juros</option>
+                <option value="12">12x com juros</option>
+              </select>
+            </div>
+          </form>
+          <p class="pix-note"><i class="fa-solid fa-shield-halved"></i> Pagamento simulado — os dados não são processados.</p>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn--outline" id="backToStep2"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+          <button class="btn btn--primary btn--lg" id="finishBtn">
+            <i class="fa-solid fa-check"></i> Finalizar Pedido
+          </button>
+        </div>
+      </section>
+
+      <!-- ── STEP 4: Confirmação ── -->
+      <section class="checkout-step" id="step4">
+        <div class="confirmation-box">
+          <div class="confirmation-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h2>Pedido recebido!</h2>
+          <p>Obrigado, <strong id="confirmName"></strong>! Seu pedido foi registrado com sucesso.</p>
+          <div class="order-id-box">
+            <span>Número do pedido:</span>
+            <strong id="confirmOrderId"></strong>
+          </div>
+          <p class="confirmation-note">Em breve entraremos em contato pelo número <strong id="confirmPhone"></strong> para confirmar os detalhes.</p>
+          <div class="confirmation-actions">
+            <a href="https://wa.me/5511999999999" class="btn btn--whatsapp" target="_blank" rel="noopener" id="confirmWaBtn">
+              <i class="fa-brands fa-whatsapp"></i> Acompanhar no WhatsApp
+            </a>
+            <a href="produtos.html" class="btn btn--outline">Continuar comprando</a>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /checkout-layout (left col) -->
+
+    <!-- ── RESUMO DO PEDIDO (coluna direita) ── -->
+    <aside class="order-summary" id="orderSummary">
+      <div class="order-summary__inner">
+        <h3><i class="fa-solid fa-receipt"></i> Resumo do pedido</h3>
+        <div id="summaryItems"></div>
+        <div class="summary-totals" id="summaryTotals"></div>
+        <div class="summary-guarantee">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Compra protegida · Garantia de 90 dias nos serviços</span>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- WhatsApp flutuante -->
+  <a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

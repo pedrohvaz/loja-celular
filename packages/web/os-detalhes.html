@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalhes da OS — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="os.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+      </a>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-box"></i> Produtos
+      </a>
+      <a href="painel.html" class="sidebar__link">
+        <i class="fa-solid fa-receipt"></i> Pedidos
+      </a>
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link active">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço
+      </a>
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-globe"></i> Ver site
+      </a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank">
+        <i class="fa-solid fa-qrcode"></i> Consulta pública
+      </a>
+    </nav>
+    <button class="sidebar__logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Sair
+    </button>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-wrap">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="topbar__breadcrumb">
+        <a href="os-lista.html" style="color:var(--gray-500);text-decoration:none;font-size:.88rem;">
+          <i class="fa-solid fa-chevron-left"></i> Ordens de Serviço
+        </a>
+        <span style="color:var(--gray-300);margin:0 .4rem">/</span>
+        <span id="topbarOsNum">—</span>
+      </div>
+      <div class="topbar__right">
+        <div class="topbar__user">
+          <div class="topbar__avatar"><i class="fa-solid fa-user"></i></div>
+          <span>Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="content-section active no-print" style="padding:1.5rem 2rem;" id="mainContent">
+
+      <!-- Header da OS -->
+      <div class="os-detail-header">
+        <div class="os-detail-header__left">
+          <h2 id="detHeaderNum">—</h2>
+          <p id="detHeaderMeta">—</p>
+        </div>
+        <div class="os-detail-header__actions">
+          <button class="btn-os-sm btn-os-sm--blue" id="btnEdit">
+            <i class="fa-solid fa-pen"></i> Editar
+          </button>
+          <button class="btn-os-sm btn-os-sm--wa" id="btnWa">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </button>
+          <button class="btn-os-sm btn-os-sm--print" id="btnPrint">
+            <i class="fa-solid fa-print"></i> Imprimir
+          </button>
+          <button class="btn-os-sm btn-os-sm--red" id="btnDelete">
+            <i class="fa-solid fa-trash"></i> Excluir
+          </button>
+        </div>
+      </div>
+
+      <!-- Status selector -->
+      <div class="os-status-select">
+        <label><i class="fa-solid fa-circle-dot"></i> Status atual:</label>
+        <select id="statusSelect">
+          <option value="aguardando_diagnostico">Aguardando Diagnóstico</option>
+          <option value="em_reparo">Em Reparo</option>
+          <option value="aguardando_peca">Aguardando Peça</option>
+          <option value="aguardando_aprovacao">Aguardando Aprovação</option>
+          <option value="concluido">Concluído</option>
+          <option value="entregue">Entregue</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+        <div id="statusBadgeEl"></div>
+        <input type="text" id="statusObs" placeholder="Observação (opcional)" style="flex:1;border:1px solid var(--gray-200);border-radius:8px;padding:.4rem .7rem;font-size:.85rem;max-width:280px;" />
+        <button class="btn-os-primary" id="btnSaveStatus" style="padding:.45rem .9rem;font-size:.83rem;">
+          <i class="fa-solid fa-check"></i> Salvar
+        </button>
+      </div>
+
+      <!-- Info cards row -->
+      <div class="os-grid-2">
+
+        <!-- Cliente -->
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-user"></i> Cliente</div>
+          <div class="os-info-row"><span class="os-info-row__label">Nome</span><span class="os-info-row__value" id="det_cliente_nome">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">CPF</span><span class="os-info-row__value" id="det_cliente_cpf">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Telefone</span><span class="os-info-row__value" id="det_cliente_telefone">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">E-mail</span><span class="os-info-row__value" id="det_cliente_email">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Endereço</span><span class="os-info-row__value" id="det_cliente_endereco">—</span></div>
+        </div>
+
+        <!-- Aparelho -->
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-mobile-screen-button"></i> Aparelho</div>
+          <div class="os-info-row"><span class="os-info-row__label">Marca / Modelo</span><span class="os-info-row__value" id="det_aparelho">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">IMEI</span><span class="os-info-row__value" id="det_imei">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Cor</span><span class="os-info-row__value" id="det_cor">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Senha</span><span class="os-info-row__value" id="det_senha">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Acessórios</span><span class="os-info-row__value" id="det_acessorios">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Condições visuais</span><span class="os-info-row__value" id="det_condicoes">—</span></div>
+        </div>
+
+      </div>
+
+      <!-- Service info row -->
+      <div class="os-grid-3">
+
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-calendar"></i> Datas</div>
+          <div class="os-info-row"><span class="os-info-row__label">Entrada</span><span class="os-info-row__value" id="det_data_entrada">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Previsão</span><span class="os-info-row__value" id="det_previsao">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Conclusão</span><span class="os-info-row__value" id="det_conclusao">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Entrega</span><span class="os-info-row__value" id="det_entrega">—</span></div>
+        </div>
+
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-wrench"></i> Serviço</div>
+          <div class="os-info-row"><span class="os-info-row__label">Técnico</span><span class="os-info-row__value" id="det_tecnico">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Prioridade</span><span class="os-info-row__value" id="det_prioridade">—</span></div>
+          <div class="os-info-row"><span class="os-info-row__label">Pagamento</span><span class="os-info-row__value" id="det_pagamento">—</span></div>
+        </div>
+
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-comment-dots"></i> Problema relatado</div>
+          <p id="det_problema" style="font-size:.88rem;color:var(--gray-700);line-height:1.55;">—</p>
+        </div>
+
+      </div>
+
+      <!-- Laudo técnico -->
+      <div class="os-card" style="margin-bottom:1.25rem;">
+        <div class="os-card__title" style="justify-content:space-between;">
+          <span><i class="fa-solid fa-clipboard-list"></i> Laudo Técnico</span>
+          <button class="btn-os-sm btn-os-sm--blue" id="btnSaveLaudo" style="font-size:.76rem;padding:.25rem .6rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Salvar laudo
+          </button>
+        </div>
+        <div class="laudo-wrap">
+          <textarea id="laudoTextarea" placeholder="Descreva aqui o diagnóstico técnico, causas identificadas e serviços recomendados..."></textarea>
+        </div>
+      </div>
+
+      <!-- Serviços realizados -->
+      <div class="os-card os-table-section" style="margin-bottom:1.25rem;">
+        <div class="section-toolbar">
+          <h4><i class="fa-solid fa-list-check"></i> Serviços Realizados</h4>
+          <button class="btn-os-sm btn-os-sm--blue" id="btnAddServico">
+            <i class="fa-solid fa-plus"></i> Adicionar
+          </button>
+        </div>
+        <table class="os-inner-table" id="servicosTable">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th style="width:120px;text-align:right;">Valor</th>
+              <th style="width:40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="servicosTableBody"></tbody>
+        </table>
+        <div id="addServicoRow" class="add-item-row" style="display:none;">
+          <div class="form-group">
+            <label>Descrição do serviço</label>
+            <input type="text" id="newServicoDesc" placeholder="Ex: Troca de tela" />
+          </div>
+          <div class="form-group" style="max-width:130px;">
+            <label>Valor (R$)</label>
+            <input type="number" id="newServicoValor" min="0" step="0.01" placeholder="0,00" />
+          </div>
+          <div style="display:flex;gap:.4rem;padding-bottom:.1rem;">
+            <button class="btn-os-sm btn-os-sm--green" id="confirmAddServico"><i class="fa-solid fa-check"></i></button>
+            <button class="btn-os-sm btn-os-sm--gray" id="cancelAddServico"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peças utilizadas -->
+      <div class="os-card os-table-section" style="margin-bottom:1.25rem;">
+        <div class="section-toolbar">
+          <h4><i class="fa-solid fa-microchip"></i> Peças Utilizadas</h4>
+          <button class="btn-os-sm btn-os-sm--blue" id="btnAddPeca">
+            <i class="fa-solid fa-plus"></i> Adicionar
+          </button>
+        </div>
+        <table class="os-inner-table" id="pecasTable">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th style="width:70px;text-align:right;">Qtd</th>
+              <th style="width:120px;text-align:right;">Valor unit.</th>
+              <th style="width:120px;text-align:right;">Total</th>
+              <th style="width:40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="pecasTableBody"></tbody>
+        </table>
+        <div id="addPecaRow" class="add-item-row" style="display:none;">
+          <div class="form-group">
+            <label>Descrição da peça</label>
+            <input type="text" id="newPecaDesc" placeholder="Ex: Bateria original" />
+          </div>
+          <div class="form-group" style="max-width:80px;">
+            <label>Qtd</label>
+            <input type="number" id="newPecaQtd" min="1" value="1" />
+          </div>
+          <div class="form-group" style="max-width:130px;">
+            <label>Valor unit. (R$)</label>
+            <input type="number" id="newPecaValor" min="0" step="0.01" placeholder="0,00" />
+          </div>
+          <div style="display:flex;gap:.4rem;padding-bottom:.1rem;">
+            <button class="btn-os-sm btn-os-sm--green" id="confirmAddPeca"><i class="fa-solid fa-check"></i></button>
+            <button class="btn-os-sm btn-os-sm--gray" id="cancelAddPeca"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial + Timeline -->
+      <div class="os-grid-2">
+
+        <!-- Resumo financeiro -->
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-dollar-sign"></i> Resumo Financeiro</div>
+          <div class="os-financial" id="financialSummary"></div>
+          <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem;">
+            <div class="form-group">
+              <label>Forma de pagamento</label>
+              <select id="formaPagamento">
+                <option value="">A definir</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="cartao_credito">Cartão de crédito</option>
+                <option value="cartao_debito">Cartão de débito</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Desconto (R$)</label>
+              <input type="number" id="descontoInput" min="0" step="0.01" placeholder="0,00" value="0" />
+            </div>
+            <div class="form-group">
+              <label>Status de pagamento</label>
+              <select id="statusPagamento">
+                <option value="pendente">Pendente</option>
+                <option value="parcial">Pago parcialmente</option>
+                <option value="pago">Pago</option>
+              </select>
+            </div>
+            <button class="btn-os-primary" id="btnSaveFinancial" style="margin-top:.25rem;">
+              <i class="fa-solid fa-floppy-disk"></i> Salvar financeiro
+            </button>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="os-card">
+          <div class="os-card__title"><i class="fa-solid fa-timeline"></i> Histórico de Status</div>
+          <div class="os-timeline" id="statusTimeline"></div>
+        </div>
+
+      </div>
+
+      <!-- Observações internas -->
+      <div class="os-card" style="margin-bottom:1.25rem;">
+        <div class="os-card__title" style="justify-content:space-between;">
+          <span><i class="fa-solid fa-note-sticky"></i> Observações Internas</span>
+          <button class="btn-os-sm btn-os-sm--blue" id="btnSaveObs" style="font-size:.76rem;padding:.25rem .6rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Salvar
+          </button>
+        </div>
+        <div class="form-group">
+          <textarea id="obsInternasTextarea" rows="3" placeholder="Notas internas da equipe..."></textarea>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /main-wrap -->
+
+  <!-- ══ COMPROVANTE (only shown on print) ══ -->
+  <div class="comprovante print-only" id="comprovante">
+    <div class="comprovante-header">
+      <div>
+        <div class="comprovante-logo">Planeta<span>Celular</span></div>
+        <div style="font-size:9pt;color:#64748B;margin-top:2pt;">Assistência Técnica de Celulares</div>
+        <div style="font-size:8pt;color:#94A3B8;">Tel: (11) 9xxxx-xxxx · contato@planetacelular.com.br</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="comprovante-os" id="comp_numero">—</div>
+        <div style="font-size:9pt;color:#475569;margin-top:2pt;" id="comp_data_entrada">—</div>
+        <div id="comp_status_badge" style="margin-top:4pt;"></div>
+      </div>
+    </div>
+
+    <div class="comprovante-section">
+      <h4>Dados do Cliente</h4>
+      <div class="comprovante-grid">
+        <div class="comprovante-row"><strong>Nome:</strong><span id="comp_cliente_nome">—</span></div>
+        <div class="comprovante-row"><strong>CPF:</strong><span id="comp_cliente_cpf">—</span></div>
+        <div class="comprovante-row"><strong>Telefone:</strong><span id="comp_cliente_telefone">—</span></div>
+        <div class="comprovante-row"><strong>E-mail:</strong><span id="comp_cliente_email">—</span></div>
+        <div class="comprovante-row" style="grid-column:1/-1"><strong>Endereço:</strong><span id="comp_cliente_endereco">—</span></div>
+      </div>
+    </div>
+
+    <div class="comprovante-section">
+      <h4>Dados do Aparelho</h4>
+      <div class="comprovante-grid">
+        <div class="comprovante-row"><strong>Aparelho:</strong><span id="comp_aparelho">—</span></div>
+        <div class="comprovante-row"><strong>IMEI:</strong><span id="comp_imei">—</span></div>
+        <div class="comprovante-row"><strong>Cor:</strong><span id="comp_cor">—</span></div>
+        <div class="comprovante-row"><strong>Senha:</strong><span id="comp_senha">—</span></div>
+        <div class="comprovante-row" style="grid-column:1/-1"><strong>Acessórios:</strong><span id="comp_acessorios">—</span></div>
+        <div class="comprovante-row" style="grid-column:1/-1"><strong>Condições visuais:</strong><span id="comp_condicoes">—</span></div>
+      </div>
+    </div>
+
+    <div class="comprovante-section">
+      <h4>Problema Relatado</h4>
+      <p id="comp_problema" style="font-size:9.5pt;color:#374151;line-height:1.5;">—</p>
+    </div>
+
+    <div class="comprovante-section" id="comp_servicos_section">
+      <h4>Serviços e Peças</h4>
+      <div id="comp_servicos_list"></div>
+    </div>
+
+    <div class="comprovante-section">
+      <h4>Informações Financeiras</h4>
+      <div id="comp_financial"></div>
+      <div class="comprovante-total" id="comp_total">R$ 0,00</div>
+    </div>
+
+    <div class="comprovante-section">
+      <h4>Previsão de Entrega</h4>
+      <p style="font-size:10pt;font-weight:700;color:#0F172A;" id="comp_previsao">—</p>
+    </div>
+
+    <!-- QR Code de consulta pública -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-top:16pt;gap:16pt;">
+      <div class="comprovante-sign-area" style="flex:1;margin-top:0;">
+        <div>Assinatura do Responsável</div>
+        <div>Assinatura do Cliente</div>
+      </div>
+      <div style="text-align:center;flex-shrink:0;">
+        <div id="comp_qrcode" style="width:80pt;height:80pt;"></div>
+        <p style="font-size:7pt;color:#94A3B8;margin-top:4pt;max-width:80pt;">Escaneie para consultar o status da OS</p>
+      </div>
+    </div>
+
+    <div class="comprovante-footer">
+      <p>Planeta Celular — Assistência Técnica · Documento gerado em <span id="comp_gerado_em"></span></p>
+      <p>Guarde este comprovante. O prazo de garantia dos serviços é de 90 dias.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="os-detalhes.js"></script>
+</body>
+</html>

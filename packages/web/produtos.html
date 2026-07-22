@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos — Planeta Celular</title>
+  <meta name="description" content="Celulares seminovos, capinhas, películas, carregadores, fones e acessórios na Planeta Celular. Preços imbatíveis!" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Produtos — Planeta Celular" />
+  <meta property="og:description" content="Smartphones seminovos e acessórios com os melhores preços. Compre na Planeta Celular!" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="produtos.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <header class="navbar scrolled" id="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html#inicio" class="navbar__logo">
+        <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+        <span class="logo-text">Planeta<strong>Celular</strong></span>
+      </a>
+      <nav class="navbar__menu" id="navMenu" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html#inicio">Início</a></li>
+          <li><a href="index.html#servicos">Serviços</a></li>
+          <li><a href="produtos.html" class="nav-active">Produtos</a></li>
+          <li><a href="index.html#sobre">Sobre</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <a href="checkout.html" class="navbar__cart" id="cartIcon" aria-label="Carrinho">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge" id="cartBadge" hidden>0</span>
+      </a>
+      <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento." class="btn btn--whatsapp navbar__cta" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Solicitar Orçamento
+      </a>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── PAGE HERO ── -->
+  <section class="page-hero">
+    <div class="container page-hero__inner">
+      <nav class="breadcrumb" aria-label="Navegação">
+        <a href="index.html">Início</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Produtos</span>
+      </nav>
+      <h1 class="page-hero__title">Nossos <span class="highlight">Produtos</span></h1>
+      <p class="page-hero__desc">Smartphones seminovos e acessórios selecionados com qualidade garantida e os melhores preços da região.</p>
+
+      <!-- Barra de busca -->
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" id="searchInput" placeholder="Buscar produto... (ex: Samsung, capinha, fone)" autocomplete="off" />
+        <button id="clearSearch" class="search-clear" hidden aria-label="Limpar busca">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CATÁLOGO ── -->
+  <main class="catalog section">
+    <div class="container">
+      <div class="catalog__layout">
+
+        <!-- Sidebar de filtros -->
+        <aside class="catalog__sidebar" id="sidebar">
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-solid fa-sliders"></i> Filtros</h3>
+
+            <!-- Categoria -->
+            <div class="filter-group">
+              <h4>Categoria</h4>
+              <label class="filter-check">
+                <input type="radio" name="categoria" value="all" checked /> Todos os produtos
+              </label>
+              <div id="categoriaFilterList"></div>
+            </div>
+
+            <!-- Condição -->
+            <div class="filter-group">
+              <h4>Condição</h4>
+              <label class="filter-check">
+                <input type="checkbox" name="condicao" value="novo" /> Novo
+              </label>
+              <label class="filter-check">
+                <input type="checkbox" name="condicao" value="seminovo" /> Seminovo
+              </label>
+              <label class="filter-check">
+                <input type="checkbox" name="condicao" value="usado" /> Usado
+              </label>
+            </div>
+
+            <!-- Faixa de preço -->
+            <div class="filter-group">
+              <h4>Faixa de preço</h4>
+              <label class="filter-check">
+                <input type="radio" name="preco" value="all" checked /> Qualquer preço
+              </label>
+              <label class="filter-check">
+                <input type="radio" name="preco" value="0-200" /> Até R$ 200
+              </label>
+              <label class="filter-check">
+                <input type="radio" name="preco" value="200-600" /> R$ 200 – R$ 600
+              </label>
+              <label class="filter-check">
+                <input type="radio" name="preco" value="600-1000" /> R$ 600 – R$ 1.000
+              </label>
+              <label class="filter-check">
+                <input type="radio" name="preco" value="1000+" /> Acima de R$ 1.000
+              </label>
+            </div>
+
+            <!-- Marca -->
+            <div class="filter-group">
+              <h4>Marca</h4>
+              <label class="filter-check"><input type="checkbox" name="marca" value="apple" /> Apple</label>
+              <label class="filter-check"><input type="checkbox" name="marca" value="samsung" /> Samsung</label>
+              <label class="filter-check"><input type="checkbox" name="marca" value="motorola" /> Motorola</label>
+              <label class="filter-check"><input type="checkbox" name="marca" value="xiaomi" /> Xiaomi</label>
+              <label class="filter-check"><input type="checkbox" name="marca" value="outros" /> Outros</label>
+            </div>
+
+            <button class="btn btn--outline btn--full" id="clearFilters">
+              <i class="fa-solid fa-rotate-left"></i> Limpar filtros
+            </button>
+          </div>
+
+          <!-- Bloco WhatsApp -->
+          <div class="sidebar-wa">
+            <p>Não encontrou o que procura?</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Não%20encontrei%20o%20produto%20que%20quero%20no%20site." class="btn btn--whatsapp btn--full" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Falar conosco
+            </a>
+          </div>
+        </aside>
+
+        <!-- Grid de produtos -->
+        <div class="catalog__main">
+
+          <!-- Topo do catálogo -->
+          <div class="catalog__topbar">
+            <p class="catalog__count"><span id="productCount">0</span> produtos encontrados</p>
+            <div class="catalog__sort">
+              <label for="sortSelect">Ordenar:</label>
+              <select id="sortSelect">
+                <option value="default">Padrão</option>
+                <option value="price-asc">Menor preço</option>
+                <option value="price-desc">Maior preço</option>
+                <option value="name-asc">A – Z</option>
+              </select>
+            </div>
+            <div class="catalog__view-toggle">
+              <button class="view-btn active" id="viewGrid" aria-label="Grade">
+                <i class="fa-solid fa-grip"></i>
+              </button>
+              <button class="view-btn" id="viewList" aria-label="Lista">
+                <i class="fa-solid fa-list"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filtro mobile rápido -->
+          <button class="filter-toggle-mobile" id="filterToggle">
+            <i class="fa-solid fa-sliders"></i> Filtros
+          </button>
+
+          <!-- Grid — renderizado dinamicamente pelo produtos.js -->
+          <div class="products-grid" id="productsGrid">
+
+            <!-- ── SMARTPHONES ── -->
+            <div class="pcard" data-category="smartphones" data-condicao="seminovo" data-marca="apple" data-price="1799">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=340&h=260&fit=crop&q=80" alt="iPhone 13" loading="lazy" />
+                <span class="pcard__badge pcard__badge--green">Seminovo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20iPhone%2013." target="_blank" rel="noopener" title="Solicitar via WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>iPhone 13</h3>
+                <p>128GB · Preto · iOS 17 · Bateria 92%</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 2.099</span>
+                  <span class="price-new">R$ 1.799</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20iPhone%2013%20seminovo." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="usado" data-marca="apple" data-price="1199">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=340&h=260&fit=crop&q=80" alt="iPhone XR" loading="lazy" />
+                <span class="pcard__badge pcard__badge--blue">Usado</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20iPhone%20XR." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>iPhone XR</h3>
+                <p>64GB · Branco · iOS 16 · Bom estado</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 1.399</span>
+                  <span class="price-new">R$ 1.199</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20iPhone%20XR%20usado." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="seminovo" data-marca="samsung" data-price="999">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1610945264803-c22b62831e4d?w=340&h=260&fit=crop&q=80" alt="Samsung Galaxy A54" loading="lazy" />
+                <span class="pcard__badge pcard__badge--green">Seminovo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Samsung%20Galaxy%20A54." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>Samsung Galaxy A54</h3>
+                <p>128GB · 8GB RAM · Excelente estado</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 1.299</span>
+                  <span class="price-new">R$ 999</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Samsung%20Galaxy%20A54." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="usado" data-marca="samsung" data-price="599">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=340&h=260&fit=crop&q=80" alt="Samsung Galaxy A32" loading="lazy" />
+                <span class="pcard__badge pcard__badge--blue">Usado</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Samsung%20Galaxy%20A32." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>Samsung Galaxy A32</h3>
+                <p>128GB · 4GB RAM · Ótimo custo-benefício</p>
+                <div class="pcard__price">
+                  <span class="price-new">R$ 599</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Samsung%20Galaxy%20A32." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="seminovo" data-marca="motorola" data-price="699">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=340&h=260&fit=crop&q=80" alt="Motorola Moto G84" loading="lazy" />
+                <span class="pcard__badge pcard__badge--green">Seminovo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Motorola%20Moto%20G84." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>Motorola Moto G84</h3>
+                <p>256GB · 12GB RAM · Ótimo estado</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 899</span>
+                  <span class="price-new">R$ 699</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Motorola%20Moto%20G84." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="usado" data-marca="motorola" data-price="479">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=340&h=260&fit=crop&q=80" alt="Motorola Moto G52" loading="lazy" />
+                <span class="pcard__badge pcard__badge--blue">Usado</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Motorola%20Moto%20G52." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>Motorola Moto G52</h3>
+                <p>128GB · 4GB RAM · Estado conservado</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 599</span>
+                  <span class="price-new">R$ 479</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Motorola%20Moto%20G52." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="seminovo" data-marca="xiaomi" data-price="849">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=340&h=260&fit=crop&q=80" alt="Xiaomi Redmi Note 13" loading="lazy" />
+                <span class="pcard__badge pcard__badge--green">Seminovo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Xiaomi%20Redmi%20Note%2013." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>Xiaomi Redmi Note 13</h3>
+                <p>128GB · 6GB RAM · Perfeito estado</p>
+                <div class="pcard__price">
+                  <span class="price-new">R$ 849</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Xiaomi%20Redmi%20Note%2013." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="smartphones" data-condicao="usado" data-marca="xiaomi" data-price="449">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1567581935884-3349723552ca?w=340&h=260&fit=crop&q=80" alt="Xiaomi Redmi 12C" loading="lazy" />
+                <span class="pcard__badge pcard__badge--blue">Usado</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Xiaomi%20Redmi%2012C." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Smartphone</span>
+                <h3>Xiaomi Redmi 12C</h3>
+                <p>128GB · 4GB RAM · Bom estado</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 549</span>
+                  <span class="price-new">R$ 449</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20Xiaomi%20Redmi%2012C." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <!-- ── CAPINHAS ── -->
+            <div class="pcard" data-category="capinhas" data-condicao="novo" data-marca="outros" data-price="35">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1541877944-ac82a091518a?w=340&h=260&fit=crop&q=80" alt="Capinha Anti-Impacto" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20as%20capinhas%20anti-impacto." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Capinha</span>
+                <h3>Capinha Anti-Impacto</h3>
+                <p>Diversas marcas e modelos · Proteção reforçada</p>
+                <div class="pcard__price">
+                  <span class="price-new">A partir de R$ 35</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20as%20capinhas%20disponíveis." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Ver opções
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="capinhas" data-condicao="novo" data-marca="outros" data-price="49">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1601593346740-925612772716?w=340&h=260&fit=crop&q=80" alt="Capinha Transparente Premium" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20as%20capinhas%20transparentes." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Capinha</span>
+                <h3>Capinha Transparente Premium</h3>
+                <p>Acrílico rígido · Anti-amarelamento · Todas as marcas</p>
+                <div class="pcard__price">
+                  <span class="price-new">A partir de R$ 49</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20capinha%20transparente." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Ver opções
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="capinhas" data-condicao="novo" data-marca="outros" data-price="79">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1560343787-02832e6d9517?w=340&h=260&fit=crop&q=80" alt="Capa Carteira com Suporte" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20a%20capa%20carteira." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Capinha</span>
+                <h3>Capa Carteira com Suporte</h3>
+                <p>Couro sintético · Porta-cartões · Suporte magnético</p>
+                <div class="pcard__price">
+                  <span class="price-new">A partir de R$ 79</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20capa%20carteira." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Ver opções
+                </a>
+              </div>
+            </div>
+
+            <!-- ── PELÍCULAS ── -->
+            <div class="pcard" data-category="peliculas" data-condicao="novo" data-marca="outros" data-price="39">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?w=340&h=260&fit=crop&q=80" alt="Película 3D Vidro Temperado" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20película%203D%20de%20vidro%20temperado." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Película</span>
+                <h3>Película 3D Vidro Temperado</h3>
+                <p>9H de dureza · Instalação incluída · Todas as marcas</p>
+                <div class="pcard__price">
+                  <span class="price-new">A partir de R$ 39</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20película%20de%20vidro%20temperado." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="peliculas" data-condicao="novo" data-marca="outros" data-price="59">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=340&h=260&fit=crop&q=80" alt="Película 5D Cobertura Total" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20película%205D." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Película</span>
+                <h3>Película 5D Cobertura Total</h3>
+                <p>Cobre bordas curvas · Anti-reflexo · Instalação incluída</p>
+                <div class="pcard__price">
+                  <span class="price-new">A partir de R$ 59</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20película%205D%20de%20cobertura%20total." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Solicitar
+                </a>
+              </div>
+            </div>
+
+            <!-- ── CARREGADORES ── -->
+            <div class="pcard" data-category="carregadores" data-condicao="novo" data-marca="outros" data-price="59">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=340&h=260&fit=crop&q=80" alt="Carregador Turbo USB-C 65W" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20o%20carregador%20turbo%2065W." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Carregador</span>
+                <h3>Carregador Turbo USB-C 65W</h3>
+                <p>Carga super rápida · Compatível com Android</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 89</span>
+                  <span class="price-new">R$ 59</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20carregador%20turbo%2065W." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="carregadores" data-condicao="novo" data-marca="apple" data-price="89">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1609429019995-8c40f49535a5?w=340&h=260&fit=crop&q=80" alt="Carregador iPhone 20W" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20o%20carregador%20iPhone%2020W." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Carregador</span>
+                <h3>Carregador iPhone Lightning 20W</h3>
+                <p>Carga rápida · MFI certificado · Cabo incluso</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 119</span>
+                  <span class="price-new">R$ 89</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20carregador%20iPhone%2020W." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="carregadores" data-condicao="novo" data-marca="outros" data-price="129">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1618440718421-0788cde0a4e9?w=340&h=260&fit=crop&q=80" alt="Powerbank 10000mAh" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20o%20powerbank%2010000mAh." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Carregador</span>
+                <h3>Powerbank 10.000mAh</h3>
+                <p>Entrada USB-C · 2 saídas USB · Carrega 2x</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 169</span>
+                  <span class="price-new">R$ 129</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20o%20powerbank%2010000mAh." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <!-- ── ÁUDIO ── -->
+            <div class="pcard" data-category="audio" data-condicao="novo" data-marca="outros" data-price="149">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=340&h=260&fit=crop&q=80" alt="Fone TWS Bluetooth" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20o%20fone%20TWS%20bluetooth." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Fone</span>
+                <h3>Fone TWS Bluetooth 5.3</h3>
+                <p>True Wireless · ANC · Bateria 30h · Case de carga</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 199</span>
+                  <span class="price-new">R$ 149</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20fone%20TWS%20bluetooth." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="audio" data-condicao="novo" data-marca="outros" data-price="89">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=340&h=260&fit=crop&q=80" alt="Headphone Over-Ear" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20o%20headphone." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Fone</span>
+                <h3>Headphone Over-Ear Bluetooth</h3>
+                <p>Dobrável · Bateria 20h · Microfone integrado</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 129</span>
+                  <span class="price-new">R$ 89</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20o%20headphone%20over-ear." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="audio" data-condicao="novo" data-marca="outros" data-price="119">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=340&h=260&fit=crop&q=80" alt="Caixa de Som Bluetooth" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20ver%20a%20caixa%20de%20som." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Áudio</span>
+                <h3>Caixa de Som Bluetooth</h3>
+                <p>À prova d'água · 20W · Bateria 12h · USB-C</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 159</span>
+                  <span class="price-new">R$ 119</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20a%20caixa%20de%20som%20bluetooth." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <!-- ── CABOS ── -->
+            <div class="pcard" data-category="cabos" data-condicao="novo" data-marca="outros" data-price="29">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1615526675159-e248c3021d3f?w=340&h=260&fit=crop&q=80" alt="Cabo USB-C" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20cabo%20USB-C." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Cabo</span>
+                <h3>Cabo USB-C Reforçado 2m</h3>
+                <p>Nylon trançado · Carga rápida 60W · Anti-quebra</p>
+                <div class="pcard__price">
+                  <span class="price-new">R$ 29</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20cabo%20USB-C%202m." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="cabos" data-condicao="novo" data-marca="outros" data-price="35">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1601979031925-424e53b6caaa?w=340&h=260&fit=crop&q=80" alt="Cabo Lightning" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20cabo%20Lightning." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Cabo</span>
+                <h3>Cabo Lightning 1m</h3>
+                <p>Compatível iPhone/iPad · Nylon trançado · Carga rápida</p>
+                <div class="pcard__price">
+                  <span class="price-new">R$ 35</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20cabo%20Lightning." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+            <div class="pcard" data-category="cabos" data-condicao="novo" data-marca="outros" data-price="49">
+              <div class="pcard__img">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=340&h=260&fit=crop&q=80" alt="Suporte Veicular" loading="lazy" />
+                <span class="pcard__badge">Novo</span>
+                <div class="pcard__actions">
+                  <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20suporte%20veicular." target="_blank" rel="noopener" title="Solicitar"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+              </div>
+              <div class="pcard__body">
+                <span class="pcard__category">Acessório</span>
+                <h3>Suporte Veicular Magnético</h3>
+                <p>Universal · Fixação no painel · Rotação 360°</p>
+                <div class="pcard__price">
+                  <span class="price-old">R$ 69</span>
+                  <span class="price-new">R$ 49</span>
+                </div>
+                <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20suporte%20veicular." class="btn btn--primary btn--sm btn--full" target="_blank" rel="noopener">
+                  <i class="fa-brands fa-whatsapp"></i> Comprar
+                </a>
+              </div>
+            </div>
+
+          </div><!-- /products-grid -->
+
+          <!-- Sem resultados -->
+          <div class="empty-state" id="emptyState" hidden>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>Nenhum produto encontrado</h3>
+            <p>Tente outros filtros ou fale conosco pelo WhatsApp.</p>
+            <a href="https://wa.me/5511999999999?text=Olá!%20Não%20encontrei%20o%20produto%20que%20procuro." class="btn btn--whatsapp" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Falar conosco
+            </a>
+          </div>
+
+        </div><!-- /catalog__main -->
+      </div><!-- /catalog__layout -->
+    </div>
+  </main>
+
+  <!-- ── CTA BANNER ── -->
+  <section class="cta-banner">
+    <div class="container cta-banner__inner">
+      <div class="cta-banner__content">
+        <h2>Não encontrou o que procura?</h2>
+        <p>Temos muito mais estoque! Fale com a gente pelo WhatsApp e encontraremos o que você precisa.</p>
+      </div>
+      <a href="https://wa.me/5511999999999?text=Olá!%20Procuro%20um%20produto%20específico." class="btn btn--whatsapp btn--lg" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="index.html#inicio" class="navbar__logo">
+          <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+          <span class="logo-text">Planeta<strong>Celular</strong></span>
+        </a>
+        <p>Assistência técnica especializada em celulares, tablets e notebooks. Qualidade e confiança desde 2014.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/5511999999999" aria-label="WhatsApp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer__links">
+        <h4>Links Rápidos</h4>
+        <ul>
+          <li><a href="index.html#inicio">Início</a></li>
+          <li><a href="index.html#servicos">Serviços</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="index.html#sobre">Sobre Nós</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer__links">
+        <h4>Categorias</h4>
+        <ul>
+          <li><a href="produtos.html">Smartphones</a></li>
+          <li><a href="produtos.html">Capinhas</a></li>
+          <li><a href="produtos.html">Películas</a></li>
+          <li><a href="produtos.html">Carregadores</a></li>
+          <li><a href="produtos.html">Fones &amp; Áudio</a></li>
+        </ul>
+      </div>
+      <div class="footer__contact">
+        <h4>Contato</h4>
+        <p><i class="fa-solid fa-location-dot"></i> Rua das Flores, 123 — Centro, SP</p>
+        <p><i class="fa-solid fa-phone"></i> (11) 99999-9999</p>
+        <p><i class="fa-solid fa-envelope"></i> contato@planetacelular.com.br</p>
+        <p><i class="fa-solid fa-clock"></i> Seg–Sex: 9h–18h | Sáb: 9h–14h</p>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <p>&copy; 2025 Planeta Celular. Todos os direitos reservados.</p>
+        <p>Desenvolvido com <i class="fa-solid fa-heart" style="color:#ef4444;"></i> para você</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botão WhatsApp flutuante -->
+  <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20de%20ajuda." class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-float__tooltip">Falar no WhatsApp</span>
+  </a>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Voltar ao topo">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="produtos.js"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #0066FF; --primary-dark: #0050CC;
+      --gray-900: #0F172A; --gray-800: #1E293B;
+      --gray-200: #E2E8F0; --gray-100: #F1F5F9; --white: #FFFFFF;
+      --shadow-md: 0 8px 24px rgba(0,0,0,.12);
+      --radius-lg: 20px; --radius-md: 12px;
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(150deg, #0A1628 0%, #0F172A 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow-md);
+    }
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      text-decoration: none;
+      color: var(--gray-900);
+    }
+    .login-logo .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #0066FF, #00C2FF);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.2rem;
+    }
+    .login-logo .logo-text { font-family: var(--font-heading); font-size: 1.25rem; }
+    .login-logo strong { color: var(--primary); }
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: var(--gray-900);
+      margin-bottom: .35rem;
+      text-align: center;
+    }
+    .login-subtitle {
+      text-align: center;
+      color: #64748B;
+      font-size: .88rem;
+      margin-bottom: 2rem;
+    }
+    .form-group { margin-bottom: 1.1rem; }
+    label { display: block; font-size: .85rem; font-weight: 600; color: #334155; margin-bottom: .4rem; }
+    .input-wrapper {
+      position: relative;
+    }
+    .input-wrapper i {
+      position: absolute;
+      left: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94A3B8;
+      font-size: .9rem;
+    }
+    input {
+      width: 100%;
+      padding: .72rem .9rem .72rem 2.4rem;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: .95rem;
+      font-family: var(--font-body);
+      color: var(--gray-900);
+      transition: border-color .2s;
+      background: var(--gray-100);
+    }
+    input:focus { outline: none; border-color: var(--primary); background: #fff; }
+    input.error { border-color: #EF4444; }
+    .toggle-pw {
+      position: absolute;
+      right: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #94A3B8;
+      font-size: .9rem;
+      padding: .2rem;
+    }
+    .error-msg {
+      font-size: .78rem;
+      color: #EF4444;
+      margin-top: .3rem;
+      font-weight: 500;
+      min-height: 1em;
+    }
+    .btn-login {
+      width: 100%;
+      padding: .85rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+      margin-top: .5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+    .btn-login:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .login-hint {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #F0F7FF;
+      border-radius: var(--radius-md);
+      font-size: .82rem;
+      color: #334155;
+      text-align: center;
+      border: 1px solid #BFDBFE;
+    }
+    .login-hint strong { color: var(--primary); }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1.25rem;
+      font-size: .85rem;
+      color: #64748B;
+      text-decoration: none;
+    }
+    .back-link:hover { color: var(--primary); }
+    .alert-error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+      border-radius: var(--radius-md);
+      padding: .8rem 1rem;
+      font-size: .88rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .alert-error[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <a href="index.html" class="login-logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </a>
+
+    <h2>Acesso ao Painel</h2>
+    <p class="login-subtitle">Entre com suas credenciais de administrador</p>
+
+    <div class="alert-error" id="loginError" hidden>
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="loginErrorMsg">E-mail ou senha incorretos.</span>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" id="email" placeholder="admin@planetacelular.com.br" autocomplete="email" />
+        </div>
+        <p class="error-msg" id="emailErr"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" class="toggle-pw" id="togglePw" aria-label="Mostrar senha">
+            <i class="fa-solid fa-eye" id="togglePwIcon"></i>
+          </button>
+        </div>
+        <p class="error-msg" id="passwordErr"></p>
+      </div>
+
+      <button type="submit" class="btn-login">
+        <i class="fa-solid fa-right-to-bracket"></i> Entrar no Painel
+      </button>
+    </form>
+
+    <div class="login-hint">
+      <strong>👑 Administrador:</strong><br />
+      <strong>admin@demo.com</strong> / <strong>admin123</strong>
+      <br /><br />
+      <strong>👤 Funcionário:</strong><br />
+      <strong>funcionario@demo.com</strong> / <strong>func123</strong>
+    </div>
+
+    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Voltar ao site</a>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script>
+    // Redireciona se já autenticado
+    if (AuthDB.isLoggedIn()) window.location.href = 'painel.html';
+
+    const form     = document.getElementById('loginForm');
+    const emailEl  = document.getElementById('email');
+    const passEl   = document.getElementById('password');
+    const errorBox = document.getElementById('loginError');
+
+    document.getElementById('togglePw').addEventListener('click', () => {
+      const show = passEl.type === 'password';
+      passEl.type = show ? 'text' : 'password';
+      document.getElementById('togglePwIcon').className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    });
+
+    const submitBtn = form.querySelector('.btn-login');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      errorBox.hidden = true;
+      let ok = true;
+
+      if (!emailEl.value.trim()) {
+        document.getElementById('emailErr').textContent = 'Informe o e-mail.';
+        emailEl.classList.add('error'); ok = false;
+      } else {
+        document.getElementById('emailErr').textContent = '';
+        emailEl.classList.remove('error');
+      }
+
+      if (!passEl.value) {
+        document.getElementById('passwordErr').textContent = 'Informe a senha.';
+        passEl.classList.add('error'); ok = false;
+      } else {
+        document.getElementById('passwordErr').textContent = '';
+        passEl.classList.remove('error');
+      }
+
+      if (!ok) return;
+
+      submitBtn.disabled = true;
+      const success = await AuthDB.login(emailEl.value.trim(), passEl.value);
+      submitBtn.disabled = false;
+
+      if (success) {
+        window.location.href = 'painel.html';
+      } else {
+        document.getElementById('loginErrorMsg').textContent = AuthDB.lastError;
+        errorBox.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

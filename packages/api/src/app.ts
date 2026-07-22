@@ -8,6 +8,7 @@ import path from 'path'
 
 import authRoutes from './modules/auth/auth.routes'
 import productRoutes from './modules/products/products.routes'
+import productCategoryRoutes from './modules/products/product-categories.routes'
 import customerRoutes from './modules/customers/customers.routes'
 import orderRoutes from './modules/orders/orders.routes'
 import serviceOrderRoutes from './modules/service-orders/service-orders.routes'
@@ -50,6 +51,7 @@ app.use('/api', checkTenantActive)
 
 // Rotas do tenant — cada grupo com seu requireModule
 app.use('/api/products', requireModule('store'), productRoutes)
+app.use('/api/product-categories', requireModule('store'), productCategoryRoutes)
 app.use('/api/orders', requireModule('store'), orderRoutes)
 app.use('/api/customers', customerRoutes)
 app.use('/api/service-orders', requireModule('service_orders'), serviceOrderRoutes)

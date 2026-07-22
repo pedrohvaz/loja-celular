@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contas — Planeta Celular</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="painel.css" />
+  <link rel="stylesheet" href="fin.css" />
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__logo">
+      <span class="logo-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+      <span class="logo-text">Planeta<strong>Celular</strong></span>
+    </div>
+    <nav class="sidebar__nav">
+      <p class="sidebar__nav-label">Principal</p>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-box"></i> Produtos</a>
+      <a href="painel.html" class="sidebar__link"><i class="fa-solid fa-receipt"></i> Pedidos</a>
+      <p class="sidebar__nav-label">Assistência</p>
+      <a href="os-lista.html" class="sidebar__link"><i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço</a>
+      <p class="sidebar__nav-label">Financeiro</p>
+      <a href="fin-dashboard.html" class="sidebar__link"><i class="fa-solid fa-chart-pie"></i> Painel Financeiro</a>
+      <a href="fin-lancamentos.html" class="sidebar__link"><i class="fa-solid fa-arrow-right-arrow-left"></i> Lançamentos</a>
+      <a href="fin-contas.html?tipo=receber" class="sidebar__link active" id="linkReceber"><i class="fa-solid fa-arrow-trend-up"></i> Contas a Receber</a>
+      <a href="fin-contas.html?tipo=pagar" class="sidebar__link" id="linkPagar"><i class="fa-solid fa-arrow-trend-down"></i> Contas a Pagar</a>
+      <a href="fin-caixa.html" class="sidebar__link"><i class="fa-solid fa-cash-register"></i> Caixa</a>
+      <a href="fin-relatorios.html" class="sidebar__link"><i class="fa-solid fa-file-chart-column"></i> Relatórios</a>
+      <p class="sidebar__nav-label">Loja</p>
+      <a href="index.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-globe"></i> Ver site</a>
+      <a href="consulta-os.html" class="sidebar__link" target="_blank"><i class="fa-solid fa-qrcode"></i> Consulta pública</a>
+    </nav>
+    <button class="sidebar__logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+  </aside>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebarToggle"><i class="fa-solid fa-bars"></i></button>
+      <div class="topbar__breadcrumb"><span id="topbarTitle">Contas a Receber</span></div>
+      <div class="topbar__right">
+        <div class="topbar__user"><div class="topbar__avatar"><i class="fa-solid fa-user"></i></div><span>Admin</span></div>
+      </div>
+    </header>
+
+    <section class="content-section active" style="padding:1.5rem 2rem;">
+
+      <!-- Tabs -->
+      <div style="display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:1.5rem;">
+        <button id="tabReceber" style="padding:.6rem 1.5rem;font-weight:700;font-size:.88rem;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--gray-500);">
+          <i class="fa-solid fa-arrow-trend-up" style="color:#16A34A;margin-right:.3rem;"></i> Contas a Receber
+        </button>
+        <button id="tabPagar" style="padding:.6rem 1.5rem;font-weight:700;font-size:.88rem;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--gray-500);">
+          <i class="fa-solid fa-arrow-trend-down" style="color:#DC2626;margin-right:.3rem;"></i> Contas a Pagar
+        </button>
+      </div>
+
+      <!-- KPI row -->
+      <div class="fin-kpi-grid" id="contasKpi" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:1.25rem;"></div>
+
+      <!-- Toolbar -->
+      <div class="table-toolbar" style="flex-wrap:wrap;gap:.6rem;margin-bottom:1rem;">
+        <div class="search-wrap" style="flex:1;min-width:200px;">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="contasSearch" placeholder="Buscar..." />
+        </div>
+        <select class="toolbar-select" id="contasCatFilter"><option value="">Todas as categorias</option></select>
+        <select class="toolbar-select" id="contasSituacao">
+          <option value="todos">Todos</option>
+          <option value="vencido">Vencidos</option>
+          <option value="hoje">Vence hoje</option>
+          <option value="semana">Próximos 7 dias</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table class="data-table" id="contasTable">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Valor</th>
+              <th>Vencimento</th>
+              <th>Dias em aberto</th>
+              <th>Origem</th>
+              <th width="110">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="contasTableBody"></tbody>
+        </table>
+        <div class="table-empty" id="contasEmpty" hidden>
+          <i class="fa-solid fa-circle-check"></i>
+          <p>Nenhuma conta pendente</p>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- Modal: Registrar Pagamento -->
+  <div class="modal-overlay" id="pgtoModal" hidden>
+    <div class="modal" style="max-width:420px;">
+      <div class="modal__header">
+        <h2>Registrar Pagamento</h2>
+        <button class="modal__close" id="pgtoModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal__body">
+        <input type="hidden" id="pgtoTxId" />
+        <div id="pgtoInfo" style="background:var(--gray-50);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;"></div>
+        <div class="fin-form-row">
+          <div class="fin-form-group">
+            <label>Forma de pagamento *</label>
+            <select id="pgtoForma">
+              <option value="dinheiro">Dinheiro</option>
+              <option value="pix">PIX</option>
+              <option value="cartao_credito">Cartão Crédito</option>
+              <option value="cartao_debito">Cartão Débito</option>
+              <option value="transferencia">Transferência</option>
+            </select>
+          </div>
+          <div class="fin-form-group">
+            <label>Valor recebido (R$)</label>
+            <input type="number" id="pgtoValor" min="0" step="0.01" placeholder="Deixe em branco para valor total" />
+          </div>
+        </div>
+        <div class="fin-form-row cols-1">
+          <div class="fin-form-group">
+            <label>Observação</label>
+            <input type="text" id="pgtoObs" placeholder="Opcional" />
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-outline" id="pgtoCancel">Cancelar</button>
+        <button class="btn-primary" id="pgtoConfirm" style="background:#16A34A;border-color:#16A34A;">
+          <i class="fa-solid fa-circle-check"></i> Confirmar Pagamento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="db.js"></script>
+  <script src="os-db.js"></script>
+  <script src="fin-db.js"></script>
+  <script src="fin-contas.js"></script>
+</body>
+</html>
