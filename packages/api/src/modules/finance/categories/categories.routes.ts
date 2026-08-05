@@ -24,6 +24,8 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
   try {
+    const existing = await prisma.financeCategory.findFirst({ where: { id: req.params.id, tenantId: req.user.tenantId } })
+    if (!existing) return res.status(404).json({ error: 'Categoria não encontrada' })
     const data = schema.partial().parse(req.body)
     return res.json(await prisma.financeCategory.update({ where: { id: req.params.id }, data }))
   } catch (e) { return next(e) }
@@ -31,6 +33,8 @@ router.patch('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
+    const existing = await prisma.financeCategory.findFirst({ where: { id: req.params.id, tenantId: req.user.tenantId } })
+    if (!existing) return res.status(404).json({ error: 'Categoria não encontrada' })
     await prisma.financeCategory.delete({ where: { id: req.params.id } })
     return res.status(204).send()
   } catch (e) { return next(e) }

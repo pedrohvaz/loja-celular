@@ -51,6 +51,8 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
   try {
+    const existing = await prisma.productCategory.findFirst({ where: { id: req.params.id, tenantId: req.user.tenantId } })
+    if (!existing) return res.status(404).json({ error: 'Categoria não encontrada' })
     const body = schema.partial().parse(req.body)
     const data: { name?: string; slug?: string } = {}
     if (body.name !== undefined) data.name = body.name
@@ -61,6 +63,8 @@ router.patch('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
+    const existing = await prisma.productCategory.findFirst({ where: { id: req.params.id, tenantId: req.user.tenantId } })
+    if (!existing) return res.status(404).json({ error: 'Categoria não encontrada' })
     await prisma.productCategory.delete({ where: { id: req.params.id } })
     return res.status(204).send()
   } catch (e) { return next(e) }

@@ -36,13 +36,20 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/:id', async (req, res, next) => {
   try {
+    const existing = await prisma.campaign.findFirst({ where: { id: req.params.id, tenantId: req.user.tenantId } })
+    if (!existing) return res.status(404).json({ error: 'Campanha não encontrada' })
     const data = schema.partial().parse(req.body)
     return res.json(await prisma.campaign.update({ where: { id: req.params.id }, data: { ...data, startDate: data.startDate ? new Date(data.startDate) : undefined, endDate: data.endDate ? new Date(data.endDate) : undefined } }))
   } catch (e) { return next(e) }
 })
 
 router.delete('/:id', async (req, res, next) => {
-  try { await prisma.campaign.delete({ where: { id: req.params.id } }); return res.status(204).send() } catch (e) { return next(e) }
+  try {
+    const existing = await prisma.campaign.findFirst({ where: { id: req.params.id, tenantId: req.user.tenantId } })
+    if (!existing) return res.status(404).json({ error: 'Campanha não encontrada' })
+    await prisma.campaign.delete({ where: { id: req.params.id } })
+    return res.status(204).send()
+  } catch (e) { return next(e) }
 })
 
 export default router
