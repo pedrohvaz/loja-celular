@@ -426,10 +426,16 @@
             </div>
 
             <div class="form-group full-width">
-              <label>URL da imagem *</label>
+              <label>Imagem do produto *</label>
               <div class="img-url-wrap">
-                <input type="url" id="formImage" placeholder="https://images.unsplash.com/..." required />
+                <input type="url" id="formImage" placeholder="https://images.unsplash.com/... (ou envie um arquivo abaixo)" required />
                 <button type="button" class="btn-preview" id="previewImgBtn"><i class="fa-solid fa-eye"></i></button>
+              </div>
+              <div style="margin-top:.5rem;">
+                <label for="formImageFile" style="display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.82rem;color:var(--primary);font-weight:600;">
+                  <i class="fa-solid fa-upload"></i> <span id="uploadImageLabel">Enviar imagem do computador</span>
+                </label>
+                <input type="file" id="formImageFile" accept="image/jpeg,image/png,image/webp,image/gif" hidden />
               </div>
               <span class="err" id="errImage"></span>
               <div class="img-preview" id="imgPreview" hidden>

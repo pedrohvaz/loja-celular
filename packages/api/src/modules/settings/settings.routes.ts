@@ -16,6 +16,19 @@ router.get('/plans', async (_req, res, next) => {
   } catch (err) { return next(err) }
 })
 
+// Rota pública — dados básicos do tenant (nome/telefone/e-mail/whatsapp) para a loja/checkout
+router.get('/public/:slug', async (req, res, next) => {
+  try {
+    const tenant = await prisma.tenant.findUnique({
+      where: { slug: req.params.slug },
+      select: { name: true, phone: true, email: true, settings: true },
+    })
+    if (!tenant) return res.status(404).json({ error: 'Loja não encontrada' })
+    const settings = (tenant.settings as { whatsapp?: string } | null) ?? {}
+    return res.json({ name: tenant.name, phone: tenant.phone, email: tenant.email, whatsapp: settings.whatsapp ?? null })
+  } catch (err) { return next(err) }
+})
+
 router.use(authenticate, checkTenantActive)
 
 // GET tenant info + plan + trial

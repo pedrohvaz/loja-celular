@@ -373,6 +373,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (e.key === 'Enter') { e.preventDefault(); showImgPreview(e.target.value.trim()); }
   });
 
+  document.getElementById('formImageFile').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const label = document.getElementById('uploadImageLabel');
+    const originalLabel = label.textContent;
+    label.textContent = 'Enviando...';
+    try {
+      const url = await UploadDB.upload(file);
+      document.getElementById('formImage').value = url;
+      showImgPreview(url);
+      toast('Imagem enviada!', 'success');
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      label.textContent = originalLabel;
+      e.target.value = '';
+    }
+  });
+
   function clearFormErrors() {
     ['Name','Category','Price','Description','Image'].forEach(f => {
       document.getElementById('err' + f).textContent = '';
@@ -595,7 +614,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try { tenant = await SettingsDB.get(); } catch { /* ignore */ }
     const emp = {
       nome: tenant.name || 'Planeta Celular',
-      telefone: tenant.phone || '(11) 99999-9999',
+      telefone: tenant.settings?.whatsapp || tenant.phone || '(11) 99999-9999',
       endereco: tenant.settings?.endereco || '',
     };
     const nomeEmp = emp.nome;

@@ -5,7 +5,8 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-  const WA_NUMBER = '5511999999999'; // Número da loja (altere aqui)
+  const WA_NUMBER = await WhatsappDB.resolve();
+  WhatsappDB.applyLinks();
 
   const inputOs      = document.getElementById('inputOs');
   const inputCpf     = document.getElementById('inputCpf');

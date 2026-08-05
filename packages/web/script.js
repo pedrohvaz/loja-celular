@@ -4,6 +4,10 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
 
+  /* ── Número real do WhatsApp da loja ── */
+  const waNumber = await WhatsappDB.resolve();
+  WhatsappDB.applyLinks();
+
   /* ── 0. CART BADGE ── */
   function updateCartBadge() {
     const badge = document.getElementById('cartBadge');
@@ -245,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         `Olá! Meu nome é ${nome} (${telefone}).\n\n${mensagem}`
       );
 
-      window.open(`https://wa.me/5511999999999?text=${text}`, '_blank', 'noopener');
+      window.open(`https://wa.me/${waNumber}?text=${text}`, '_blank', 'noopener');
 
       const successEl = document.getElementById('formSuccess');
       successEl.hidden = false;
@@ -383,7 +387,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <a href="consulta-os.html?os=${encodeURIComponent(os.numero_os)}" class="btn btn--primary btn--sm">
               <i class="fa-solid fa-file-lines"></i> Ver detalhes completos
             </a>
-            <a href="https://wa.me/5511999999999?text=${waText}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">
+            <a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">
               <i class="fa-brands fa-whatsapp"></i> Falar com a loja
             </a>
             <button class="btn btn--outline btn--sm" id="homeBtnNova">
@@ -401,7 +405,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <h3>OS não encontrada</h3>
           <p>Não encontramos nenhuma OS com os dados informados.<br/>Verifique se digitou corretamente ou fale com a loja.</p>
           <div class="home-not-found-btns">
-            <a href="https://wa.me/5511999999999?text=${waText}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">
+            <a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">
               <i class="fa-brands fa-whatsapp"></i> Falar com a loja
             </a>
             <button class="btn btn--outline btn--sm" id="homeBtnNova">

@@ -4,6 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
 
+  WhatsappDB.applyLinks();
+
   const grid       = document.getElementById('productsGrid');
   const emptyState = document.getElementById('emptyState');
   const countEl    = document.getElementById('productCount');
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   /* ── Renderizar cards dinamicamente via ProductDB (catálogo público) ── */
   let productsCache = [];
   async function renderCards() {
-    const products = await ProductDB.getAllPublic();
+    const [products, waNumber] = await Promise.all([ProductDB.getAllPublic(), WhatsappDB.resolve()]);
     productsCache = products;
     // Remove cards estáticos e substitui pelos do DB
     grid.innerHTML = '';
@@ -80,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <button class="btn btn--primary btn--sm add-cart-btn" data-id="${p.id}" style="flex:1" ${!p.inStock ? 'disabled style="opacity:.5;cursor:not-allowed"' : ''}>
               <i class="fa-solid fa-cart-plus"></i> ${p.inStock ? 'Adicionar' : 'Indisponível'}
             </button>
-            <a href="https://wa.me/5511999999999?text=${encodeURIComponent(`Olá! Tenho interesse no produto: ${p.name}`)}"
+            <a href="https://wa.me/${waNumber}?text=${encodeURIComponent(`Olá! Tenho interesse no produto: ${p.name}`)}"
                class="btn btn--whatsapp btn--sm" target="_blank" rel="noopener" title="WhatsApp">
               <i class="fa-brands fa-whatsapp"></i>
             </a>

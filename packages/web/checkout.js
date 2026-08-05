@@ -3,6 +3,8 @@
 ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
 
+  WhatsappDB.applyLinks();
+
   let currentStep = 1;
   let selectedShipping = { label: 'Retirar na loja', price: 0 };
   let selectedPayment  = 'pix';
@@ -179,12 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     placedOrderId = order.id;
     finishBtn.disabled = false;
+    const waMessage = buildWaMessage();
     CartDB.clear();
 
     document.getElementById('confirmName').textContent = savedCustomer.nome;
     document.getElementById('confirmOrderId').textContent = placedOrderId;
     document.getElementById('confirmPhone').textContent = savedCustomer.tel;
-    document.getElementById('confirmWaBtn').href = `https://wa.me/5511999999999?text=${buildWaMessage()}`;
+    document.getElementById('confirmWaBtn').href = `https://wa.me/${await WhatsappDB.resolve()}?text=${waMessage}`;
 
     goTo(4);
 

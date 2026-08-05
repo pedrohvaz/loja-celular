@@ -492,6 +492,55 @@ const SettingsDB = {
   async update(data) {
     return apiFetch('/settings', { method: 'PATCH', body: data });
   },
+  /* uso público (loja/checkout, sem login) — só nome/telefone/e-mail */
+  async getPublic() {
+    return apiFetch(`/settings/public/${TENANT_SLUG}`, { auth: false });
+  },
+};
+
+/* ============================================================
+   WhatsappDB — número real da loja para os links "Falar no WhatsApp"
+============================================================ */
+const WhatsappDB = {
+  _number: null,
+
+  async resolve() {
+    if (this._number) return this._number;
+    try {
+      const data = (typeof AuthDB !== 'undefined' && AuthDB.isLoggedIn())
+        ? await SettingsDB.get()
+        : await SettingsDB.getPublic();
+      const raw = data.settings?.whatsapp || data.whatsapp || data.phone || '';
+      const digits = raw.replace(/\D/g, '');
+      this._number = digits ? (digits.length <= 11 ? '55' + digits : digits) : '5511999999999';
+    } catch {
+      this._number = '5511999999999';
+    }
+    return this._number;
+  },
+
+  /* Reescreve os links wa.me/tel: já presentes no DOM com o número real */
+  async applyLinks(root = document) {
+    const number = await this.resolve();
+    root.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
+      a.href = a.href.replace(/wa\.me\/\d+/, `wa.me/${number}`);
+    });
+    root.querySelectorAll('a[href^="tel:+55"]').forEach(a => {
+      a.href = `tel:+${number}`;
+    });
+  },
+};
+
+/* ============================================================
+   UploadDB — Upload de imagem via API ("/upload")
+============================================================ */
+const UploadDB = {
+  async upload(file) {
+    const form = new FormData();
+    form.append('file', file);
+    const res = await apiFetch('/upload', { method: 'POST', body: form, isForm: true });
+    return res.url;
+  },
 };
 
 /* ============================================================

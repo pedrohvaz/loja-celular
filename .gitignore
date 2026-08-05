@@ -6,3 +6,5 @@ dist
 .DS_Store
 
 .vercel
+packages/api/public/uploads/*
+!packages/api/public/uploads/.gitkeep

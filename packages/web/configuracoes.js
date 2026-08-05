@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         nome: tenant.name || '',
         cnpj: tenant.document || '',
         telefone: tenant.phone || '',
+        whatsapp: tenant.settings?.whatsapp || '',
         email: tenant.email || '',
         endereco: tenant.settings?.endereco || '',
         cidade: tenant.settings?.cidade || '',
@@ -130,8 +131,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       document: data.cnpj,
       phone: data.telefone,
       email: data.email,
-      settings: { ...current._settings, endereco: data.endereco, cidade: data.cidade, logo: data.logo },
+      settings: { ...current._settings, whatsapp: data.whatsapp, endereco: data.endereco, cidade: data.cidade, logo: data.logo },
     });
+    WhatsappDB._number = null; // força reler na próxima vez que algum link for montado
   }
 
   /* ── Formas de pagamento ── */
@@ -168,8 +170,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           <input id="empCnpj" value="${e.cnpj || ''}" placeholder="00.000.000/0000-00" />
         </div>
         <div class="cfg-form-group">
-          <label>Telefone / WhatsApp</label>
+          <label>Telefone</label>
           <input id="empTelefone" value="${e.telefone || ''}" placeholder="(00) 00000-0000" />
+        </div>
+        <div class="cfg-form-group">
+          <label>WhatsApp (usado nos botões "Falar no WhatsApp" da loja)</label>
+          <input id="empWhatsapp" value="${e.whatsapp || ''}" placeholder="(00) 00000-0000" />
         </div>
         <div class="cfg-form-group">
           <label>E-mail</label>
@@ -193,6 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             nome:     document.getElementById('empNome').value.trim(),
             cnpj:     document.getElementById('empCnpj').value.trim(),
             telefone: document.getElementById('empTelefone').value.trim(),
+            whatsapp: document.getElementById('empWhatsapp').value.trim(),
             email:    document.getElementById('empEmail').value.trim(),
             endereco: document.getElementById('empEndereco').value.trim(),
             cidade:   document.getElementById('empCidade').value.trim(),
