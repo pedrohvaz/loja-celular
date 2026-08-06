@@ -101,6 +101,16 @@ const ProductDB = {
     return res.data.map(p => this._fromApi(p));
   },
 
+  /* paginado de verdade — usado na tabela de Produtos do painel */
+  async getPage({ page = 1, limit = 20, search, category, inStock } = {}) {
+    const query = { page, limit };
+    if (search) query.search = search;
+    if (category) query.category = category;
+    if (inStock !== undefined && inStock !== '') query.inStock = inStock;
+    const res = await apiFetch('/products', { query });
+    return { data: res.data.map(p => this._fromApi(p)), total: res.total, page: res.page, pages: res.pages };
+  },
+
   async getById(id) {
     const p = await apiFetch(`/products/${id}`);
     return this._fromApi(p);
@@ -205,6 +215,15 @@ const OrderDB = {
   async getAll() {
     const res = await apiFetch('/orders', { query: { limit: 500 } });
     return res.data.map(o => this._fromApi(o));
+  },
+
+  /* paginado de verdade — usado na tabela de Pedidos do painel */
+  async getPage({ page = 1, limit = 20, search, status } = {}) {
+    const query = { page, limit };
+    if (search) query.search = search;
+    if (status) query.status = this._statusToApi[status] || status;
+    const res = await apiFetch('/orders', { query });
+    return { data: res.data.map(o => this._fromApi(o)), total: res.total, page: res.page, pages: res.pages };
   },
 
   /* Checkout público (loja, sem login) — único uso restante de add() */
@@ -350,6 +369,15 @@ const CustomerDB = {
   async getAll() {
     const res = await apiFetch('/customers', { query: { limit: 500 } });
     return res.data.map(c => this._fromApi(c));
+  },
+
+  /* paginado de verdade — usado na tabela de Clientes do painel */
+  async getPage({ page = 1, limit = 20, search, city } = {}) {
+    const query = { page, limit };
+    if (search) query.search = search;
+    if (city) query.city = city;
+    const res = await apiFetch('/customers', { query });
+    return { data: res.data.map(c => this._fromApi(c)), total: res.total, page: res.page, pages: res.pages };
   },
 
   async getById(id) {
@@ -588,4 +616,43 @@ function conditionLabel(key) {
 /* ── Erro de módulo não disponível no plano: mensagem amigável ── */
 function isModuleUnavailableError(e) {
   return /não está disponível no seu plano/i.test(e?.message || '');
+}
+
+/* ── Debounce: atrasa a chamada até parar de digitar ── */
+function debounce(fn, delay = 350) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+/* ── Controles de paginação (Anterior/Próxima + "Página X de Y · N registros") ──
+   containerEl: elemento onde os controles são renderizados
+   info: { page, pages, total }
+   onChange(novaPagina): chamado ao trocar de página */
+function renderPaginationControls(containerEl, info, onChange) {
+  if (!containerEl) return;
+  const { page, pages, total } = info;
+  if (!total || pages <= 1) {
+    containerEl.innerHTML = total
+      ? `<span style="font-size:.8rem;color:var(--gray-500);">${total} registro${total === 1 ? '' : 's'}</span>`
+      : '';
+    return;
+  }
+  containerEl.innerHTML = `
+    <div style="display:flex;align-items:center;gap:.75rem;justify-content:flex-end;padding:.75rem 0;">
+      <span style="font-size:.8rem;color:var(--gray-500);">Página ${page} de ${pages} · ${total} registro${total === 1 ? '' : 's'}</span>
+      <div style="display:flex;gap:.4rem;">
+        <button type="button" class="btn-pagination-prev" ${page <= 1 ? 'disabled' : ''} style="padding:.4rem .75rem;border:1px solid var(--gray-200);border-radius:8px;background:#fff;cursor:${page <= 1 ? 'not-allowed' : 'pointer'};opacity:${page <= 1 ? '.5' : '1'};font-size:.82rem;">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" class="btn-pagination-next" ${page >= pages ? 'disabled' : ''} style="padding:.4rem .75rem;border:1px solid var(--gray-200);border-radius:8px;background:#fff;cursor:${page >= pages ? 'not-allowed' : 'pointer'};opacity:${page >= pages ? '.5' : '1'};font-size:.82rem;">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  `;
+  if (page > 1) containerEl.querySelector('.btn-pagination-prev').addEventListener('click', () => onChange(page - 1));
+  if (page < pages) containerEl.querySelector('.btn-pagination-next').addEventListener('click', () => onChange(page + 1));
 }

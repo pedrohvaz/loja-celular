@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ── Filter state ── */
   const state = { search: '', status: '', tecnico: '', periodo: '' };
+  let osPage = 1;
+  const OS_PAGE_SIZE = 20;
 
   /* ── Stats ── */
   async function renderStats() {
@@ -72,45 +74,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ── Render table ── */
   async function renderTable() {
-    let list = await OSDB.getAll();
-
-    if (state.search) {
-      const q = state.search.toLowerCase();
-      list = list.filter(o =>
-        o.numero_os?.toLowerCase().includes(q) ||
-        o.cliente_nome?.toLowerCase().includes(q) ||
-        o.aparelho_imei?.includes(q) ||
-        o.aparelho_marca?.toLowerCase().includes(q) ||
-        o.aparelho_modelo?.toLowerCase().includes(q)
-      );
-    }
-    if (state.status)  list = list.filter(o => o.status === state.status);
-    if (state.tecnico) list = list.filter(o => o.tecnico === state.tecnico);
-
-    if (state.periodo) {
-      const now = new Date();
-      const startOf = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      list = list.filter(o => {
-        const d = new Date(o.data_entrada);
-        if (state.periodo === 'hoje')   return d >= startOf(now);
-        if (state.periodo === 'semana') {
-          const dow = now.getDay();
-          const weekStart = new Date(now);
-          weekStart.setDate(now.getDate() - dow);
-          return d >= startOf(weekStart);
-        }
-        if (state.periodo === 'mes') return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-        return true;
-      });
-    }
-
-    // Most recent first
-    list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const res = await OSDB.getPage({
+      page: osPage,
+      limit: OS_PAGE_SIZE,
+      search: state.search,
+      status: state.status,
+      tecnico: state.tecnico,
+      periodo: state.periodo,
+    });
+    const list = res.data;
 
     const tbody = document.getElementById('osTableBody');
     const empty = document.getElementById('osEmpty');
     tbody.innerHTML = '';
     empty.hidden = list.length > 0;
+    renderPaginationControls(document.getElementById('osPagination'), res, newPage => {
+      osPage = newPage;
+      renderTable();
+    });
 
     list.forEach(os => {
       const vencida = isVencida(os);
@@ -168,20 +149,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   /* ── Filter bindings ── */
-  document.getElementById('osSearch').addEventListener('input', function () {
-    state.search = this.value.trim().toLowerCase();
+  document.getElementById('osSearch').addEventListener('input', debounce(e => {
+    state.search = e.target.value.trim();
+    osPage = 1;
     renderTable();
-  });
+  }));
   document.getElementById('filterStatus').addEventListener('change', function () {
     state.status = this.value;
+    osPage = 1;
     renderTable();
   });
   document.getElementById('filterTecnico').addEventListener('change', function () {
     state.tecnico = this.value;
+    osPage = 1;
     renderTable();
   });
   document.getElementById('filterPeriodo').addEventListener('change', function () {
     state.periodo = this.value;
+    osPage = 1;
     renderTable();
   });
 

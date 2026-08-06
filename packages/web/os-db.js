@@ -137,6 +137,19 @@ const OSDB = {
     return res.data.map(o => this._fromApi(o));
   },
 
+  _periodoToApi: { hoje: 'today', semana: 'week', mes: 'month' },
+
+  /* paginado de verdade — usado na lista de OS */
+  async getPage({ page = 1, limit = 20, search, status, tecnico, periodo } = {}) {
+    const query = { page, limit };
+    if (search) query.search = search;
+    if (status) query.status = this._statusToApi[status] || status;
+    if (tecnico) query.technician = tecnico;
+    if (periodo) query.period = this._periodoToApi[periodo] || periodo;
+    const res = await apiFetch('/service-orders', { query });
+    return { data: res.data.map(o => this._fromApi(o)), total: res.total, page: res.page, pages: res.pages };
+  },
+
   async getById(id) {
     const o = await apiFetch(`/service-orders/${id}`);
     return this._fromApi(o);

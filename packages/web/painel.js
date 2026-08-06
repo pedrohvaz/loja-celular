@@ -239,23 +239,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   let productSearchVal = '';
   let productCategoryVal = '';
   let productStockVal = '';
+  let productPage = 1;
+  const PRODUCT_PAGE_SIZE = 20;
 
   async function renderProductsTable() {
-    const allProducts = await ProductDB.getAll();
-    let products = allProducts;
-
-    if (productSearchVal) {
-      const q = productSearchVal.toLowerCase();
-      products = products.filter(p => p.name.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q));
-    }
-    if (productCategoryVal) products = products.filter(p => p.category === productCategoryVal);
-    if (productStockVal === 'in')  products = products.filter(p => p.inStock);
-    if (productStockVal === 'out') products = products.filter(p => !p.inStock);
+    const inStock = productStockVal === 'in' ? 'true' : productStockVal === 'out' ? 'false' : undefined;
+    const res = await ProductDB.getPage({
+      page: productPage,
+      limit: PRODUCT_PAGE_SIZE,
+      search: productSearchVal,
+      category: productCategoryVal,
+      inStock,
+    });
+    const products = res.data;
 
     const tbody = document.getElementById('productsTableBody');
     const empty = document.getElementById('productsEmpty');
     tbody.innerHTML = '';
     empty.hidden = products.length > 0;
+    renderPaginationControls(document.getElementById('productsPagination'), res, newPage => {
+      productPage = newPage;
+      renderProductsTable();
+    });
 
     products.forEach(p => {
       const tr = document.createElement('tr');
@@ -310,7 +315,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    document.getElementById('sidebarProdCount').textContent = allProducts.length;
   }
 
   // Bind botão de editar com o produto já carregado (evita nova requisição)
@@ -334,16 +338,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Filters
-  document.getElementById('productSearch').addEventListener('input', function () {
-    productSearchVal = this.value.trim();
+  document.getElementById('productSearch').addEventListener('input', debounce(e => {
+    productSearchVal = e.target.value.trim();
+    productPage = 1;
     renderProductsTable();
-  });
+  }));
   document.getElementById('categoryFilter').addEventListener('change', function () {
     productCategoryVal = this.value;
+    productPage = 1;
     renderProductsTable();
   });
   document.getElementById('stockFilter').addEventListener('change', function () {
     productStockVal = this.value;
+    productPage = 1;
     renderProductsTable();
   });
 
@@ -462,18 +469,21 @@ document.addEventListener('DOMContentLoaded', async () => {
      PEDIDOS
   ════════════════════════════════════ */
   let orderStatusFilterVal = '';
+  let orderPage = 1;
+  const ORDER_PAGE_SIZE = 20;
 
   async function renderOrdersTable() {
-    const allOrders = await OrderDB.getAll();
-    let orders = allOrders;
-    if (orderStatusFilterVal) orders = orders.filter(o => o.status === orderStatusFilterVal);
+    const res = await OrderDB.getPage({ page: orderPage, limit: ORDER_PAGE_SIZE, status: orderStatusFilterVal });
+    const orders = res.data;
 
     const tbody = document.getElementById('ordersTableBody');
     const empty = document.getElementById('ordersEmpty');
     tbody.innerHTML = '';
     empty.hidden = orders.length > 0;
-
-    document.getElementById('sidebarOrderCount').textContent = allOrders.length;
+    renderPaginationControls(document.getElementById('ordersPagination'), res, newPage => {
+      orderPage = newPage;
+      renderOrdersTable();
+    });
 
     orders.forEach(o => {
       const tr = document.createElement('tr');
@@ -540,6 +550,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('orderStatusFilter').addEventListener('change', function () {
     orderStatusFilterVal = this.value;
+    orderPage = 1;
     renderOrdersTable();
   });
 
@@ -710,33 +721,37 @@ document.addEventListener('DOMContentLoaded', async () => {
   ════════════════════════════════════ */
   let customerSearchVal = '';
   let customerCityVal   = '';
+  let customerPage = 1;
+  const CUSTOMER_PAGE_SIZE = 20;
 
   async function renderCustomersTable() {
-    let customers = await CustomerDB.getAll();
     const stats = await CustomerDB.getStats();
     document.getElementById('sidebarCustomerCount').textContent = stats.total;
 
-    // Popula filtro de cidade
-    const cities = [...new Set(customers.map(c => c.cidade).filter(Boolean))].sort();
+    // Popula filtro de cidade (lista completa, independente da paginação da tabela)
+    const allForCities = await CustomerDB.getAll();
+    const cities = [...new Set(allForCities.map(c => c.cidade).filter(Boolean))].sort();
     const cityFilter = document.getElementById('customerCityFilter');
     const citySelected = cityFilter.value;
     cityFilter.innerHTML = '<option value="">Todas as cidades</option>' +
       cities.map(c => `<option value="${c}" ${c === citySelected ? 'selected' : ''}>${c}</option>`).join('');
 
-    if (customerSearchVal) {
-      const q = customerSearchVal.toLowerCase();
-      customers = customers.filter(c =>
-        (c.nome || '').toLowerCase().includes(q) ||
-        (c.telefone || '').includes(q) ||
-        (c.email || '').toLowerCase().includes(q)
-      );
-    }
-    if (customerCityVal) customers = customers.filter(c => c.cidade === customerCityVal);
+    const res = await CustomerDB.getPage({
+      page: customerPage,
+      limit: CUSTOMER_PAGE_SIZE,
+      search: customerSearchVal,
+      city: customerCityVal,
+    });
+    const customers = res.data;
 
     const tbody = document.getElementById('customersTableBody');
     const empty = document.getElementById('customersEmpty');
     tbody.innerHTML = '';
     empty.hidden = customers.length > 0;
+    renderPaginationControls(document.getElementById('customersPagination'), res, newPage => {
+      customerPage = newPage;
+      renderCustomersTable();
+    });
 
     customers.forEach(c => {
       const date = c.createdAt ? new Date(c.createdAt).toLocaleDateString('pt-BR') : '—';
@@ -814,12 +829,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     toast(count > 0 ? `${count} cliente(s) importado(s) dos pedidos.` : 'Nenhum cliente novo encontrado nos pedidos.', 'success');
   });
 
-  document.getElementById('customerSearch').addEventListener('input', function () {
-    customerSearchVal = this.value.trim();
+  document.getElementById('customerSearch').addEventListener('input', debounce(e => {
+    customerSearchVal = e.target.value.trim();
+    customerPage = 1;
     renderCustomersTable();
-  });
+  }));
   document.getElementById('customerCityFilter').addEventListener('change', function () {
     customerCityVal = this.value;
+    customerPage = 1;
     renderCustomersTable();
   });
 

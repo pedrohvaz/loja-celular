@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ── Filtros ── */
   const state = { search: '', tipo: '', cat: '', status: '', pgto: '', periodo: '' };
+  let txPage = 1;
+  const TX_PAGE_SIZE = 20;
 
   /* ── Preenche filtro de categorias ── */
   async function populateCatFilter() {
@@ -40,17 +42,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ── Render table ── */
   async function renderTable() {
-    const f    = buildFilter();
-    const [list, cats] = await Promise.all([FinDB._filter(f), FinDB.getCategories()]);
+    const f = buildFilter();
+    const [totalsList, res, cats] = await Promise.all([
+      FinDB._filter(f),
+      FinDB.getPage({ ...f, page: txPage, limit: TX_PAGE_SIZE }),
+      FinDB.getCategories(),
+    ]);
+    const list = res.data;
     const catById = new Map(cats.map(c => [c.id, c]));
     const tbody = document.getElementById('txTableBody');
     const empty = document.getElementById('txEmpty');
     tbody.innerHTML = '';
     empty.hidden = list.length > 0;
+    renderPaginationControls(document.getElementById('txPagination'), res, newPage => {
+      txPage = newPage;
+      renderTable();
+    });
 
-    // Totalizadores
-    const totalRec = list.filter(t => t.tipo === 'receita' && t.status !== 'cancelado').reduce((s, t) => s + t.valor, 0);
-    const totalDep = list.filter(t => t.tipo === 'despesa' && t.status !== 'cancelado').reduce((s, t) => s + t.valor, 0);
+    // Totalizadores (considerando todos os lançamentos filtrados, não só a página atual)
+    const totalRec = totalsList.filter(t => t.tipo === 'receita' && t.status !== 'cancelado').reduce((s, t) => s + t.valor, 0);
+    const totalDep = totalsList.filter(t => t.tipo === 'despesa' && t.status !== 'cancelado').reduce((s, t) => s + t.valor, 0);
     document.getElementById('txTotals').innerHTML = `
       <span style="background:#DCFCE7;color:#15803D;padding:.3rem .85rem;border-radius:100px;font-size:.82rem;font-weight:700;">
         <i class="fa-solid fa-arrow-trend-up"></i> Receitas: ${formatCurrency(totalRec)}
@@ -61,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       <span style="background:#DBEAFE;color:#1D4ED8;padding:.3rem .85rem;border-radius:100px;font-size:.82rem;font-weight:700;">
         Saldo: ${formatCurrency(totalRec - totalDep)}
       </span>
-      <span style="color:var(--gray-400);font-size:.8rem;padding:.3rem 0;">${list.length} lançamento(s)</span>
+      <span style="color:var(--gray-400);font-size:.8rem;padding:.3rem 0;">${res.total} lançamento(s)</span>
     `;
 
     list.forEach(t => {
@@ -140,12 +151,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   /* ── Filter bindings ── */
-  document.getElementById('txSearch').addEventListener('input', function () { state.search = this.value.trim().toLowerCase(); renderTable(); });
-  document.getElementById('filterTipo').addEventListener('change', function () { state.tipo = this.value; renderTable(); });
-  document.getElementById('filterCat').addEventListener('change', function () { state.cat = this.value; renderTable(); });
-  document.getElementById('filterStatus').addEventListener('change', function () { state.status = this.value; renderTable(); });
-  document.getElementById('filterPgto').addEventListener('change', function () { state.pgto = this.value; renderTable(); });
-  document.getElementById('filterPeriodo').addEventListener('change', function () { state.periodo = this.value; renderTable(); });
+  document.getElementById('txSearch').addEventListener('input', debounce(e => { state.search = e.target.value.trim(); txPage = 1; renderTable(); }));
+  document.getElementById('filterTipo').addEventListener('change', function () { state.tipo = this.value; txPage = 1; renderTable(); });
+  document.getElementById('filterCat').addEventListener('change', function () { state.cat = this.value; txPage = 1; renderTable(); });
+  document.getElementById('filterStatus').addEventListener('change', function () { state.status = this.value; txPage = 1; renderTable(); });
+  document.getElementById('filterPgto').addEventListener('change', function () { state.pgto = this.value; txPage = 1; renderTable(); });
+  document.getElementById('filterPeriodo').addEventListener('change', function () { state.periodo = this.value; txPage = 1; renderTable(); });
 
   /* ── CSV Export ── */
   document.getElementById('btnExportCSV').addEventListener('click', async () => {

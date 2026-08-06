@@ -141,6 +141,20 @@ const FinDB = {
     return list;
   },
 
+  /* paginado de verdade — usado na tabela de Lançamentos */
+  async getPage(f = {}) {
+    const query = { page: f.page || 1, limit: f.limit || 20 };
+    if (f.tipo) query.type = this._tipoToApi[f.tipo];
+    if (f.categoria_id) query.categoryId = f.categoria_id;
+    if (f.status) query.status = this._statusToApi[f.status];
+    if (f.forma_pagamento) query.paymentMethod = f.forma_pagamento;
+    if (f.start) query.dateFrom = f.start;
+    if (f.end) query.dateTo = f.end;
+    if (f.search) query.search = f.search;
+    const res = await apiFetch('/finance/transactions', { query });
+    return { data: res.data.map(t => this._fromApi(t)), total: res.total, page: res.page, pages: res.pages };
+  },
+
   async getReceitas(f = {}) { return this._filter({ ...f, tipo: 'receita' }); },
   async getDespesas(f = {}) { return this._filter({ ...f, tipo: 'despesa' }); },
 
