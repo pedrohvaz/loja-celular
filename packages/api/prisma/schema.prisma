@@ -174,6 +174,7 @@ model User {
   refreshTokens RefreshToken[]
 
   @@unique([email, tenantId])
+  @@index([tenantId])
   @@map("users")
 }
 
@@ -206,6 +207,9 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@index([tenantId])
+  @@index([tenantId, category])
+  @@index([tenantId, inStock])
   @@map("products")
 }
 
@@ -240,6 +244,7 @@ model Customer {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
+  @@index([tenantId])
   @@map("customers")
 }
 
@@ -261,6 +266,8 @@ model Order {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 
+  @@index([tenantId])
+  @@index([tenantId, status])
   @@map("orders")
 }
 
@@ -312,6 +319,8 @@ model ServiceOrder {
   updatedAt DateTime @updatedAt
 
   @@unique([number, tenantId])
+  @@index([tenantId])
+  @@index([tenantId, status])
   @@map("service_orders")
 }
 
@@ -328,6 +337,7 @@ model FinanceCategory {
 
   transactions Transaction[]
 
+  @@index([tenantId])
   @@map("finance_categories")
 }
 
@@ -355,6 +365,10 @@ model Transaction {
   updatedAt       DateTime          @updatedAt
 
   @@unique([number, tenantId])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@index([tenantId, type])
+  @@index([tenantId, transactionDate])
   @@map("transactions")
 }
 
@@ -376,6 +390,8 @@ model CashRegister {
   notes           String?
   status          CashStatus @default(OPEN)
 
+  @@index([tenantId])
+  @@index([tenantId, status])
   @@map("cash_registers")
 }
 
@@ -395,5 +411,6 @@ model Campaign {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 
+  @@index([tenantId])
   @@map("campaigns")
 }

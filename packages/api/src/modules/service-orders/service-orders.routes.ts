@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { authenticate } from '../../shared/middleware/auth'
+import { sensitiveLookupLimiter } from '../../shared/middleware/rateLimit'
 import * as C from './service-orders.controller'
 
 const router = Router()
 
-router.get('/public/:slug/:query', C.getPublic)
+router.get('/public/:slug/:query', sensitiveLookupLimiter, C.getPublic)
 
 router.use(authenticate)
 router.get('/stats', C.stats)

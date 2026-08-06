@@ -241,17 +241,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
     const obs = document.getElementById('aberturaObs').value.trim();
-    await FinDB.abrirCaixa(val, obs);
-    closeAbrirModal();
-    renderAll();
-    toast('Caixa aberto com sucesso!', 'success');
+    const btn = document.getElementById('abrirConfirm');
+    btn.disabled = true;
+    try {
+      await FinDB.abrirCaixa(val, obs);
+      closeAbrirModal();
+      await renderAll();
+      toast('Caixa aberto com sucesso!', 'success');
+    } catch (e) {
+      toast('Não foi possível abrir o caixa: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   /* ════════════════════════════════════
      FECHAR CAIXA
   ════════════════════════════════════ */
   document.getElementById('btnFecharCaixa').addEventListener('click', async () => {
-    const aberto = await FinDB.getCaixaAberto();
+    let aberto;
+    try {
+      aberto = await FinDB.getCaixaAberto();
+    } catch (e) {
+      toast('Não foi possível verificar o caixa: ' + e.message, 'error');
+      return;
+    }
     if (!aberto) return;
 
     const contado = parseFloat(document.getElementById('fechamentoValor').value);
@@ -263,14 +277,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!confirm('Confirmar fechamento do caixa?')) return;
 
-    await FinDB.fecharCaixa(aberto.id, contado, obs);
-    renderAll();
-    toast('Caixa fechado com sucesso!', 'success');
+    const btn = document.getElementById('btnFecharCaixa');
+    btn.disabled = true;
+    try {
+      await FinDB.fecharCaixa(aberto.id, contado, obs);
+      await renderAll();
+      toast('Caixa fechado com sucesso!', 'success');
+    } catch (e) {
+      toast('Não foi possível fechar o caixa: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   /* ── Init ── */
   async function renderAll() {
-    await Promise.all([renderCaixaStatus(), renderCaixaSummary(), renderHistorico()]);
+    try {
+      await Promise.all([renderCaixaStatus(), renderCaixaSummary(), renderHistorico()]);
+    } catch (e) {
+      toast('Erro ao carregar dados do caixa: ' + e.message, 'error');
+    }
   }
 
   await renderAll();

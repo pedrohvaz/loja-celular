@@ -6,7 +6,7 @@ const listSchema = z.object({
   search: z.string().optional(), type: z.string().optional(), categoryId: z.string().optional(),
   status: z.string().optional(), paymentMethod: z.string().optional(),
   dateFrom: z.string().optional(), dateTo: z.string().optional(),
-  page: z.coerce.number().default(1), limit: z.coerce.number().default(20),
+  page: z.coerce.number().default(1), limit: z.coerce.number().int().positive().max(500).default(20),
 })
 const createSchema = z.object({
   type: z.enum(['INCOME', 'EXPENSE']),

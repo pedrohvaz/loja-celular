@@ -7,7 +7,19 @@ async function main() {
   console.log('Seeding database...')
 
   // ── Super Admin ────────────────────────────────────────────────────────────
-  const superAdminHash = await bcrypt.hash('superadmin123', 10)
+  // Em produção, exige SUPER_ADMIN_PASSWORD no ambiente -- nunca usa senha
+  // fixa/previsível fora de desenvolvimento local.
+  const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD
+    ?? (process.env.NODE_ENV === 'production' ? undefined : 'superadmin123')
+
+  if (!superAdminPassword) {
+    throw new Error('SUPER_ADMIN_PASSWORD precisa estar definida no ambiente para rodar o seed em produção.')
+  }
+  if (!process.env.SUPER_ADMIN_PASSWORD) {
+    console.warn('⚠ SUPER_ADMIN_PASSWORD não definida -- usando senha padrão de desenvolvimento. Não faça isso em produção.')
+  }
+
+  const superAdminHash = await bcrypt.hash(superAdminPassword, 10)
   await prisma.superAdmin.upsert({
     where: { email: 'superadmin@sistema.com' },
     update: {},
@@ -48,7 +60,7 @@ async function main() {
   })
 
   console.log(`Plans: ${planBasico.name}, ${planPro.name}`)
-  console.log('Super Admin: superadmin@sistema.com / superadmin123')
+  console.log(`Super Admin: superadmin@sistema.com${process.env.SUPER_ADMIN_PASSWORD ? '' : ' / superadmin123 (dev)'}`)
 
   const tenant = await prisma.tenant.upsert({
     where: { slug: 'demo' },

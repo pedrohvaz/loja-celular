@@ -182,9 +182,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   async function saveAndRecalc(patch) {
     const merged = { ...os, ...patch };
     const totals = calcTotals(merged);
-    await OSDB.update(osId, { ...patch, ...totals });
-    await reload();
-    toast('Salvo com sucesso.', 'success');
+    try {
+      await OSDB.update(osId, { ...patch, ...totals });
+      await reload();
+      toast('Salvo com sucesso.', 'success');
+      return true;
+    } catch (e) {
+      toast('Não foi possível salvar: ' + e.message, 'error');
+      return false;
+    }
   }
 
   function renderFinancial() {
@@ -267,7 +273,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   /* ── Initial render ── */
-  await reload();
+  try {
+    await reload();
+  } catch (e) {
+    toast('Erro ao carregar a OS: ' + e.message, 'error');
+  }
 
   /* ── Status change ── */
   const statusSel = document.getElementById('statusSelect');
@@ -277,23 +287,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btnSaveStatus').addEventListener('click', async () => {
     const novoStatus = statusSel.value;
     const obs = document.getElementById('statusObs').value.trim();
-    await OSDB.setStatus(osId, novoStatus, obs);
-    document.getElementById('statusObs').value = '';
-    await reload();
-    toast('Status atualizado.', 'success');
+    const btn = document.getElementById('btnSaveStatus');
+    btn.disabled = true;
+    try {
+      await OSDB.setStatus(osId, novoStatus, obs);
+      document.getElementById('statusObs').value = '';
+      await reload();
+      toast('Status atualizado.', 'success');
+    } catch (e) {
+      toast('Não foi possível atualizar o status: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   /* ── Laudo save ── */
   document.getElementById('btnSaveLaudo').addEventListener('click', async () => {
-    await OSDB.update(osId, { laudo_tecnico: document.getElementById('laudoTextarea').value.trim() });
-    await reload();
-    toast('Laudo salvo.', 'success');
+    const btn = document.getElementById('btnSaveLaudo');
+    btn.disabled = true;
+    try {
+      await OSDB.update(osId, { laudo_tecnico: document.getElementById('laudoTextarea').value.trim() });
+      await reload();
+      toast('Laudo salvo.', 'success');
+    } catch (e) {
+      toast('Não foi possível salvar o laudo: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   /* ── Obs save ── */
   document.getElementById('btnSaveObs').addEventListener('click', async () => {
-    await OSDB.update(osId, { observacoes_internas: document.getElementById('obsInternasTextarea').value.trim() });
-    toast('Observações salvas.', 'success');
+    const btn = document.getElementById('btnSaveObs');
+    btn.disabled = true;
+    try {
+      await OSDB.update(osId, { observacoes_internas: document.getElementById('obsInternasTextarea').value.trim() });
+      toast('Observações salvas.', 'success');
+    } catch (e) {
+      toast('Não foi possível salvar as observações: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   /* ── Add serviço ── */
@@ -309,7 +343,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const valor = parseFloat(document.getElementById('newServicoValor').value) || 0;
     if (!desc) { toast('Informe a descrição do serviço.', 'error'); return; }
     const arr = [...(os.servicos_realizados || []), { descricao: desc, valor }];
-    await saveAndRecalc({ servicos_realizados: arr });
+    if (!(await saveAndRecalc({ servicos_realizados: arr }))) return;
     document.getElementById('addServicoRow').style.display = 'none';
     document.getElementById('newServicoDesc').value  = '';
     document.getElementById('newServicoValor').value = '';
@@ -329,7 +363,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const valor = parseFloat(document.getElementById('newPecaValor').value) || 0;
     if (!desc) { toast('Informe a descrição da peça.', 'error'); return; }
     const arr = [...(os.pecas_utilizadas || []), { descricao: desc, quantidade: qtd, valor_unitario: valor }];
-    await saveAndRecalc({ pecas_utilizadas: arr });
+    if (!(await saveAndRecalc({ pecas_utilizadas: arr }))) return;
     document.getElementById('addPecaRow').style.display = 'none';
     document.getElementById('newPecaDesc').value  = '';
     document.getElementById('newPecaQtd').value   = '1';
@@ -344,9 +378,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const patch = { forma_pagamento: formaPagamento, status_pagamento: statusPagamento, desconto };
     const merged = { ...os, ...patch };
     const totals = calcTotals(merged);
-    await OSDB.update(osId, { ...patch, ...totals });
-    await reload();
-    toast('Dados financeiros salvos.', 'success');
+    const btn = document.getElementById('btnSaveFinancial');
+    btn.disabled = true;
+    try {
+      await OSDB.update(osId, { ...patch, ...totals });
+      await reload();
+      toast('Dados financeiros salvos.', 'success');
+    } catch (e) {
+      toast('Não foi possível salvar os dados financeiros: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   /* ── Action buttons ── */
@@ -377,7 +419,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('btnDelete').addEventListener('click', async () => {
     if (!confirm(`Excluir a OS ${os.numero_os}? Esta ação não pode ser desfeita.`)) return;
-    await OSDB.delete(osId);
-    window.location.href = 'os-lista.html';
+    const btn = document.getElementById('btnDelete');
+    btn.disabled = true;
+    try {
+      await OSDB.delete(osId);
+      window.location.href = 'os-lista.html';
+    } catch (e) {
+      toast('Não foi possível excluir a OS: ' + e.message, 'error');
+      btn.disabled = false;
+    }
   });
 });

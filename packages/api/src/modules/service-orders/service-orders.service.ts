@@ -76,13 +76,13 @@ export async function getServiceOrder(tenantId: string, id: string) {
 }
 
 export async function getPublicServiceOrder(tenantId: string, query: string) {
+  const digits = query.replace(/\D/g, '')
   const so = await prisma.serviceOrder.findFirst({
     where: {
       tenantId,
       OR: [
         { number: { equals: query, mode: 'insensitive' } },
-        { clientCpf: { contains: query } },
-        { deviceImei: { contains: query } },
+        ...(digits ? [{ clientCpf: { equals: digits } }, { deviceImei: { equals: digits } }] : []),
       ],
     },
     select: {

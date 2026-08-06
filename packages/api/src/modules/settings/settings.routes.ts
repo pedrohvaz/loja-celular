@@ -2,11 +2,12 @@ import { Router } from 'express'
 import { prisma } from '../../shared/utils/prisma'
 import { authenticate, requireAdmin } from '../../shared/middleware/auth'
 import { checkTenantActive } from '../../shared/middleware/tenantGuard'
+import { publicLookupLimiter } from '../../shared/middleware/rateLimit'
 
 const router = Router()
 
 // Rota pública — lista planos disponíveis (usada na landing page)
-router.get('/plans', async (_req, res, next) => {
+router.get('/plans', publicLookupLimiter, async (_req, res, next) => {
   try {
     const plans = await prisma.plan.findMany({
       where: { isActive: true },
@@ -17,7 +18,7 @@ router.get('/plans', async (_req, res, next) => {
 })
 
 // Rota pública — dados básicos do tenant (nome/telefone/e-mail/whatsapp) para a loja/checkout
-router.get('/public/:slug', async (req, res, next) => {
+router.get('/public/:slug', publicLookupLimiter, async (req, res, next) => {
   try {
     const tenant = await prisma.tenant.findUnique({
       where: { slug: req.params.slug },

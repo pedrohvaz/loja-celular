@@ -3,16 +3,19 @@ import { z } from 'zod'
 const serviceItemSchema = z.object({ description: z.string(), value: z.number().min(0) })
 const partItemSchema = z.object({ description: z.string(), quantity: z.number().int().positive(), unitValue: z.number().min(0) })
 
+// Guarda só dígitos -- garante comparação exata (equals) na consulta pública
+const digitsOnly = z.string().optional().transform(v => v ? v.replace(/\D/g, '') || undefined : v)
+
 export const createSOSchema = z.object({
   priority: z.enum(['NORMAL', 'HIGH', 'URGENT']).default('NORMAL'),
   clientName: z.string().min(2),
-  clientCpf: z.string().optional(),
+  clientCpf: digitsOnly,
   clientPhone: z.string().optional(),
   clientEmail: z.string().email().optional().or(z.literal('')),
   clientAddress: z.string().optional(),
   deviceBrand: z.string().min(1),
   deviceModel: z.string().min(1),
-  deviceImei: z.string().optional(),
+  deviceImei: digitsOnly,
   deviceColor: z.string().optional(),
   devicePassword: z.string().optional(),
   accessories: z.array(z.string()).default([]),
@@ -27,13 +30,13 @@ export const createSOSchema = z.object({
 export const updateSOSchema = z.object({
   priority: z.enum(['NORMAL', 'HIGH', 'URGENT']).optional(),
   clientName: z.string().min(2).optional(),
-  clientCpf: z.string().optional(),
+  clientCpf: digitsOnly,
   clientPhone: z.string().optional(),
   clientEmail: z.string().email().optional().or(z.literal('')),
   clientAddress: z.string().optional(),
   deviceBrand: z.string().optional(),
   deviceModel: z.string().optional(),
-  deviceImei: z.string().optional(),
+  deviceImei: digitsOnly,
   deviceColor: z.string().optional(),
   devicePassword: z.string().optional(),
   accessories: z.array(z.string()).optional(),

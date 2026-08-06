@@ -4,7 +4,7 @@ import { OrderStatus } from '@prisma/client'
 import * as Service from './orders.service'
 import { prisma } from '../../shared/utils/prisma'
 
-const listSchema = z.object({ search: z.string().optional(), status: z.string().optional(), page: z.coerce.number().default(1), limit: z.coerce.number().default(20) })
+const listSchema = z.object({ search: z.string().optional(), status: z.string().optional(), page: z.coerce.number().default(1), limit: z.coerce.number().int().positive().max(500).default(20) })
 const createSchema = z.object({
   customer: z.record(z.unknown()),
   items: z.array(z.object({ id: z.string(), name: z.string(), price: z.number(), qty: z.number(), image: z.string().optional(), category: z.string() })),

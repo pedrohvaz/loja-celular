@@ -9,7 +9,7 @@ const listSchema = z.object({
   technician: z.string().optional(),
   period: z.string().optional(),
   page: z.coerce.number().default(1),
-  limit: z.coerce.number().default(20),
+  limit: z.coerce.number().int().positive().max(500).default(20),
 })
 
 export async function list(req: Request, res: Response, next: NextFunction) {

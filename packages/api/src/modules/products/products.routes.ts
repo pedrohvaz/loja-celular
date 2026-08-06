@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { authenticate } from '../../shared/middleware/auth'
+import { publicLookupLimiter } from '../../shared/middleware/rateLimit'
 import * as ProductController from './products.controller'
 
 const router = Router()
 
-router.get('/public/:slug', ProductController.listPublic)
+router.get('/public/:slug', publicLookupLimiter, ProductController.listPublic)
 
 router.use(authenticate)
 router.get('/stats', ProductController.stats)

@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { authenticate } from '../../shared/middleware/auth'
+import { publicLookupLimiter } from '../../shared/middleware/rateLimit'
 import { prisma } from '../../shared/utils/prisma'
 import { z } from 'zod'
 
@@ -23,7 +24,7 @@ function slugify(input: string) {
     .replace(/[^a-z0-9]+/g, '')
 }
 
-router.get('/public/:slug', async (req, res, next) => {
+router.get('/public/:slug', publicLookupLimiter, async (req, res, next) => {
   try {
     const tenant = await prisma.tenant.findUnique({ where: { slug: req.params.slug } })
     if (!tenant) return res.status(404).json({ error: 'Loja nao encontrada' })
