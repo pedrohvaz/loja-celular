@@ -1,7 +1,27 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import path from 'path'
+import fs from 'fs'
+
+// Os scripts das páginas são carregados como <script src="x.js"> clássicos
+// (sem type="module"), que o Vite não empacota nem copia para o dist.
+// Este plugin copia esses .js para o dist mantendo o mesmo caminho.
+function copyClassicScripts(): Plugin {
+  return {
+    name: 'copy-classic-scripts',
+    apply: 'build',
+    closeBundle() {
+      const outDir = path.resolve(__dirname, 'dist')
+      for (const file of fs.readdirSync(__dirname)) {
+        if (file.endsWith('.js')) {
+          fs.copyFileSync(path.resolve(__dirname, file), path.join(outDir, file))
+        }
+      }
+    },
+  }
+}
 
 export default defineConfig({
+  plugins: [copyClassicScripts()],
   build: {
     rollupOptions: {
       input: {

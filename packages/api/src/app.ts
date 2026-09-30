@@ -31,6 +31,9 @@ import { errorHandler } from './shared/utils/errors'
 
 const app = express()
 
+// Atrás do proxy da Vercel: usa o IP real do cliente no rate limiting
+if (process.env.VERCEL) app.set('trust proxy', 1)
+
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
 app.use(cors({
   origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
