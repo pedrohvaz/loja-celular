@@ -38,6 +38,7 @@ export async function login(email: string, password: string, slug: string) {
       role: user.role,
       tenantId: tenant.id,
       tenantName: tenant.name,
+      tenantSlug: tenant.slug,
       tenantModules: tenant.modules,
     },
   }

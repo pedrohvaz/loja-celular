@@ -277,15 +277,21 @@ const AuthDB = {
 
   get lastError() { return this._lastError; },
 
-  async login(email, password) {
+  lastSlug() {
+    try { return localStorage.getItem('pc_login_slug'); } catch { return null; }
+  },
+
+  /* slug = código da loja (cada loja do SaaS tem o seu) */
+  async login(email, password, slug = TENANT_SLUG) {
     try {
       const data = await apiFetch('/auth/login', {
         method: 'POST',
         auth: false,
-        body: { email: (email || '').trim(), password, slug: TENANT_SLUG },
+        body: { email: (email || '').trim(), password, slug },
       });
       ApiClient.tokens.set(data.accessToken, data.refreshToken);
       localStorage.setItem('user', JSON.stringify(data.user));
+      try { localStorage.setItem('pc_login_slug', slug); } catch { /* storage bloqueado */ }
       return true;
     } catch (e) {
       this._lastError = e.message || 'Credenciais inválidas.';
@@ -596,7 +602,16 @@ const UsersDB = {
 ============================================================ */
 const ThemeDB = {
   DEFAULT_COLOR: '#0066FF',
-  CACHE_KEY: 'pc_theme',
+  /* Painel logado: tema da loja do usuário; site público: da loja do site */
+  _usesTenantTheme() {
+    return !!document.querySelector('.sidebar') && AuthDB.isLoggedIn();
+  },
+
+  _cacheKey() {
+    let tenantId = null;
+    try { tenantId = this._usesTenantTheme() && JSON.parse(localStorage.getItem('user') || 'null')?.tenantId; } catch { /* ignore */ }
+    return 'pc_theme_' + (tenantId || TENANT_SLUG);
+  },
   CACHE_TTL: 5 * 60 * 1000,
 
   /* Mistura duas cores hex (#RRGGBB) — peso 0..1 da segunda */
@@ -645,12 +660,12 @@ const ThemeDB = {
   },
 
   _readCache() {
-    try { return JSON.parse(localStorage.getItem(this.CACHE_KEY)); } catch { return null; }
+    try { return JSON.parse(localStorage.getItem(this._cacheKey())); } catch { return null; }
   },
 
   saveCache(theme) {
     try {
-      localStorage.setItem(this.CACHE_KEY, JSON.stringify({
+      localStorage.setItem(this._cacheKey(), JSON.stringify({
         primaryColor: theme.primaryColor || null,
         banner: theme.banner || null,
         ts: Date.now(),
@@ -664,7 +679,9 @@ const ThemeDB = {
     if (cached) this.apply(cached);
     if (cached && Date.now() - cached.ts < this.CACHE_TTL) return;
     try {
-      const data = await SettingsDB.getPublic();
+      const data = this._usesTenantTheme()
+        ? ((await SettingsDB.get()).settings || {})
+        : await SettingsDB.getPublic();
       this.saveCache(data);
       this.apply(data);
     } catch { /* sem API: fica com o cache/padrão */ }

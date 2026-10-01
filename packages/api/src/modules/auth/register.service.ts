@@ -30,9 +30,10 @@ export async function registerTenant(data: {
   phone?: string
 }) {
   const slugExists = await prisma.tenant.findUnique({ where: { slug: data.slug } })
-  if (slugExists) throw new AppError('Este slug já está em uso. Escolha outro.', 409)
+  if (slugExists) throw new AppError('Este código de loja já está em uso. Escolha outro.', 409)
 
-  const plan = data.planId ? await prisma.plan.findUnique({ where: { id: data.planId } }) : null
+  const plan = data.planId ? await prisma.plan.findFirst({ where: { id: data.planId, isActive: true } }) : null
+  if (data.planId && !plan) throw new AppError('Plano não encontrado', 404)
   const modules = plan?.modules ?? ['store', 'service_orders', 'finance', 'sales']
 
   const tenant = await prisma.tenant.create({

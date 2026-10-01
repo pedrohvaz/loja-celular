@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema para Loja de Celular e Assistência Técnica — Planeta Celular</title>
+  <meta name="description" content="Sistema completo para lojas de celular e assistência técnica: PDV, caixa, ordens de serviço, financeiro, estoque, clientes e loja online. Teste grátis por 14 dias." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Planeta Celular — Sistema para Loja de Celular" />
+  <meta property="og:description" content="PDV, ordens de serviço, financeiro e loja online em um só lugar. Teste grátis por 14 dias." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="sistema.css" />
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#topo" class="logo">
+        <span class="logo__icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+        <span class="logo__text">Planeta<strong>Celular</strong></span>
+        <span class="logo__tag">Sistema</span>
+      </a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#planos">Planos</a>
+        <a href="#duvidas">Dúvidas</a>
+        <a href="admin.html" class="nav__login">Entrar</a>
+        <a href="#cadastro" class="btn btn--primary btn--sm">Teste grátis</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero" id="topo">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="pill"><i class="fa-solid fa-bolt"></i> Feito para lojas de celular e assistência técnica</span>
+        <h1 class="hero__title">Sua loja inteira em <span class="grad">um só sistema</span></h1>
+        <p class="hero__subtitle">
+          Venda no balcão, controle o caixa, abra ordens de serviço, acompanhe o financeiro
+          e tenha sua própria loja online — tudo na nuvem, no computador ou no celular.
+        </p>
+        <div class="hero__actions">
+          <a href="#cadastro" class="btn btn--primary btn--lg">Começar teste grátis <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#funcionalidades" class="btn btn--ghost btn--lg">Ver funcionalidades</a>
+        </div>
+        <ul class="hero__trust">
+          <li><i class="fa-solid fa-circle-check"></i> 14 dias grátis</li>
+          <li><i class="fa-solid fa-circle-check"></i> Sem cartão de crédito</li>
+          <li><i class="fa-solid fa-circle-check"></i> Pronto em 2 minutos</li>
+        </ul>
+      </div>
+
+      <!-- Mockup do painel (HTML/CSS, sem imagem) -->
+      <div class="mock" aria-hidden="true">
+        <div class="mock__bar"><span></span><span></span><span></span><em>painel.html</em></div>
+        <div class="mock__body">
+          <aside class="mock__side">
+            <i class="fa-solid fa-chart-line is-active"></i>
+            <i class="fa-solid fa-cash-register"></i>
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <i class="fa-solid fa-box"></i>
+            <i class="fa-solid fa-chart-pie"></i>
+          </aside>
+          <div class="mock__main">
+            <div class="mock__stats">
+              <div><small>Vendas hoje</small><strong>R$ 2.480</strong><b class="up">+18%</b></div>
+              <div><small>OS abertas</small><strong>12</strong><b>3 prontas</b></div>
+              <div><small>Saldo do mês</small><strong>R$ 18,6 mil</strong><b class="up">+9%</b></div>
+            </div>
+            <div class="mock__chart">
+              <span style="--h:42%"></span><span style="--h:58%"></span><span style="--h:36%"></span>
+              <span style="--h:72%"></span><span style="--h:64%"></span><span style="--h:88%"></span>
+              <span style="--h:76%"></span>
+            </div>
+            <div class="mock__rows">
+              <div><i class="fa-solid fa-mobile-screen"></i> OS #1043 · iPhone 13 · Troca de tela <em class="ok">Pronta</em></div>
+              <div><i class="fa-solid fa-receipt"></i> Venda balcão · Capinha + Película <em>PIX</em></div>
+              <div><i class="fa-solid fa-mobile-screen"></i> OS #1044 · Galaxy A54 · Bateria <em class="wait">Em análise</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="mock__float mock__float--1"><i class="fa-brands fa-whatsapp"></i> Cliente avisado: OS pronta</div>
+        <div class="mock__float mock__float--2"><i class="fa-solid fa-qrcode"></i> Consulta de OS pelo QR Code</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FAIXA DE MÓDULOS ══ -->
+  <section class="strip">
+    <div class="container strip__inner">
+      <span><i class="fa-solid fa-cash-register"></i> PDV</span>
+      <span><i class="fa-solid fa-vault"></i> Caixa</span>
+      <span><i class="fa-solid fa-screwdriver-wrench"></i> Ordens de Serviço</span>
+      <span><i class="fa-solid fa-chart-pie"></i> Financeiro</span>
+      <span><i class="fa-solid fa-boxes-stacked"></i> Produtos</span>
+      <span><i class="fa-solid fa-users"></i> Clientes</span>
+      <span><i class="fa-solid fa-globe"></i> Loja online</span>
+      <span><i class="fa-solid fa-bullhorn"></i> Campanhas</span>
+    </div>
+  </section>
+
+  <!-- ══ FUNCIONALIDADES ══ -->
+  <section class="section" id="funcionalidades">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Funcionalidades</span>
+        <h2>Tudo o que sua loja precisa, sem planilha e sem papel</h2>
+        <p>Cada módulo conversa com os outros: uma venda no balcão já entra no caixa e no financeiro; uma OS paga vira receita automaticamente.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-cash-register"></i></div>
+          <h3>PDV — venda no balcão</h3>
+          <p>Venda rápida com busca de produtos, carrinho e desconto.</p>
+          <ul>
+            <li>Dinheiro, PIX, cartão de crédito/débito e transferência</li>
+            <li>Preço conferido no servidor, sem erro de digitação</li>
+            <li>Venda lançada na hora no financeiro</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-vault"></i></div>
+          <h3>Controle de caixa</h3>
+          <p>Abertura e fechamento de caixa com conferência do dia.</p>
+          <ul>
+            <li>Venda só com caixa aberto</li>
+            <li>Conferência do dinheiro: esperado × contado, com a diferença</li>
+            <li>Histórico de caixas anteriores</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+          <h3>Ordens de serviço</h3>
+          <p>Da entrada do aparelho até a entrega, tudo registrado.</p>
+          <ul>
+            <li>Marca, modelo, IMEI, senha, acessórios e estado do aparelho</li>
+            <li>Técnico, laudo, peças, valores, prioridade e status</li>
+            <li>Impressão da OS com QR Code e aviso pelo WhatsApp</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3>Consulta pública de OS</h3>
+          <p>Seu cliente acompanha o conserto sozinho, sem ligar para a loja.</p>
+          <ul>
+            <li>Busca por número da OS, CPF ou IMEI</li>
+            <li>Mostra status e andamento em tempo real</li>
+            <li>Menos telefone tocando, mais tempo na bancada</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-chart-pie"></i></div>
+          <h3>Financeiro completo</h3>
+          <p>Saiba exatamente quanto entra, quanto sai e quanto sobra.</p>
+          <ul>
+            <li>Painel com gráficos de receitas e despesas</li>
+            <li>Contas a pagar e a receber com vencimentos</li>
+            <li>Relatórios por período com exportação em CSV</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <h3>Produtos e estoque</h3>
+          <p>Catálogo organizado com fotos, categorias e preços.</p>
+          <ul>
+            <li>Upload de foto do produto</li>
+            <li>Preço promocional ("de / por")</li>
+            <li>Categorias personalizadas e controle de disponível / esgotado</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-globe"></i></div>
+          <h3>Sua loja online</h3>
+          <p>Um site pronto com a vitrine dos seus produtos e serviços.</p>
+          <ul>
+            <li>Carrinho e checkout — pedidos caem direto no painel</li>
+            <li>Botões de WhatsApp com o número da sua loja</li>
+            <li>Banner e cores com a identidade da sua marca</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-users"></i></div>
+          <h3>Clientes</h3>
+          <p>Cadastro completo para vender de novo e fidelizar.</p>
+          <ul>
+            <li>CPF, telefone, e-mail, endereço e aniversário</li>
+            <li>Importação automática a partir dos pedidos</li>
+            <li>Busca rápida por nome, telefone ou CPF</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-bullhorn"></i></div>
+          <h3>Campanhas</h3>
+          <p>Planeje promoções e ações de marketing da loja.</p>
+          <ul>
+            <li>Período, público e mensagem da campanha</li>
+            <li>Acompanhamento do status de cada ação</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-user-shield"></i></div>
+          <h3>Usuários e permissões</h3>
+          <p>Cada funcionário com seu login.</p>
+          <ul>
+            <li>Perfis de administrador e funcionário</li>
+            <li>Financeiro e configurações só para o dono</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-palette"></i></div>
+          <h3>Com a cara da sua loja</h3>
+          <p>Personalize o sistema e o site em poucos cliques.</p>
+          <ul>
+            <li>Cor principal dos botões e destaques</li>
+            <li>Banner do site com seus textos e imagem</li>
+          </ul>
+        </article>
+
+        <article class="feature">
+          <div class="feature__icon"><i class="fa-solid fa-cloud"></i></div>
+          <h3>Na nuvem, em qualquer tela</h3>
+          <p>Acesse da loja, de casa ou do celular.</p>
+          <ul>
+            <li>Nada para instalar — ou instale como app no celular</li>
+            <li>Modo escuro</li>
+            <li>Dados seguros e separados por loja</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ COMO FUNCIONA ══ -->
+  <section class="section section--alt" id="como-funciona">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Comece a usar hoje mesmo</h2>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="steps__n">1</span>
+          <h3>Crie sua conta</h3>
+          <p>Informe o nome da loja e seus dados. Leva menos de 2 minutos.</p>
+        </li>
+        <li>
+          <span class="steps__n">2</span>
+          <h3>Cadastre seus produtos</h3>
+          <p>Adicione produtos, serviços e funcionários. Personalize cores e banner.</p>
+        </li>
+        <li>
+          <span class="steps__n">3</span>
+          <h3>Venda e acompanhe</h3>
+          <p>Use o PDV, abra OS e veja o resultado do mês no financeiro.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ PLANOS ══ -->
+  <section class="section" id="planos">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Planos</span>
+        <h2>Escolha o plano ideal para sua loja</h2>
+        <p>Todos os planos começam com 14 dias grátis. Sem fidelidade.</p>
+      </div>
+      <div class="plans" id="plansGrid">
+        <div class="plans__loading"><i class="fa-solid fa-spinner fa-spin"></i> Carregando planos...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CADASTRO ══ -->
+  <section class="section section--dark" id="cadastro">
+    <div class="container signup">
+      <div class="signup__text">
+        <span class="eyebrow eyebrow--light">Teste grátis</span>
+        <h2>Crie sua conta e teste por 14 dias</h2>
+        <p>Sem cartão de crédito. Ao final do teste você escolhe se quer continuar.</p>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Acesso a todas as funcionalidades do plano</li>
+          <li><i class="fa-solid fa-check"></i> Site da sua loja já no ar</li>
+          <li><i class="fa-solid fa-check"></i> Categorias financeiras prontas para usar</li>
+        </ul>
+      </div>
+
+      <form class="signup__form" id="signupForm" novalidate>
+        <div class="field">
+          <label for="suTenant">Nome da loja *</label>
+          <input id="suTenant" placeholder="Ex: Cell Center Assistência" maxlength="80" required />
+        </div>
+        <div class="field">
+          <label for="suSlug">Código da loja *</label>
+          <input id="suSlug" placeholder="cell-center" maxlength="40" autocapitalize="none" spellcheck="false" required />
+          <small class="field__hint" id="suSlugHint">Usado para entrar no painel e no endereço do seu site.</small>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="suName">Seu nome *</label>
+            <input id="suName" placeholder="Nome completo" maxlength="80" required />
+          </div>
+          <div class="field">
+            <label for="suPhone">WhatsApp</label>
+            <input id="suPhone" placeholder="(00) 00000-0000" maxlength="20" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="suEmail">E-mail *</label>
+          <input id="suEmail" type="email" placeholder="voce@sualoja.com.br" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="suPassword">Senha *</label>
+            <input id="suPassword" type="password" placeholder="Mínimo 8 caracteres" minlength="8" required />
+          </div>
+          <div class="field">
+            <label for="suPlan">Plano</label>
+            <select id="suPlan"><option value="">Carregando...</option></select>
+          </div>
+        </div>
+        <p class="signup__error" id="suError" hidden></p>
+        <button type="submit" class="btn btn--primary btn--lg btn--block" id="suSubmit">
+          Criar minha conta grátis <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <p class="signup__legal">Já tem conta? <a href="admin.html">Entrar no painel</a></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══ DÚVIDAS ══ -->
+  <section class="section" id="duvidas">
+    <div class="container container--narrow">
+      <div class="section__head">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2>Perguntas comuns</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Preciso instalar alguma coisa?</summary>
+          <p>Não. O sistema funciona no navegador do computador, tablet ou celular. Se preferir, dá para instalar como aplicativo no celular direto pelo navegador.</p>
+        </details>
+        <details>
+          <summary>O teste grátis tem alguma limitação?</summary>
+          <p>Não. Durante os 14 dias você usa todas as funcionalidades do plano escolhido, sem precisar cadastrar cartão.</p>
+        </details>
+        <details>
+          <summary>O que acontece quando o teste acabar?</summary>
+          <p>Você escolhe se quer continuar e contrata o plano. Seus dados ficam guardados — nada é perdido.</p>
+        </details>
+        <details>
+          <summary>Posso ter mais de um funcionário usando?</summary>
+          <p>Sim. Cada funcionário tem o próprio login, com perfil de administrador ou funcionário. A quantidade de usuários depende do plano.</p>
+        </details>
+        <details>
+          <summary>Meus clientes conseguem acompanhar a OS?</summary>
+          <p>Sim. Pela página de consulta, o cliente informa o número da OS, o CPF ou o IMEI e vê o status do conserto. A OS impressa também traz um QR Code.</p>
+        </details>
+        <details>
+          <summary>Meus dados ficam seguros?</summary>
+          <p>Os dados ficam na nuvem, com acesso protegido por senha, e cada loja só enxerga as próprias informações.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA FINAL ══ -->
+  <section class="cta">
+    <div class="container cta__inner">
+      <h2>Pronto para organizar sua loja?</h2>
+      <p>Crie sua conta agora e comece a vender hoje mesmo.</p>
+      <a href="#cadastro" class="btn btn--light btn--lg">Começar teste grátis <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span>© <span id="year"></span> Planeta Celular — Sistema para lojas de celular</span>
+      <nav>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#planos">Planos</a>
+        <a href="admin.html">Entrar</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="api-client.js"></script>
+  <script src="sistema.js"></script>
+</body>
+</html>

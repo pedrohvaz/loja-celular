@@ -184,6 +184,15 @@
 
     <form id="loginForm" novalidate>
       <div class="form-group">
+        <label for="slug">Código da loja</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-store"></i>
+          <input type="text" id="slug" placeholder="minha-loja" autocomplete="organization" autocapitalize="none" spellcheck="false" />
+        </div>
+        <p class="error-msg" id="slugErr"></p>
+      </div>
+
+      <div class="form-group">
         <label for="email">E-mail</label>
         <div class="input-wrapper">
           <i class="fa-solid fa-envelope"></i>
@@ -210,11 +219,7 @@
     </form>
 
     <div class="login-hint">
-      <strong>👑 Administrador:</strong><br />
-      <strong>admin@demo.com</strong> / <strong>admin123</strong>
-      <br /><br />
-      <strong>👤 Funcionário:</strong><br />
-      <strong>funcionario@demo.com</strong> / <strong>func123</strong>
+      Ainda não tem conta? <a href="sistema.html#cadastro"><strong>Teste grátis por 14 dias</strong></a>
     </div>
 
     <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Voltar ao site</a>
@@ -231,6 +236,11 @@
     const emailEl  = document.getElementById('email');
     const passEl   = document.getElementById('password');
     const errorBox = document.getElementById('loginError');
+    const slugEl   = document.getElementById('slug');
+
+    // Código da loja: ?loja= (vindo do cadastro) > último usado > loja padrão do site
+    slugEl.value = new URLSearchParams(location.search).get('loja')
+      || AuthDB.lastSlug() || TENANT_SLUG;
 
     document.getElementById('togglePw').addEventListener('click', () => {
       const show = passEl.type === 'password';
@@ -244,6 +254,14 @@
       e.preventDefault();
       errorBox.hidden = true;
       let ok = true;
+
+      if (!slugEl.value.trim()) {
+        document.getElementById('slugErr').textContent = 'Informe o código da loja.';
+        slugEl.classList.add('error'); ok = false;
+      } else {
+        document.getElementById('slugErr').textContent = '';
+        slugEl.classList.remove('error');
+      }
 
       if (!emailEl.value.trim()) {
         document.getElementById('emailErr').textContent = 'Informe o e-mail.';
@@ -264,7 +282,7 @@
       if (!ok) return;
 
       submitBtn.disabled = true;
-      const success = await AuthDB.login(emailEl.value.trim(), passEl.value);
+      const success = await AuthDB.login(emailEl.value.trim(), passEl.value, slugEl.value.trim().toLowerCase());
       submitBtn.disabled = false;
 
       if (success) {

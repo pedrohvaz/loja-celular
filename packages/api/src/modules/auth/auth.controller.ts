@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { loginSchema } from './auth.schema'
+import { loginSchema, registerSchema } from './auth.schema'
 import * as AuthService from './auth.service'
 import { registerTenant, getTrialStatus } from './register.service'
 import { prisma } from '../../shared/utils/prisma'
@@ -58,7 +58,9 @@ export async function meHandler(req: Request, res: Response, next: NextFunction)
 
 export async function registerHandler(req: Request, res: Response, next: NextFunction) {
   try {
-    const result = await registerTenant(req.body)
+    const parsed = registerSchema.safeParse(req.body)
+    if (!parsed.success) return res.status(422).json({ error: parsed.error.issues[0].message })
+    const result = await registerTenant(parsed.data)
     return res.status(201).json(result)
   } catch (err) {
     return next(err)

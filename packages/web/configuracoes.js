@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const tenant = await SettingsDB.get();
       return {
         nome: tenant.name || '',
+        slug: tenant.slug || '',
         cnpj: tenant.document || '',
         telefone: tenant.phone || '',
         whatsapp: tenant.settings?.whatsapp || '',
@@ -161,7 +162,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     /* ── Dados da empresa ── */
     async empresa() {
       const e = await getEmpresa();
+      const siteUrl = `${location.origin}/?loja=${encodeURIComponent(e.slug || '')}`;
       openPanel('Dados da empresa', `
+        <div style="background:var(--primary-light);border-radius:10px;padding:.8rem 1rem;margin-bottom:1.2rem;font-size:.82rem;line-height:1.6;">
+          <div><strong>Código da loja:</strong> <code>${e.slug || '—'}</code> <span style="color:var(--gray-400);">(usado no login)</span></div>
+          <div><strong>Site da sua loja:</strong> <a href="${siteUrl}" target="_blank" rel="noopener" style="color:var(--primary);word-break:break-all;">${siteUrl}</a></div>
+        </div>
         <div class="cfg-form-group">
           <label>Nome da empresa</label>
           <input id="empNome" value="${e.nome || 'Planeta Celular'}" placeholder="Nome da empresa" />

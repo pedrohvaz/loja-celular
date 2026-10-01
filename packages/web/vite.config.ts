@@ -41,6 +41,7 @@ export default defineConfig({
         finContas: path.resolve(__dirname, 'fin-contas.html'),
         finCaixa: path.resolve(__dirname, 'fin-caixa.html'),
         finRelatorios: path.resolve(__dirname, 'fin-relatorios.html'),
+        sistema: path.resolve(__dirname, 'sistema.html'),
       },
     },
   },
