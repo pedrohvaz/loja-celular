@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Stat cards
     const statsEl = document.getElementById('statsGrid');
     const cards = [
-      { icon: 'fa-box',          label: 'Total de Produtos',    value: stats.total,    color: '#0066FF' },
+      { icon: 'fa-box',          label: 'Total de Produtos',    value: stats.total,    color: 'var(--primary)' },
       { icon: 'fa-circle-check', label: 'Em Estoque',           value: stats.inStock,  color: '#22C55E' },
       { icon: 'fa-circle-xmark', label: 'Sem Estoque',          value: stats.outStock, color: '#EF4444' },
       { icon: 'fa-receipt',      label: 'Pedidos Recebidos',    value: orders.length,  color: '#F59E0B' },
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const finCards = [
         { icon: 'fa-arrow-trend-up',   label: 'Receitas (mês)',  value: formatCurrency(s.receitas_pagas), color: '#16A34A', bg: '#F0FDF4' },
         { icon: 'fa-arrow-trend-down', label: 'Despesas (mês)',  value: formatCurrency(s.despesas_pagas), color: '#DC2626', bg: '#FEF2F2' },
-        { icon: 'fa-scale-balanced',   label: 'Saldo do mês',    value: formatCurrency(s.saldo),          color: s.saldo >= 0 ? '#0066FF' : '#DC2626', bg: '#EFF6FF' },
+        { icon: 'fa-scale-balanced',   label: 'Saldo do mês',    value: formatCurrency(s.saldo),          color: s.saldo >= 0 ? 'var(--primary)' : '#DC2626', bg: 'var(--primary-light)' },
         { icon: 'fa-hourglass-half',   label: 'A receber',       value: formatCurrency(s.a_receber),      color: '#D97706', bg: '#FFFBEB' },
       ];
       finEl.innerHTML = `

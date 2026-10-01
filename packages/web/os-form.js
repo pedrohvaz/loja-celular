@@ -137,9 +137,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         padding:.5rem .85rem; cursor:pointer;
         border-bottom:1px solid #F1F5F9; font-size:.83rem;
         display:flex; align-items:center; gap:.6rem;">
-        <div style="width:28px;height:28px;border-radius:50%;background:#EFF6FF;
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--primary-light);
           display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="fa-solid fa-user" style="font-size:.65rem;color:#0066FF;"></i>
+          <i class="fa-solid fa-user" style="font-size:.65rem;color:var(--primary);"></i>
         </div>
         <div>
           <strong style="color:#0F172A">${c.nome}</strong>

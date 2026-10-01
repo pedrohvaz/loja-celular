@@ -17,7 +17,7 @@ router.get('/plans', publicLookupLimiter, async (_req, res, next) => {
   } catch (err) { return next(err) }
 })
 
-// Rota pública — dados básicos do tenant (nome/telefone/e-mail/whatsapp) para a loja/checkout
+// Rota pública — dados básicos do tenant (nome/contato/aparência) para a loja/checkout
 router.get('/public/:slug', publicLookupLimiter, async (req, res, next) => {
   try {
     const tenant = await prisma.tenant.findUnique({
@@ -25,8 +25,15 @@ router.get('/public/:slug', publicLookupLimiter, async (req, res, next) => {
       select: { name: true, phone: true, email: true, settings: true },
     })
     if (!tenant) return res.status(404).json({ error: 'Loja não encontrada' })
-    const settings = (tenant.settings as { whatsapp?: string } | null) ?? {}
-    return res.json({ name: tenant.name, phone: tenant.phone, email: tenant.email, whatsapp: settings.whatsapp ?? null })
+    const settings = (tenant.settings as { whatsapp?: string; primaryColor?: string; banner?: unknown } | null) ?? {}
+    return res.json({
+      name: tenant.name,
+      phone: tenant.phone,
+      email: tenant.email,
+      whatsapp: settings.whatsapp ?? null,
+      primaryColor: settings.primaryColor ?? null,
+      banner: settings.banner ?? null,
+    })
   } catch (err) { return next(err) }
 })
 
@@ -47,6 +54,9 @@ router.get('/', async (req, res, next) => {
 router.patch('/', requireAdmin, async (req, res, next) => {
   try {
     const { name, phone, email, document, settings } = req.body
+    if (settings?.primaryColor != null && !/^#[0-9a-fA-F]{6}$/.test(settings.primaryColor)) {
+      return res.status(400).json({ error: 'Cor inválida. Use o formato #RRGGBB.' })
+    }
     const tenant = await prisma.tenant.update({
       where: { id: req.user.tenantId },
       data: {

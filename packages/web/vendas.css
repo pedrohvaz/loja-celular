@@ -44,7 +44,7 @@
 
 .pos-search-bar input:focus {
   outline: none;
-  border-color: var(--primary, #0066FF);
+  border-color: var(--primary, var(--primary));
   background-color: #fff;
 }
 
@@ -73,8 +73,8 @@
   transition: all .15s;
   font-family: inherit;
 }
-.pos-cat-btn:hover  { border-color: var(--primary, #0066FF); color: var(--primary, #0066FF); }
-.pos-cat-btn.active { background: var(--primary, #0066FF); border-color: var(--primary, #0066FF); color: #fff; }
+.pos-cat-btn:hover  { border-color: var(--primary, var(--primary)); color: var(--primary, var(--primary)); }
+.pos-cat-btn.active { background: var(--primary, var(--primary)); border-color: var(--primary, var(--primary)); color: #fff; }
 
 /* Grade de produtos */
 .pos-grid {
@@ -98,7 +98,7 @@
   transition: box-shadow .15s, border-color .15s;
   background: #fff;
 }
-.pos-prod-card:hover { border-color: var(--primary, #0066FF); box-shadow: 0 2px 10px rgba(0,102,255,.1); }
+.pos-prod-card:hover { border-color: var(--primary, var(--primary)); box-shadow: 0 2px 10px color-mix(in srgb, var(--primary) 10%, transparent); }
 
 .pos-prod-img img {
   width: 100%;
@@ -123,14 +123,14 @@
 .pos-prod-price {
   font-size: .9rem;
   font-weight: 800;
-  color: var(--primary, #0066FF);
+  color: var(--primary, var(--primary));
 }
 
 .pos-prod-add {
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: var(--primary, #0066FF);
+  background: var(--primary, var(--primary));
   color: #fff;
   border: none;
   cursor: pointer;
@@ -143,7 +143,7 @@
   transition: background .15s, transform .1s;
   flex-shrink: 0;
 }
-.pos-prod-add:hover  { background: #0050CC; }
+.pos-prod-add:hover  { background: var(--primary-dark); }
 .pos-prod-add:active { transform: scale(.92); }
 
 .pos-grid-empty {
@@ -302,7 +302,7 @@
   background: #fff;
   transition: border-color .15s;
 }
-.pos-input-row input:focus { outline: none; border-color: var(--primary, #0066FF); }
+.pos-input-row input:focus { outline: none; border-color: var(--primary, var(--primary)); }
 
 /* Totais */
 .pos-totals {
@@ -355,8 +355,8 @@
   gap: .3rem;
   font-family: inherit;
 }
-.pos-pgto-btn:hover  { border-color: var(--primary, #0066FF); color: var(--primary, #0066FF); }
-.pos-pgto-btn.active { background: var(--primary, #0066FF); border-color: var(--primary, #0066FF); color: #fff; }
+.pos-pgto-btn:hover  { border-color: var(--primary, var(--primary)); color: var(--primary, var(--primary)); }
+.pos-pgto-btn.active { background: var(--primary, var(--primary)); border-color: var(--primary, var(--primary)); color: #fff; }
 
 /* Troco */
 .pos-troco-display {

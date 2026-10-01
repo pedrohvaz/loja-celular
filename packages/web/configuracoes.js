@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const finNav = document.getElementById('financeiroNav');
     if (finNav) finNav.style.display = 'none';
     document.getElementById('cfgUsuariosItem').style.display = 'none';
+    document.getElementById('cfgAparenciaItem').style.display = 'none';
   }
 
   /* ── Toast ── */
@@ -212,6 +213,128 @@ document.addEventListener('DOMContentLoaded', async () => {
         showToast('Dados da empresa salvos!');
         closePanel();
       });
+    },
+
+    /* ── Aparência: cor principal + banner do site (apenas admin) ── */
+    async aparencia() {
+      if (!isAdmin) return;
+      let tenant;
+      try { tenant = await SettingsDB.get(); } catch (e) { showToast(e.message, 'error'); return; }
+      const settings = tenant.settings || {};
+      const savedColor = ThemeDB.isValidColor(settings.primaryColor) ? settings.primaryColor : ThemeDB.DEFAULT_COLOR;
+      const b = settings.banner || {};
+      const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      const PRESETS = ['#0066FF', '#7C3AED', '#DB2777', '#DC2626', '#EA580C', '#CA8A04', '#16A34A', '#0D9488', '#0F172A'];
+
+      openPanel('Aparência', `
+        <div class="cfg-section-label" style="margin-bottom:.6rem;">Cor principal</div>
+        <p style="font-size:.8rem;color:var(--gray-400);margin-bottom:.8rem;">
+          Usada nos botões, links e destaques do painel e do site.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
+          ${PRESETS.map(c => `<button type="button" class="theme-swatch" data-color="${c}" title="${c}"
+              style="width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--gray-300);background:${c};cursor:pointer;"></button>`).join('')}
+        </div>
+        <div class="cfg-form-group" style="display:flex;gap:.6rem;align-items:center;">
+          <input type="color" id="themeColorPicker" value="${savedColor}" style="width:52px;height:40px;padding:2px;cursor:pointer;" />
+          <input id="themeColorHex" value="${savedColor}" maxlength="7" placeholder="#0066FF" style="flex:1;font-family:monospace;" />
+        </div>
+        <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1.4rem;">
+          <span style="font-size:.78rem;color:var(--gray-400);">Prévia:</span>
+          <button type="button" class="btn-primary" style="pointer-events:none;"><i class="fa-solid fa-check"></i> Botão</button>
+          <span style="color:var(--primary);font-weight:700;font-size:.85rem;">Link / destaque</span>
+        </div>
+
+        <div class="cfg-section-label" style="margin-bottom:.6rem;">Banner do site (página inicial)</div>
+        <p style="font-size:.8rem;color:var(--gray-400);margin-bottom:.8rem;">
+          Campos vazios mantêm o texto padrão do site.
+        </p>
+        <div class="cfg-form-group"><label>Selo (texto pequeno acima do título)</label>
+          <input id="bnBadge" value="${esc(b.badge)}" placeholder="Garantia de 90 dias em todos os serviços" /></div>
+        <div class="cfg-form-group"><label>Título</label>
+          <input id="bnTitle" value="${esc(b.title)}" placeholder="Seu celular com problema?" /></div>
+        <div class="cfg-form-group"><label>Destaque do título (na cor principal)</label>
+          <input id="bnHighlight" value="${esc(b.highlight)}" placeholder="A gente resolve!" /></div>
+        <div class="cfg-form-group"><label>Subtítulo</label>
+          <textarea id="bnSubtitle" rows="3" placeholder="Assistência técnica especializada...">${esc(b.subtitle)}</textarea></div>
+        <div class="cfg-form-group"><label>Imagem do banner (URL ou envie um arquivo)</label>
+          <input id="bnImage" value="${esc(b.image)}" placeholder="https://..." />
+          <input type="file" id="bnImageFile" accept="image/jpeg,image/png,image/webp" style="margin-top:.5rem;" />
+          <img id="bnImagePreview" src="${esc(b.image)}" alt="" style="margin-top:.6rem;max-width:100%;border-radius:8px;${b.image ? '' : 'display:none;'}" />
+        </div>
+
+        <button type="button" id="themeReset" style="width:100%;padding:.55rem;border:1.5px dashed var(--gray-300);background:none;color:var(--gray-500);border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;">
+          <i class="fa-solid fa-rotate-left"></i> Restaurar aparência padrão
+        </button>
+      `, async () => {
+        const color = hexInput.value.trim();
+        if (!ThemeDB.isValidColor(color)) { showToast('Cor inválida. Use o formato #RRGGBB.', 'error'); return; }
+        const banner = {
+          badge:     document.getElementById('bnBadge').value.trim(),
+          title:     document.getElementById('bnTitle').value.trim(),
+          highlight: document.getElementById('bnHighlight').value.trim(),
+          subtitle:  document.getElementById('bnSubtitle').value.trim(),
+          image:     imageInput.value.trim(),
+        };
+        try {
+          const updated = await SettingsDB.update({ settings: { ...settings, primaryColor: color, banner } });
+          ThemeDB.saveCache(updated.settings || { primaryColor: color, banner });
+        } catch (e) { showToast(e.message, 'error'); return; }
+        saved = true;
+        showToast('Aparência salva! Já vale no painel e no site.');
+        closePanel();
+      });
+
+      const picker = document.getElementById('themeColorPicker');
+      const hexInput = document.getElementById('themeColorHex');
+      const imageInput = document.getElementById('bnImage');
+      const preview = document.getElementById('bnImagePreview');
+      let saved = false;
+
+      // Prévia ao vivo: aplica a cor enquanto escolhe
+      function setColor(c) {
+        picker.value = c; hexInput.value = c;
+        ThemeDB.applyColor(c);
+      }
+      panelBody.querySelectorAll('.theme-swatch').forEach(btn =>
+        btn.addEventListener('click', () => setColor(btn.dataset.color)));
+      picker.addEventListener('input', () => setColor(picker.value));
+      hexInput.addEventListener('input', () => {
+        const v = hexInput.value.trim();
+        if (ThemeDB.isValidColor(v)) { picker.value = v; ThemeDB.applyColor(v); }
+      });
+
+      imageInput.addEventListener('input', () => {
+        preview.src = imageInput.value.trim();
+        preview.style.display = imageInput.value.trim() ? '' : 'none';
+      });
+      document.getElementById('bnImageFile').addEventListener('change', async e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+          showToast('Enviando imagem...', 'info');
+          imageInput.value = await UploadDB.upload(file);
+          imageInput.dispatchEvent(new Event('input'));
+          showToast('Imagem enviada!');
+        } catch (err) { showToast(err.message, 'error'); }
+      });
+
+      document.getElementById('themeReset').addEventListener('click', () => {
+        setColor(ThemeDB.DEFAULT_COLOR);
+        ['bnBadge', 'bnTitle', 'bnHighlight', 'bnSubtitle', 'bnImage'].forEach(id => { document.getElementById(id).value = ''; });
+        imageInput.dispatchEvent(new Event('input'));
+        showToast('Padrão restaurado — clique em Salvar para confirmar.', 'info');
+      });
+
+      // Fechou sem salvar: desfaz a prévia
+      const restoreIfUnsaved = () => {
+        if (!saved) ThemeDB.applyColor(savedColor);
+        document.getElementById('cfgPanelBack').removeEventListener('click', restoreIfUnsaved);
+        overlay.removeEventListener('click', onOverlay);
+      };
+      const onOverlay = e => { if (e.target === overlay) restoreIfUnsaved(); };
+      document.getElementById('cfgPanelBack').addEventListener('click', restoreIfUnsaved);
+      overlay.addEventListener('click', onOverlay);
     },
 
     /* ── Usuários (apenas admin) ── */
@@ -516,7 +639,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
         <div class="cfg-list">
           <div class="cfg-item" style="cursor:default;">
-            <div class="cfg-item__icon" style="background:#E8F0FF;color:#0066FF;"><i class="fa-brands fa-chrome"></i></div>
+            <div class="cfg-item__icon" style="background:var(--primary-light);color:var(--primary);"><i class="fa-brands fa-chrome"></i></div>
             <div class="cfg-item__body">
               <div class="cfg-item__label">Chrome / Edge</div>
               <div class="cfg-item__sub">Menu (⋮) → "Instalar aplicativo"</div>

@@ -159,12 +159,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         datasets: [{
           label: 'Receita (R$)',
           data:  data.map(d => d.valor),
-          borderColor: '#0066FF',
-          backgroundColor: 'rgba(0,102,255,.08)',
+          borderColor: ThemeDB.color(),
+          backgroundColor: ThemeDB.color() + '14',
           fill: true,
           tension: .35,
           pointRadius: 3,
-          pointBackgroundColor: '#0066FF',
+          pointBackgroundColor: ThemeDB.color(),
         }],
       },
       options: {

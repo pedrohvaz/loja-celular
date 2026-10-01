@@ -97,7 +97,7 @@ img { display: block; max-width: 100%; }
 }
 .sidebar__link i { width: 18px; text-align: center; font-size: .95rem; }
 .sidebar__link:hover { background: rgba(255,255,255,.07); color: var(--white); }
-.sidebar__link.active { background: rgba(0,102,255,.25); color: var(--white); }
+.sidebar__link.active { background: color-mix(in srgb, var(--primary) 25%, transparent); color: var(--white); }
 .sidebar__link.active::before {
   content: '';
   position: absolute;

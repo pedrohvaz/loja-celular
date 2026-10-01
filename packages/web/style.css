@@ -1,6 +1,6 @@
 /* ============================================================
    PLANETA CELULAR — style.css
-   Paleta: azul elétrico #0066FF + branco + cinza escuro
+   Paleta: azul elétrico var(--primary) + branco + cinza escuro
    Fontes: Poppins (títulos) + Inter (texto)
 ============================================================ */
 
@@ -35,7 +35,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, .06);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, .10);
   --shadow-lg: 0 20px 48px rgba(0, 0, 0, .14);
-  --shadow-blue: 0 8px 32px rgba(0, 102, 255, .25);
+  --shadow-blue: 0 8px 32px color-mix(in srgb, var(--primary) 25%, transparent);
 
   --transition: .3s cubic-bezier(.4, 0, .2, 1);
   --navbar-h: 72px;
@@ -120,7 +120,7 @@ input, textarea { font-family: inherit; }
 .btn--primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 12px 36px rgba(0, 102, 255, .35);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 .btn--whatsapp {
   background: var(--whatsapp);
@@ -292,7 +292,7 @@ input, textarea { font-family: inherit; }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 70% at 70% 40%, rgba(0,102,255,.18), transparent);
+  background: radial-gradient(ellipse 60% 70% at 70% 40%, color-mix(in srgb, var(--primary) 18%, transparent), transparent);
   pointer-events: none;
 }
 .hero__inner {
@@ -306,8 +306,8 @@ input, textarea { font-family: inherit; }
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  background: rgba(0,102,255,.15);
-  border: 1px solid rgba(0,102,255,.3);
+  background: color-mix(in srgb, var(--primary) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
   color: var(--accent);
   font-size: .8rem;
   font-weight: 600;
@@ -643,7 +643,7 @@ input, textarea { font-family: inherit; }
    TESTIMONIALS
 ============================================================ */
 .testimonials { background: var(--gray-900); }
-.testimonials .section-tag { background: rgba(0,102,255,.2); color: var(--accent); }
+.testimonials .section-tag { background: color-mix(in srgb, var(--primary) 20%, transparent); color: var(--accent); }
 .testimonials .section-title { color: var(--white); }
 .testimonials .section-desc { color: var(--gray-400); }
 
@@ -995,7 +995,7 @@ input, textarea { font-family: inherit; }
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0,102,255,.12);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
 }
 .form-group input.error,
 .form-group textarea.error { border-color: #EF4444; }

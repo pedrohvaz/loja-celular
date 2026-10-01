@@ -23,7 +23,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 80% at 80% 50%, rgba(0,102,255,.15), transparent);
+  background: radial-gradient(ellipse 50% 80% at 80% 50%, color-mix(in srgb, var(--primary) 15%, transparent), transparent);
   pointer-events: none;
 }
 .page-hero__inner { position: relative; z-index: 1; }
@@ -289,7 +289,7 @@
 .pcard:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(0,102,255,.2);
+  border-color: color-mix(in srgb, var(--primary) 20%, transparent);
 }
 .pcard.hidden { display: none; }
 

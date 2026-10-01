@@ -589,6 +589,90 @@ const UsersDB = {
   },
 };
 
+/* ============================================================
+   ThemeDB — aparência da loja (cor principal + banner do site)
+   Fica em tenant.settings (primaryColor, banner); cada loja do
+   SaaS tem a sua. Guarda cópia local para aplicar sem "piscar".
+============================================================ */
+const ThemeDB = {
+  DEFAULT_COLOR: '#0066FF',
+  CACHE_KEY: 'pc_theme',
+  CACHE_TTL: 5 * 60 * 1000,
+
+  /* Mistura duas cores hex (#RRGGBB) — peso 0..1 da segunda */
+  _mix(hex, withHex, weight) {
+    const a = hex.match(/\w\w/g).map(h => parseInt(h, 16));
+    const b = withHex.match(/\w\w/g).map(h => parseInt(h, 16));
+    return '#' + a.map((v, i) => Math.round(v + (b[i] - v) * weight).toString(16).padStart(2, '0')).join('');
+  },
+
+  isValidColor(c) { return /^#[0-9a-fA-F]{6}$/.test(c || ''); },
+
+  /* Aplica a cor em todas as variáveis que o CSS usa */
+  applyColor(color) {
+    if (!this.isValidColor(color)) color = this.DEFAULT_COLOR;
+    const root = document.documentElement.style;
+    root.setProperty('--primary', color);
+    root.setProperty('--primary-dark', this._mix(color, '#000000', 0.2));
+    root.setProperty('--primary-light', this._mix(color, '#ffffff', 0.9));
+    root.setProperty('--accent', this._mix(color, '#ffffff', 0.35));
+  },
+
+  /* Cor atual (para gráficos, que não leem variáveis CSS) */
+  color() {
+    const c = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+    return this.isValidColor(c) ? c : this.DEFAULT_COLOR;
+  },
+
+  /* Banner da página inicial — só troca os campos preenchidos */
+  applyBanner(banner) {
+    if (!banner) return;
+    const set = (id, value, prop = 'textContent') => {
+      const el = document.getElementById(id);
+      if (el && value) el[prop] = value;
+    };
+    set('heroBadgeText', banner.badge);
+    set('heroTitleText', banner.title);
+    set('heroHighlight', banner.highlight);
+    set('heroSubtitle', banner.subtitle);
+    set('heroImage', banner.image, 'src');
+  },
+
+  apply(theme) {
+    if (!theme) return;
+    this.applyColor(theme.primaryColor);
+    this.applyBanner(theme.banner);
+  },
+
+  _readCache() {
+    try { return JSON.parse(localStorage.getItem(this.CACHE_KEY)); } catch { return null; }
+  },
+
+  saveCache(theme) {
+    try {
+      localStorage.setItem(this.CACHE_KEY, JSON.stringify({
+        primaryColor: theme.primaryColor || null,
+        banner: theme.banner || null,
+        ts: Date.now(),
+      }));
+    } catch { /* storage bloqueado */ }
+  },
+
+  /* Aplica o cache na hora e, se estiver velho, busca na API */
+  async init() {
+    const cached = this._readCache();
+    if (cached) this.apply(cached);
+    if (cached && Date.now() - cached.ts < this.CACHE_TTL) return;
+    try {
+      const data = await SettingsDB.getPublic();
+      this.saveCache(data);
+      this.apply(data);
+    } catch { /* sem API: fica com o cache/padrão */ }
+  },
+};
+
+ThemeDB.init();
+
 /* ── Dark mode: aplica na carga de qualquer página ── */
 try {
   if (localStorage.getItem('pc_dark_mode') === '1') document.body.classList.add('dark');

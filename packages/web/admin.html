@@ -12,7 +12,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --primary: #0066FF; --primary-dark: #0050CC;
+      --primary: #0066FF; --primary-dark: #0050CC; --accent: #00C2FF;
       --gray-900: #0F172A; --gray-800: #1E293B;
       --gray-200: #E2E8F0; --gray-100: #F1F5F9; --white: #FFFFFF;
       --shadow-md: 0 8px 24px rgba(0,0,0,.12);
@@ -48,7 +48,7 @@
     }
     .login-logo .logo-icon {
       width: 44px; height: 44px;
-      background: linear-gradient(135deg, #0066FF, #00C2FF);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       color: #fff; font-size: 1.2rem;

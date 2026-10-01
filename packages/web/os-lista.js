@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       { icon: 'fa-box',          label: 'Ag. Peça',         value: s.aguardando_peca,  color: '#F97316', bg: '#FFF7ED' },
       { icon: 'fa-triangle-exclamation', label: 'Vencidas', value: s.vencidas,         color: '#EF4444', bg: '#FEF2F2' },
       { icon: 'fa-circle-check', label: 'Prontas',          value: s.prontas,          color: '#22C55E', bg: '#F0FDF4' },
-      { icon: 'fa-dollar-sign',  label: 'Fat. Mês',         value: formatCurrency(s.faturamento_mes), color: '#0066FF', bg: '#EFF6FF' },
+      { icon: 'fa-dollar-sign',  label: 'Fat. Mês',         value: formatCurrency(s.faturamento_mes), color: 'var(--primary)', bg: 'var(--primary-light)' },
     ];
     document.getElementById('osStatsGrid').innerHTML = cards.map(c => `
       <div class="os-stat">

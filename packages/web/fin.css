@@ -48,7 +48,7 @@
   top: 0; left: 0;
   width: 3px;
   height: 100%;
-  background: var(--kpi-color, #0066FF);
+  background: var(--kpi-color, var(--primary));
 }
 .fin-kpi__label {
   font-size: .74rem;
@@ -60,12 +60,12 @@
   align-items: center;
   gap: .35rem;
 }
-.fin-kpi__label i { font-size: .8rem; color: var(--kpi-color, #0066FF); }
+.fin-kpi__label i { font-size: .8rem; color: var(--kpi-color, var(--primary)); }
 .fin-kpi__value {
   font-family: var(--font-heading, 'Poppins', sans-serif);
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--kpi-color, #0066FF);
+  color: var(--kpi-color, var(--primary));
   line-height: 1.1;
 }
 .fin-kpi__sub {
@@ -77,7 +77,7 @@
 /* Variações de cor */
 .fin-kpi--green  { --kpi-color: #16A34A; }
 .fin-kpi--red    { --kpi-color: #DC2626; }
-.fin-kpi--blue   { --kpi-color: #0066FF; }
+.fin-kpi--blue   { --kpi-color: var(--primary); }
 .fin-kpi--purple { --kpi-color: #7C3AED; }
 .fin-kpi--orange { --kpi-color: #EA580C; }
 .fin-kpi--teal   { --kpi-color: #0891B2; }
@@ -108,7 +108,7 @@
   align-items: center;
   gap: .4rem;
 }
-.fin-chart-card h4 i { color: var(--primary, #0066FF); font-size: .85rem; }
+.fin-chart-card h4 i { color: var(--primary, var(--primary)); font-size: .85rem; }
 .fin-chart-wrap {
   position: relative;
   height: 220px;
@@ -145,7 +145,7 @@
   align-items: center;
   gap: .35rem;
 }
-.fin-panel__header h4 i { color: var(--primary, #0066FF); }
+.fin-panel__header h4 i { color: var(--primary, var(--primary)); }
 .fin-panel__body { padding: .5rem 0; max-height: 300px; overflow-y: auto; }
 .fin-panel__empty {
   padding: 1.5rem;
@@ -312,8 +312,8 @@
 .fin-form-group select:focus,
 .fin-form-group textarea:focus {
   outline: none;
-  border-color: var(--primary, #0066FF);
-  box-shadow: 0 0 0 3px rgba(0,102,255,.08);
+  border-color: var(--primary, var(--primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent);
 }
 .fin-form-group .err { font-size: .74rem; color: #EF4444; }
 .fin-form-group input.err-field,
@@ -368,7 +368,7 @@
   align-items: center;
   gap: .4rem;
 }
-.rel-section__header h4 i { color: var(--primary, #0066FF); }
+.rel-section__header h4 i { color: var(--primary, var(--primary)); }
 .rel-section__body { padding: 1.25rem 1.5rem; }
 .rel-summary-box {
   display: grid;
@@ -382,7 +382,7 @@
 
 /* ── MINI FIN CARD no dashboard principal ── */
 .fin-mini-card {
-  background: linear-gradient(135deg, #0066FF, #0050CC);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   border-radius: 12px;
   padding: 1.1rem 1.25rem;
   color: #fff;
@@ -391,7 +391,7 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 16px rgba(0,102,255,.25);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 .fin-mini-card__left h4 {
   font-size: .76rem;

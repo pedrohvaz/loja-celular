@@ -66,7 +66,7 @@
 .os-number {
   font-weight: 700;
   font-size: .82rem;
-  color: var(--primary, #0066FF);
+  color: var(--primary, var(--primary));
   font-family: monospace;
 }
 .os-vencida { color: #EF4444; font-weight: 600; }
@@ -101,7 +101,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--primary, #0066FF);
+  background: var(--primary, var(--primary));
   flex-shrink: 0;
   margin-top: .2rem;
   z-index: 1;
@@ -193,7 +193,7 @@
   align-items: center;
   gap: .5rem;
 }
-.os-card__title i { color: var(--primary, #0066FF); }
+.os-card__title i { color: var(--primary, var(--primary)); }
 
 .os-info-row {
   display: flex;
@@ -226,7 +226,7 @@
   align-items: center;
   gap: .4rem;
 }
-.os-table-section h4 i { color: var(--primary, #0066FF); }
+.os-table-section h4 i { color: var(--primary, var(--primary)); }
 .os-inner-table {
   width: 100%;
   border-collapse: collapse;
@@ -271,7 +271,7 @@
 }
 .laudo-wrap textarea:focus {
   outline: none;
-  border-color: var(--primary, #0066FF);
+  border-color: var(--primary, var(--primary));
 }
 
 /* ── FINANCIAL SUMMARY ── */
@@ -297,7 +297,7 @@
   padding-top: .65rem;
 }
 .os-financial__row span:last-child { font-weight: 600; color: var(--gray-900, #0F172A); }
-.os-financial__row:last-child span:last-child { color: var(--primary, #0066FF); }
+.os-financial__row:last-child span:last-child { color: var(--primary, var(--primary)); }
 
 /* ── STATUS SELECTOR ── */
 .os-status-select {
@@ -326,7 +326,7 @@
   background: var(--white, #fff);
   cursor: pointer;
 }
-.os-status-select select:focus { outline: none; border-color: var(--primary, #0066FF); }
+.os-status-select select:focus { outline: none; border-color: var(--primary, var(--primary)); }
 
 /* ── FORM STEPS (os-form) ── */
 .os-steps-bar {
@@ -370,8 +370,8 @@
   text-align: center;
 }
 .os-step-tab.active { background: var(--white, #fff); }
-.os-step-tab.active .os-step-tab__num { background: var(--primary, #0066FF); }
-.os-step-tab.active .os-step-tab__label { color: var(--primary, #0066FF); }
+.os-step-tab.active .os-step-tab__num { background: var(--primary, var(--primary)); }
+.os-step-tab.active .os-step-tab__label { color: var(--primary, var(--primary)); }
 .os-step-tab.done .os-step-tab__num { background: #22C55E; }
 .os-step-tab.done .os-step-tab__label { color: #15803D; }
 
@@ -396,7 +396,7 @@
   align-items: center;
   gap: .5rem;
 }
-.os-form-card h4 i { color: var(--primary, #0066FF); font-size: .9rem; }
+.os-form-card h4 i { color: var(--primary, var(--primary)); font-size: .9rem; }
 
 .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 .form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
@@ -425,8 +425,8 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--primary, #0066FF);
-  box-shadow: 0 0 0 3px rgba(0,102,255,.08);
+  border-color: var(--primary, var(--primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent);
 }
 .form-group input.err,
 .form-group select.err,
@@ -448,7 +448,7 @@
   cursor: pointer;
   user-select: none;
 }
-.checkbox-item input { accent-color: var(--primary, #0066FF); cursor: pointer; }
+.checkbox-item input { accent-color: var(--primary, var(--primary)); cursor: pointer; }
 
 /* Client search row */
 .client-search-row {
@@ -473,7 +473,7 @@
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  background: var(--primary, #0066FF);
+  background: var(--primary, var(--primary));
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -562,11 +562,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    border-bottom: 2px solid #0066FF;
+    border-bottom: 2px solid var(--primary);
     padding-bottom: 12pt;
     margin-bottom: 16pt;
   }
-  .comprovante-logo { font-weight: 900; font-size: 18pt; color: #0066FF; }
+  .comprovante-logo { font-weight: 900; font-size: 18pt; color: var(--primary); }
   .comprovante-logo span { color: #0F172A; }
   .comprovante-os { font-size: 14pt; font-weight: 700; color: #0F172A; }
   .comprovante-section { margin-bottom: 14pt; }
@@ -593,8 +593,8 @@
     text-align: right;
     font-size: 14pt;
     font-weight: 900;
-    color: #0066FF;
-    border-top: 2px solid #0066FF;
+    color: var(--primary);
+    border-top: 2px solid var(--primary);
     padding-top: 8pt;
     margin-top: 8pt;
   }
