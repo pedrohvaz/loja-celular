@@ -5,7 +5,10 @@ export const createCustomerSchema = z.object({
   phone: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
   cpf: z.string().optional(),
-  birthDate: z.string().optional(),
+  // O input date envia "AAAA-MM-DD"; o Prisma exige Date. "" limpa o campo.
+  birthDate: z.string().optional()
+    .refine((v) => !v || !isNaN(Date.parse(v)), 'Data de nascimento inválida')
+    .transform((v) => (v ? new Date(v) : v === '' ? null : undefined)),
   address: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
